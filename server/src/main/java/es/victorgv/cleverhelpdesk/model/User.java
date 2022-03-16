@@ -4,9 +4,11 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
+@Table(name = "user_")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator= "user_id_generator")
+    @SequenceGenerator(name="user_id_generator", sequenceName = "user_seq")
     private Long id;
 
     @Column(length = 60, nullable = false)
