@@ -9,7 +9,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator= "user_id_generator")
     @SequenceGenerator(name="user_id_generator", sequenceName = "user_seq")
-    private Long userId;
+    private Long id;
 
     @Column(length = 60, nullable = false)
     private String name;
@@ -34,12 +34,12 @@ public class User {
         this.role = role;
     }
 
-    public Long getIdUserId() {
-        return userId;
+    public Long getId() {
+        return id;
     }
 
-    public void setId(Long userId) {
-        this.userId = userId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -79,18 +79,18 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return userId.equals(user.userId);
+        return id.equals(user.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId);
+        return Objects.hash(id);
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "userId=" + userId +
+                "id=" + id +
                 ", name='" + name + '\'' +
                 ", userName='" + userName + '\'' +
                 ", password='" + password + '\'' +
