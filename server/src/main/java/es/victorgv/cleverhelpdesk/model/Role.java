@@ -7,26 +7,27 @@ import java.util.Objects;
 public class Role {
 
     @Id
-    @Column(name = "code", nullable = false)
-    private String code; // posibles códigos ADMIN, USER, AGENT - se inicializan al lanzar la aplicación
+    @Column(name = "roleCode", nullable = false)
+    private String roleCode; // posibles códigos ADMIN, USER, AGENT - se inicializan al lanzar la aplicación
 
     @Column(length = 60, nullable = false)
     private String name;
+
 
     public Role() {
     }
 
     public Role(String code, String name) {
-        this.code = code;
+        this.roleCode = code;
         this.name = name;
     }
 
     public String getCode() {
-        return code;
+        return roleCode;
     }
 
     public void setCode(String code) {
-        this.code = code;
+        this.roleCode = code;
     }
 
     public String getName() {
@@ -42,11 +43,11 @@ public class Role {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Role role = (Role) o;
-        return code.equals(role.code);
+        return roleCode.equals(role.roleCode);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(code);
+        return Objects.hash(roleCode);
     }
 }

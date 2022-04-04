@@ -20,10 +20,9 @@ public class CleverHelpdeskApplication {
 	@Bean
 	CommandLineRunner LoadData(IRole role_rep) { // Inicializa base de datos registros obligatorios "Role repositorioRole"
 		return (args) -> {
-			System.out.println("Holaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 			// Aseguramos que existen los ROLEs necesarios, ojo saveAll (save) inserta pero si ya existe el registro updatea por lo que no debería devolver excepciónes (registro duplicado)
 			// Utilizar: repositorioRole.saveAll(...) // Crud Repository
-			System.out.println("22222222222222222222222222222222222222");
+			System.out.println("Carga valores por defecto");
 			role_rep.saveAll(Arrays.asList(
 					new Role("ADMIN","Administrador"),
 					new Role("AGENT","Agente"),

@@ -9,7 +9,18 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator= "user_id_generator")
     @SequenceGenerator(name="user_id_generator", sequenceName = "user_seq")
-    private Long id;
+    private Long userId;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @Column(length = 100, nullable = false)
+    private String email;
 
     @Column(length = 60, nullable = false)
     private String name;
@@ -27,19 +38,20 @@ public class User {
 
     }
 
-    public User(String name, String userName, String password, String role) {
+    public User(String email, String name, String userName, String password, String role) {
+        this.email = email;
         this.name = name;
         this.userName = userName;
         this.password = password;
         this.role = role;
     }
 
-    public Long getId() {
-        return id;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getName() {
@@ -79,18 +91,18 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return id.equals(user.id);
+        return userId.equals(user.userId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(userId);
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
+                "id=" + userId +
                 ", name='" + name + '\'' +
                 ", userName='" + userName + '\'' +
                 ", password='" + password + '\'' +
