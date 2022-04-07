@@ -18,8 +18,8 @@ public class UserTest {
 
     @Test
     public void saveUser() {
-        User victor = new User("aaa@eee.ee","ViCtOr *TEST*", "testtest", "???", "USUARIO");
-        repo.save(victor);
+        //User victor = new User("aaa@eee.ee","ViCtOr *TEST*", "testtest", "???", "USUARIO");
+        //repo.save(victor);
 
         repo.flush();
 

@@ -11,14 +11,6 @@ public class User {
     @SequenceGenerator(name="user_id_generator", sequenceName = "user_seq")
     private Long userId;
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     @Column(length = 100, nullable = false)
     private String email;
 
@@ -31,20 +23,10 @@ public class User {
     @Column(length = 25, nullable = false)
     private String password;
 
-    @Column(length = 25, nullable = false)
-    private String role;
 
-    public User() {
-
-    }
-
-    public User(String email, String name, String userName, String password, String role) {
-        this.email = email;
-        this.name = name;
-        this.userName = userName;
-        this.password = password;
-        this.role = role;
-    }
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "role_code", foreignKey = @ForeignKey(name="user_role_fk"))
+    private Role role;
 
     public Long getUserId() {
         return userId;
@@ -52,6 +34,14 @@ public class User {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getName() {
@@ -78,11 +68,11 @@ public class User {
         this.password = password;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 
@@ -91,22 +81,22 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return userId.equals(user.userId);
+        return userId.equals(user.userId) && email.equals(user.email) && userName.equals(user.userName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId);
+        return Objects.hash(userId, email, userName);
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + userId +
-                ", name='" + name + '\'' +
-                ", userName='" + userName + '\'' +
-                ", password='" + password + '\'' +
-                ", role='" + role + '\'' +
-                '}';
+    public User() {
+    }
+
+    public User(String email, String name, String userName, String password, Role role) {
+        this.email = email;
+        this.name = name;
+        this.userName = userName;
+        this.password = password;
+        this.role = role;
     }
 }

@@ -1,25 +1,26 @@
 package es.victorgv.cleverhelpdesk.controller;
 
 import es.victorgv.cleverhelpdesk.model.User;
-import es.victorgv.cleverhelpdesk.repository.IUser;
+import es.victorgv.cleverhelpdesk.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/")
 public class mainController {
 
     @Autowired
-    IUser userRepository;
+    UserService userService;
 
+    @GetMapping("/user/login")
+    public User loginUser (@RequestParam String userName) {
+        User user = userService.loginUser(userName, "1111");
+        return  user;
+    }
 
-
-    @PostMapping("/users/login")
-    @RequestMapping("/")
-    public User loginUser(@RequestBody String email, @RequestBody String password) {
-        User user = null; //userRepository.findByUserId(1);
+    @PostMapping("/user/login")
+    public User loginUser(@RequestBody String userName, @RequestBody String password) {
+        User user = userService.loginUser(userName, password);
 
         return user;
     }
