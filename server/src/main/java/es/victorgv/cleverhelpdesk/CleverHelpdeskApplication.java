@@ -8,16 +8,21 @@ import es.victorgv.cleverhelpdesk.repository.IMasterStatus;
 import es.victorgv.cleverhelpdesk.repository.IMasterType;
 import es.victorgv.cleverhelpdesk.repository.IRole;
 import es.victorgv.cleverhelpdesk.repository.IUser;
+import es.victorgv.cleverhelpdesk.service.EmailReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 
 import java.util.Arrays;
 
 @SpringBootApplication
+@EnableScheduling
 public class CleverHelpdeskApplication {
+	private int contador=0;
 
 	public static void main(String[] args) {
 		SpringApplication.run(CleverHelpdeskApplication.class, args);
@@ -29,15 +34,6 @@ public class CleverHelpdeskApplication {
 							   IMasterType masterType_rep,
 							   IUser user_rep) { // Inicializa base de datos registros obligatorios "Role repositorioRole"
 		return (args) -> {
-			// Aseguramos que existen los ROLEs necesarios, ojo saveAll (save) inserta pero si ya existe el registro updatea por lo que no debería devolver excepciónes (registro duplicado)
-			// Utilizar: repositorioRole.saveAll(...) // Crud Repository
-			System.out.println("Carga valores por defecto");
-			role_rep.saveAll(Arrays.asList(
-					new Role("ADMIN","Administrador"),
-					new Role("AGENT","Agente"),
-					new Role("USER","Usuario")
-			));
-
 			masterStatus_rep.saveAll(Arrays.asList(
 					new MasterStatus(1L,"Registrado"),
 					new MasterStatus(2L,"Pendiente de información"),
@@ -62,4 +58,12 @@ public class CleverHelpdeskApplication {
 		};
 	}
 
+	@Autowired
+	private EmailReader serviceEmailReader;
+
+	/*@Scheduled(fixedRate = 5000)
+	public void miraSiHayEmailsNuevos() {
+		System.out.println("Tarea asíncrona A "+ ++contador);
+		serviceEmailReader.recuperarMensajes();
+	}*/
 }
