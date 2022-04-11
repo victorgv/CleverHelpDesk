@@ -8,9 +8,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
     @Autowired
-    IUser userRepository;
+    IUser user_rep;
 
     public User loginUser(String userName, String password) {
-        return userRepository.findByUserName(userName);
+        return user_rep.findByUserName(userName);
+    }
+
+    // Devuelve el "User" si el email pertenece a alguno de los usuarios registrador, NULL si no está registrado
+    public User findByEmail(String email) {
+        System.out.println("Buscamos usuario del email: "+email);
+        return user_rep.findByEmail(email);
     }
 }

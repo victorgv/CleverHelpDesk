@@ -22,12 +22,12 @@ public class EmailReaderConfig {
 
     // Propiedades específicas de la conexión IMAP
     private Properties IMAP_Properties() {
-        Properties propiedades = new Properties();
-        propiedades.setProperty("mail.imap.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-        propiedades.setProperty("mail.imap.socketFactory.fallback", "false");
-        propiedades.setProperty("mail.store.protocol", "imaps");
-        propiedades.setProperty("mail.debug", "true");
-        return propiedades;
+        Properties prop = new Properties();
+        prop.setProperty("mail.imap.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        prop.setProperty("mail.imap.socketFactory.fallback", "false");
+        prop.setProperty("mail.store.protocol", "imaps");
+        prop.setProperty("mail.debug", "false");
+        return prop;
     }
 
     // Inyectará un canal de conexión a la cuenta email configurada (dentro de dicho canal se deberá hacer la suscripción correspondiente para recibir sus emails)
@@ -55,6 +55,7 @@ public class EmailReaderConfig {
         ImapMailReceiver imapEmailReceiver = new ImapMailReceiver(generateIMAP_URL());
         imapEmailReceiver.setJavaMailProperties(IMAP_Properties());
         imapEmailReceiver.setShouldDeleteMessages(false);
+        imapEmailReceiver.setAutoCloseFolder(false);
         imapEmailReceiver.setShouldMarkMessagesAsRead(true);
         return imapEmailReceiver;
     }

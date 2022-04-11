@@ -16,7 +16,6 @@ public class RoleService {
     public void init() {
         if (role_rep.findAll().isEmpty()) {
             // Aseguramos que existen los ROLEs necesarios, ojo saveAll (save) inserta pero si ya existe el registro updatea por lo que no debería devolver excepciónes (registro duplicado)
-            // Utilizar: repositorioRole.saveAll(...) // Crud Repository
             System.out.println("Carga ROLEs por defecto");
             role_rep.saveAll(Arrays.asList(
                     new Role("ADMIN","Administrador"),
