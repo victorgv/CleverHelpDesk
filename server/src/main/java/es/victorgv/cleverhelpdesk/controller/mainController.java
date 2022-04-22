@@ -1,8 +1,11 @@
 package es.victorgv.cleverhelpdesk.controller;
 
+import es.victorgv.cleverhelpdesk.DTO.LoginUserDTO;
 import es.victorgv.cleverhelpdesk.model.User;
 import es.victorgv.cleverhelpdesk.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -12,15 +15,15 @@ public class MainController {
     @Autowired
     UserService userService;
 
-    @GetMapping("/user/login")
-    public User loginUser (@RequestParam String userName) {
-        User user = userService.loginUser(userName, "1111");
-        return  user;
+    @GetMapping("/util/ping")
+    public ResponseEntity<?> ping() {
+        return ResponseEntity.status(HttpStatus.CREATED).body("pong");
     }
 
+
     @PostMapping("/user/login")
-    public User loginUser(@RequestBody String userName, @RequestBody String password) {
-        User user = userService.loginUser(userName, password);
+    public User loginUser(@RequestBody LoginUserDTO loginUserDTO) {
+        User user = userService.loginUser(loginUserDTO);
 
         return user;
     }

@@ -2,8 +2,8 @@ object dmCore: TdmCore
   OldCreateOrder = False
   OnCreate = DataModuleCreate
   OnDestroy = DataModuleDestroy
-  Height = 150
-  Width = 215
+  Height = 379
+  Width = 443
   object ti_userAuthenticated: TTimer
     Interval = 150
     OnTimer = ti_userAuthenticatedTimer

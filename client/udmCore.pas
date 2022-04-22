@@ -7,7 +7,7 @@ uses
   System.Classes,
   System.UITypes,
   Vcl.ExtCtrls,
-  ufmLogin;
+  ufmLogin, FMX.Types;
 
 type
   TdmCore = class(TDataModule)
