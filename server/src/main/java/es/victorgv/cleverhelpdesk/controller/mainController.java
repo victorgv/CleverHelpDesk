@@ -22,10 +22,10 @@ public class MainController {
 
 
     @PostMapping("/user/login")
-    public User loginUser(@RequestBody LoginUserDTO loginUserDTO) {
+    public ResponseEntity<?> loginUser(@RequestBody LoginUserDTO loginUserDTO) {
         User user = userService.loginUser(loginUserDTO);
 
-        return user;
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(user);
     }
 
 }
