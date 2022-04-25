@@ -4,13 +4,14 @@ import es.victorgv.cleverhelpdesk.model.Role;
 import es.victorgv.cleverhelpdesk.repository.IRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 
 @Service
+@Transactional
 public class RoleService {
-    @Autowired
-    IRole role_rep;
+    @Autowired IRole role_rep;
 
     // Carga loa valores iniciales en BD (siempre y cuando no estubiesen previamente cargados)
     public void init() {
@@ -23,6 +24,10 @@ public class RoleService {
                     new Role("USER","Usuario")
             ));
         }
+    }
+
+    public Role getByRoleCode(String roleCode) {
+        return role_rep.findByRoleCode(roleCode);
     }
 
 }

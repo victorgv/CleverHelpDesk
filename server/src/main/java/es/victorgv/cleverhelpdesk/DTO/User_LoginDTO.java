@@ -1,17 +1,16 @@
 package es.victorgv.cleverhelpdesk.DTO;
 
 // Estructura para poder poder recibir el emaill/pass desde un request y utilizarlo para validar el usuario
+public class User_LoginDTO {
+    private String userName;
+     private String password;
 
-public class LoginUserDTO {
-    private String email;
-    private String password;
-
-    public String getEmail() {
-        return email;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getPassword() {

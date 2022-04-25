@@ -16,12 +16,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Arrays;
 
 @SpringBootApplication
 @EnableScheduling
 public class CleverHelpdeskApplication {
+	@Autowired	PasswordEncoder passwordEncoder;
 	private int contador=0;
 
 	public static void main(String[] args) {
@@ -53,8 +55,8 @@ public class CleverHelpdeskApplication {
 			));
 
 			// Crea el usuario administrador (solo si no existía)
-			if (user_rep.findByUserName("ADMIN")==null)
-			  user_rep.save(new User("admin@admin.es","Administrador","ADMIN","admin", role_rep.findById("ADMIN").orElse(null)));
+			if (user_rep.findByUserName("ADMIN")==null);
+				user_rep.save(new User("ADMIN","Administrador","admin@admin.es",passwordEncoder.encode("admin"), role_rep.findById("ADMIN").orElse(null)));
 		};
 	}
 

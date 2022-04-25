@@ -56,6 +56,7 @@ object dmCore: TdmCore
     Top = 216
   end
   object la_idiomas: TLang
+    Lang = 'es'
     Left = 200
     Top = 24
     ResourcesBin = {

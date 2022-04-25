@@ -1,16 +1,20 @@
-unit udmCore;
+Ôªøunit udmCore;
 
 interface
 
 uses
   System.SysUtils,
   System.Classes,
-  System.UITypes,
-  Vcl.ExtCtrls,
-  ufmLogin, FMX.Types, REST.Types, REST.Client, Data.Bind.Components,
+  REST.Types,
+  FMX.Types,
+  REST.Client,
+  Data.Bind.Components,
   Data.Bind.ObjectScope,
+  System.UITypes,
+  ufmLogin,
   System.JSON,
   System.RegularExpressions;
+
 
 type
   TdmCore = class(TDataModule)
@@ -30,7 +34,7 @@ type
     fUserAuthenticated: Boolean;
     fFmLogin: TfmLogin;
     fBaseURL_REST_SERVER: String; // URL base del servidor REST
-    function getlocalLang: String; // Obtiene el idioma local del dispositivo (es o en cualquier otro caso devolver· en)
+    function getlocalLang: String; // Obtiene el idioma local del dispositivo (es o en cualquier otro caso devolver√° en)
   public
     { Public declarations }
     property BaseURL_REST_SERVER: String read fBaseURL_REST_SERVER;
@@ -38,8 +42,8 @@ type
     //
     procedure DoPostRequest(const p_URL_MAPPING: String; const p_JSON_BODY: String; var p_OUT_JSONValue: TJSONValue);
     function ValidateEmail(const p_email: String): boolean;
-    procedure SetLanguage(const p_lang: String); // Cambia el idioma de la aplicaciÛn (por ahora "es" o "en")
-    function getAppMessage(const p_msg_code: String): String; // Para recuperar mensajes de aplicaciÛn
+    procedure SetLanguage(const p_lang: String); // Cambia el idioma de la aplicaci√≥n (por ahora "es" o "en")
+    function getAppMessage(const p_msg_code: String): String; // Para recuperar mensajes de aplicaci√≥n
     //
     constructor Create(AOwner: TComponent); override;
   end;
@@ -49,19 +53,18 @@ var
 
 implementation
 
-uses FMX.Platform, FMX.Dialogs;
-
-
 {%CLASSGROUP 'FMX.Controls.TControl'}
 
 {$R *.dfm}
+
+uses FMX.Platform, FMX.Dialogs;
 
 { TdmCore }
 constructor TdmCore.Create(AOwner: TComponent);
 begin
   inherited;
   fBaseURL_REST_SERVER := 'http://localhost:8080';
-  SetLanguage(getlocalLang); // Inicializa con el idioma "local" de la m·quina ("es" o cualquier otro caso "en")
+  SetLanguage(getlocalLang); // Inicializa con el idioma "local" de la m√°quina ("es" o cualquier otro caso "en")
 end;
 
 procedure TdmCore.DataModuleCreate(Sender: TObject);
@@ -69,7 +72,7 @@ begin
   fFmLogin := NIL;
 end;
 
-// TIMER que fuerzar el LOGIN si el usuario no est· logeado o ha cerrado sesiÛn
+// TIMER que fuerzar el LOGIN si el usuario no est√° logeado o ha cerrado sesi√≥n
 procedure TdmCore.DataModuleDestroy(Sender: TObject);
 begin
   FreeAndNil(fFmLogin);
@@ -78,6 +81,11 @@ end;
 //
 procedure TdmCore.DoPostRequest(const p_URL_MAPPING: String; const p_JSON_BODY: String; var p_OUT_JSONValue: TJSONValue);
 begin
+  RESTRequest1.ResetToDefaults;
+  RESTClient1.ResetToDefaults;
+  RESTResponse1.ResetToDefaults;
+//  RESTResponseDataSetAdapter.ResetToDefaults;
+
   RESTClient1.BaseURL := fBaseURL_REST_SERVER+p_URL_MAPPING;
   RESTRequest1.Method := rmPOST;
   RESTRequest1.AddBody(p_JSON_BODY,ctAPPLICATION_JSON);
@@ -85,30 +93,30 @@ begin
   p_OUT_JSONValue := RESTResponse1.JSONValue;
 end;
 
-// Para recuperar mensajes de aplicaciÛn
-// { TODO : Extraer a otra clase y fichero con los textos. No es la mejor forma de implementarlo, pero es la opciÛn m·s r·pida }
+// Para recuperar mensajes de aplicaci√≥n
+// { TODO : Extraer a otra clase y fichero con los textos. No es la mejor forma de implementarlo, pero es la opci√≥n m√°s r√°pida }
 function TdmCore.getAppMessage(const p_msg_code: String): String;
 begin
   result := '???';
-  if la_idiomas.Lang = 'es' then // *** IDIOMA ESPA—OL
+  if la_idiomas.Lang = 'es' then // *** IDIOMA ESPA√±OL
   begin
-    if p_msg_code = 'MSG0001' then result := 'Email vacÌo'
+    if p_msg_code = 'MSG0001' then result := 'Email vac√≠o'
     else if p_msg_code = 'MSG0002' then result := 'Email incorrecto'
-    else if p_msg_code = 'MSG0003' then result := 'Password vacÌo'
+    else if p_msg_code = 'MSG0003' then result := 'Password vac√≠o'
     ;
   end
   else
-  begin // *** IDIOMA inglÈs
+  begin // *** IDIOMA ingl√©s
     if p_msg_code = 'MSG0001' then result := 'Email is empty'
     else if p_msg_code = 'MSG0002' then result := 'Wrong email'
-    else if p_msg_code = 'MSG0003' then result := 'Password vacÌo'
+    else if p_msg_code = 'MSG0003' then result := 'Password is empty'
     ;
   end;
 
 end;
 
 
-// Obtiene el idioma local del dispositivo (es o en cualquier otro caso devolver· en)
+// Obtiene el idioma local del dispositivo (es o en cualquier otro caso devolver√° en)
 function TdmCore.getlocalLang: String;
 var
   localeSrv: IFMXLocaleService;
@@ -122,7 +130,7 @@ begin
     Result := 'en'; // Cualquier otra cosa diferente a "es" lo devolvemos como "en"
 end;
 
-// Cambia el idioma de la aplicaciÛn (por ahora "es" o "en")
+// Cambia el idioma de la aplicaci√≥n (por ahora "es" o "en")
 procedure TdmCore.SetLanguage(const p_lang: String);
 begin
   la_idiomas.Lang := p_lang;
@@ -133,7 +141,7 @@ procedure TdmCore.ti_userAuthenticatedTimer(Sender: TObject);
 var
   vModalResult: TModalResult;
 begin
-  // Si el usuario no est· autenticado y el formulario de login ya est· abierto abrimos pantalla LOGIN
+  // Si el usuario no est√° autenticado y el formulario de login ya est√° abierto abrimos pantalla LOGIN
   if (not fUserAuthenticated) AND (NOT Assigned(fFmLogin)) then
   begin
     fFmLogin := TfmLogin.Create(nil);

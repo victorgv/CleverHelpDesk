@@ -11,16 +11,16 @@ public class User {
     @SequenceGenerator(name="user_id_generator", sequenceName = "user_seq")
     private Long userId;
 
-    @Column(length = 100, nullable = false)
-    private String email;
+    @Column(length = 25, nullable = false, unique = true)
+    private String userName;
 
     @Column(length = 60, nullable = false)
     private String name;
 
-    @Column(length = 25, nullable = false, unique = true)
-    private String userName;
+    @Column(length = 100, nullable = false, unique = true)
+    private String email;
 
-    @Column(length = 25, nullable = false)
+    @Column(length = 250, nullable = false)
     private String password;
 
 
@@ -92,10 +92,10 @@ public class User {
     public User() {
     }
 
-    public User(String email, String name, String userName, String password, Role role) {
-        this.email = email;
-        this.name = name;
+    public User(String userName, String name, String email, String password, Role role) {
         this.userName = userName;
+        this.name = name;
+        this.email = email;
         this.password = password;
         this.role = role;
     }
