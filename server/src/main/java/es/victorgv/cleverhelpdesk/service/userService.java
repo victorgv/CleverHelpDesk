@@ -23,7 +23,7 @@ public class UserService {
         return user_rep.findByEmail(email);
     }
 
-    public User getByUserName(String userName) {
+    public User findByUserName(String userName) {
         return user_rep.findByUserName(userName);
     }
 

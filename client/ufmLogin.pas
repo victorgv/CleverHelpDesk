@@ -5,13 +5,13 @@ interface
 uses
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Objects,
-  FMX.StdCtrls, FMX.Controls.Presentation, FMX.Edit, FMX.Layouts, uSuperForm,
+  FMX.StdCtrls, FMX.Controls.Presentation, FMX.Edit, FMX.Layouts, uTParentForm,
   FMX.ExtCtrls, FMX.ListBox;
 
 type
-  TfmLogin = class(TSuperForm)
+  TfmLogin = class(TParentForm)
     Layout1: TLayout;
-    ed_email: TEdit;
+    ed_userName: TEdit;
     ed_password: TEdit;
     Rectangle1: TRectangle;
     sb_Login: TSpeedButton;
@@ -25,6 +25,7 @@ type
     pb_selector_idioma: TPopupBox;
     procedure sb_LoginClick(Sender: TObject);
     procedure pb_selector_idiomaChange(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
     function validate_fields: boolean;
@@ -47,6 +48,13 @@ begin
   LA_INFO.text := '';
 end;
 
+procedure TfmLogin.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  // Al salir del login sin tener sesión activa finalizamos la aplicación
+  if not Assigned(dmCore.CommunicationManager.ClientSession) then
+    Application.Terminate;
+end;
+
 procedure TfmLogin.pb_selector_idiomaChange(Sender: TObject);
 begin
   dmCore.SetLanguage(pb_selector_idioma.Text);
@@ -58,28 +66,31 @@ var
 begin
   if validate_fields then
   begin
-    dmCore.DoPostRequest('/user/login', '{"email":"'+ed_email.Text+'","password":"'+ed_password.Text+'"}', respuestaJSON);
-    if assigned(respuestaJSON) then ShowMessage(respuestaJSON.ToString)
-    else ShowMessage('NuLo');
+    if dmCore.CommunicationManager.DoRequestAuth(ed_userName.text, ed_password.Text) then
+    begin
+
+      dmCore.CommunicationManager.DoRequestGet('/user/',  dmCore.CommunicationManager.ClientSession.UserName ,respuestaJSON);
+      ShowMessage(respuestaJSON.ToString);
+
+      Close;
+    end
+    else
+    begin
+      LA_INFO.TextSettings.FontColor := TAlphaColorRec.Red;
+      LA_INFO.Text := dmCore.getAppMessage('MSG0004');
+    end;
   end;
 end;
 
 // Valida que se ha introducido un email o passw correcto
 function TfmLogin.validate_fields: boolean;
 begin
-  if ed_email.Text.Trim.Length = 0 then // Valida que se ha introducido algo en email
+  if ed_userName.Text.Trim.Length = 0 then // Valida que se ha introducido algo en userName
   begin
     result := false;
     LA_INFO.TextSettings.FontColor := TAlphaColorRec.Red;
     LA_INFO.Text := dmCore.getAppMessage('MSG0001');
-    ed_email.SetFocus;
-  end
-  else if not dmCore.ValidateEmail(ed_email.Text) then // Valida que el email introducido tiene un formato correcto
-  begin
-    result := false;
-    LA_INFO.TextSettings.FontColor := TAlphaColorRec.Red;
-    LA_INFO.Text := dmCore.getAppMessage('MSG0002');
-    ed_email.SetFocus;
+    ed_userName.SetFocus;
   end
   else if ed_password.Text.Trim.Length = 0 then
   begin

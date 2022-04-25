@@ -23,7 +23,7 @@ public class JWTProvider {
         return Jwts.builder().setSubject(userDetailsImp.getUsername())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(new Date().getTime() + expiration))
-                .signWith(SignatureAlgorithm.ES512, secret)
+                .signWith(SignatureAlgorithm.HS512, secret)
                 .compact();
     }
 

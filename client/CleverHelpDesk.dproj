@@ -280,7 +280,9 @@
             <FormType>dfm</FormType>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
-        <DCCReference Include="uSuperForm.pas"/>
+        <DCCReference Include="uTParentForm.pas"/>
+        <DCCReference Include="uTCommunicationManager.pas"/>
+        <DCCReference Include="uConstant.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

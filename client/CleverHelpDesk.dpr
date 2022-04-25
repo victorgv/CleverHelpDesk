@@ -6,7 +6,9 @@ uses
   ufmMain in 'ufmMain.pas' {fmMain},
   ufmLogin in 'ufmLogin.pas' {fmLogin},
   udmCore in 'udmCore.pas' {dmCore: TDataModule},
-  uSuperForm in 'uSuperForm.pas';
+  uTParentForm in 'uTParentForm.pas',
+  uTCommunicationManager in 'uTCommunicationManager.pas',
+  uConstant in 'uConstant.pas';
 
 {$R *.res}
 

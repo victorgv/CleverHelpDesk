@@ -1,4 +1,4 @@
-unit uSuperForm;
+unit uTParentForm;
 
 interface
 
@@ -8,7 +8,7 @@ uses
 // Clase base FORMULARIO a partir de la cual heredan todos los otros formularios, nos permite implementar
 // métodos o funcionalidades comunes a todos los formularios de la aplicación.
 type
-  TSuperForm = class(TForm)
+  TParentForm = class(TForm)
       procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
       FSuccProc: TProc<TModalResult>;
@@ -20,7 +20,7 @@ implementation
 
 { TSuperForm }
 
-procedure TSuperForm.FormClose(Sender: TObject; var Action: TCloseAction);
+procedure TParentForm.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   if Assigned(FSuccProc) then
   begin
@@ -29,7 +29,7 @@ begin
   end;
 end;
 
-procedure TSuperForm.RunFormAsModal(const ResultProc: TProc<TModalResult>);
+procedure TParentForm.RunFormAsModal(const ResultProc: TProc<TModalResult>);
 begin
   FSuccProc:= ResultProc;
   {$IF DEFINED(Win64) or DEFINED(Win32)}
@@ -37,7 +37,6 @@ begin
   {$ELSE}
   Self.Show;
   {$ENDIF}
-
 end;
 
 end.

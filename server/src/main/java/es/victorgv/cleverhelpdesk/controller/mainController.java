@@ -15,36 +15,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/")
 public class MainController {
 
-    @Autowired
-    UserService userService;
 
-    @PostMapping("/user/new")
-    public ResponseEntity<?> nuevo(@RequestBody User_NewDTO nuevoUsuario, BindingResult bindingResult) {
-        if(bindingResult.hasErrors())
-            return new ResponseEntity(new MensajeDTO("campos mal puestos o email inválido"), HttpStatus.BAD_REQUEST);
-        if(userService.existsByUserName(nuevoUsuario.getUserName()))
-            return new ResponseEntity(new MensajeDTO("ese nombre ya existe"), HttpStatus.BAD_REQUEST);
-        if(userService.existsByEmail(nuevoUsuario.getEmail()))
-            return new ResponseEntity(new MensajeDTO("ese email ya existe"), HttpStatus.BAD_REQUEST);
-            /*User usuario =
-                    new User(nuevoUsuario.getUserName(), nuevoUsuario.getName(), nuevoUsuario.getEmail(),
-                            passwordEncoder.encode(nuevoUsuario.getPassword()),'USER');
-            Set<Rol> roles = new HashSet<>();
-            roles.add(rolService.getByRolNombre(RolNombre.ROLE_USER).get());
-            if(nuevoUsuario.getRoles().contains("admin"))
-                roles.add(rolService.getByRolNombre(RolNombre.ROLE_ADMIN).get());
-            usuario.setRoles(roles);
-            usuarioService.save(usuario);*/
-        return new ResponseEntity(new MensajeDTO("usuario guardado"), HttpStatus.CREATED);
-    }
-
-
-
-    @PostMapping("/user/login")
-    public ResponseEntity<?> loginUser(@RequestBody User_LoginDTO userLoginDTO) {
-        User user = userService.loginUser(userLoginDTO);
-
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(user);
-    }
 
 }

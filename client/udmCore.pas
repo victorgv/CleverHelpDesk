@@ -5,15 +5,16 @@ interface
 uses
   System.SysUtils,
   System.Classes,
-  REST.Types,
   FMX.Types,
   REST.Client,
   Data.Bind.Components,
   Data.Bind.ObjectScope,
   System.UITypes,
   ufmLogin,
-  System.JSON,
-  System.RegularExpressions;
+  System.RegularExpressions,
+  uTCommunicationManager, REST.Types;
+
+
 
 
 type
@@ -31,6 +32,7 @@ type
     procedure DataModuleDestroy(Sender: TObject);
   private
     { Private declarations }
+    fCommunicationManager: TCommunicationManager;
     fUserAuthenticated: Boolean;
     fFmLogin: TfmLogin;
     fBaseURL_REST_SERVER: String; // URL base del servidor REST
@@ -39,13 +41,14 @@ type
     { Public declarations }
     property BaseURL_REST_SERVER: String read fBaseURL_REST_SERVER;
     property idiomas: TLang read la_idiomas;
+    property CommunicationManager: TCommunicationManager read fCommunicationManager;
     //
-    procedure DoPostRequest(const p_URL_MAPPING: String; const p_JSON_BODY: String; var p_OUT_JSONValue: TJSONValue);
     function ValidateEmail(const p_email: String): boolean;
     procedure SetLanguage(const p_lang: String); // Cambia el idioma de la aplicación (por ahora "es" o "en")
     function getAppMessage(const p_msg_code: String): String; // Para recuperar mensajes de aplicación
     //
     constructor Create(AOwner: TComponent); override;
+    destructor Destroy; override;
   end;
 
 var
@@ -60,11 +63,19 @@ implementation
 uses FMX.Platform, FMX.Dialogs;
 
 { TdmCore }
+// Constructor de la clase
 constructor TdmCore.Create(AOwner: TComponent);
 begin
   inherited;
-  fBaseURL_REST_SERVER := 'http://localhost:8080';
+  fCommunicationManager := TCommunicationManager.create;
   SetLanguage(getlocalLang); // Inicializa con el idioma "local" de la máquina ("es" o cualquier otro caso "en")
+end;
+
+// Destructor
+destructor TdmCore.Destroy;
+begin
+  fCommunicationManager.Free;
+  inherited;
 end;
 
 procedure TdmCore.DataModuleCreate(Sender: TObject);
@@ -78,20 +89,6 @@ begin
   FreeAndNil(fFmLogin);
 end;
 
-//
-procedure TdmCore.DoPostRequest(const p_URL_MAPPING: String; const p_JSON_BODY: String; var p_OUT_JSONValue: TJSONValue);
-begin
-  RESTRequest1.ResetToDefaults;
-  RESTClient1.ResetToDefaults;
-  RESTResponse1.ResetToDefaults;
-//  RESTResponseDataSetAdapter.ResetToDefaults;
-
-  RESTClient1.BaseURL := fBaseURL_REST_SERVER+p_URL_MAPPING;
-  RESTRequest1.Method := rmPOST;
-  RESTRequest1.AddBody(p_JSON_BODY,ctAPPLICATION_JSON);
-  RESTRequest1.Execute;
-  p_OUT_JSONValue := RESTResponse1.JSONValue;
-end;
 
 // Para recuperar mensajes de aplicación
 // { TODO : Extraer a otra clase y fichero con los textos. No es la mejor forma de implementarlo, pero es la opción más rápida }
@@ -100,16 +97,18 @@ begin
   result := '???';
   if la_idiomas.Lang = 'es' then // *** IDIOMA ESPAñOL
   begin
-    if p_msg_code = 'MSG0001' then result := 'Email vacío'
+    if p_msg_code = 'MSG0001' then result := 'Usuario vacío'
     else if p_msg_code = 'MSG0002' then result := 'Email incorrecto'
     else if p_msg_code = 'MSG0003' then result := 'Password vacío'
+    else if p_msg_code = 'MSG0004' then result := 'Usuario y/o password incorrecto'
     ;
   end
   else
   begin // *** IDIOMA inglés
-    if p_msg_code = 'MSG0001' then result := 'Email is empty'
+    if p_msg_code = 'MSG0001' then result := 'User is empty'
     else if p_msg_code = 'MSG0002' then result := 'Wrong email'
     else if p_msg_code = 'MSG0003' then result := 'Password is empty'
+    else if p_msg_code = 'MSG0004' then result := 'Wrong user/password'
     ;
   end;
 
@@ -167,5 +166,7 @@ const
 begin
   Result := TRegEx.IsMatch(p_email, patron_email_regex);
 end;
+
+
 
 end.
