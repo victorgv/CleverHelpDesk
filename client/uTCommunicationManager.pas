@@ -107,6 +107,7 @@ begin
 
   fRESTClient.BaseURL := c_URL_REST_SERVER+p_URL_MAPPING+'/'+p_param;
   fRESTRequest.Method := rmGET;
+  fRESTRequest.AddParameter('Authorization','Bearer '+ClientSession.Token, TRESTRequestParameterKind.pkHTTPHEADER,[TRESTRequestParameterOption.poDoNotEncode]);
   fRESTRequest.Execute;
   p_OUT_JSONValue := fRESTResponse.JSONValue;
 end;

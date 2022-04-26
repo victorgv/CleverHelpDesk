@@ -69,7 +69,7 @@ begin
     if dmCore.CommunicationManager.DoRequestAuth(ed_userName.text, ed_password.Text) then
     begin
 
-      dmCore.CommunicationManager.DoRequestGet('/user/',  dmCore.CommunicationManager.ClientSession.UserName ,respuestaJSON);
+      dmCore.CommunicationManager.DoRequestGet('/user',  dmCore.CommunicationManager.ClientSession.UserName ,respuestaJSON);
       ShowMessage(respuestaJSON.ToString);
 
       Close;

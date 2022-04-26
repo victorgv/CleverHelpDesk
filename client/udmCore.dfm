@@ -20,7 +20,9 @@ object dmCore: TdmCore
     AssignedValues = [rvConnectTimeout, rvReadTimeout]
     Client = RESTClient1
     Method = rmPOST
-    Params = <>
+    Params = <
+      item
+      end>
     Response = RESTResponse1
     Left = 32
     Top = 160
