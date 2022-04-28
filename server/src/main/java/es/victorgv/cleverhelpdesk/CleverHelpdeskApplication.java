@@ -2,20 +2,18 @@ package es.victorgv.cleverhelpdesk;
 
 import es.victorgv.cleverhelpdesk.model.MasterStatus;
 import es.victorgv.cleverhelpdesk.model.MasterType;
-import es.victorgv.cleverhelpdesk.model.Role;
 import es.victorgv.cleverhelpdesk.model.User;
 import es.victorgv.cleverhelpdesk.repository.IMasterStatus;
 import es.victorgv.cleverhelpdesk.repository.IMasterType;
 import es.victorgv.cleverhelpdesk.repository.IRole;
 import es.victorgv.cleverhelpdesk.repository.IUser;
-import es.victorgv.cleverhelpdesk.service.EmailReader;
+import es.victorgv.cleverhelpdesk.service.EmailReceiver_;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Arrays;
@@ -61,7 +59,7 @@ public class CleverHelpdeskApplication {
 	}
 
 	@Autowired
-	private EmailReader serviceEmailReader;
+	private EmailReceiver_ serviceEmailReceiver;
 
 	/*@Scheduled(fixedRate = 5000)
 	public void miraSiHayEmailsNuevos() {

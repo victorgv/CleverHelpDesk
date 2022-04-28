@@ -4,7 +4,7 @@ interface
 
 uses
   REST.Client,
-  System.JSON;
+  System.JSON, FMX.Dialogs;
 
 
 type
@@ -13,10 +13,15 @@ type
     fToken: String;
     fUserName: String;
     fPassword: String;
-    fClientSession: TClientSession;
+    fUserID: integer; // ID único del usuario
+    fNAME: String; // Nombre del usuario
+    fROLE: String; // Role del usuario en la aplicación
   public
     property Token: String read fToken;
     property UserName: String read fUserName;
+    property UserID: integer read fUserID;
+    property NAME: String read fName;
+    property ROLE: String read fROLE;
 
     constructor create(const p_token, p_userName, p_password: String);
   end;
@@ -30,6 +35,8 @@ Type
     fRESTClient: TRESTClient;
     fRESTRequest: TRESTRequest;
     fRESTResponse: TRESTResponse;
+    //
+    procedure AddJWT_TokenToHeader;
   public
     property ClientSession: TClientSession read fClientSession;
     //
@@ -69,20 +76,44 @@ begin
   inherited;
 end;
 
+// Simplemente añade el header "Authorization" con el token JWT
+procedure TCommunicationManager.AddJWT_TokenToHeader;
+begin
+  fRESTRequest.AddParameter
+    (
+       'Authorization',
+       'Bearer ' + ClientSession.Token,
+       TRESTRequestParameterKind.pkHTTPHEADER, // Indicar que es HEADER
+       [TRESTRequestParameterOption.poDoNotEncode]
+   );
+end;
+
+
 // Realiza la autenticación y genera el TOKEN necesario para el resto de peticiones
 function TCommunicationManager.DoRequestAuth(const p_userName, p_password: String): boolean;
 begin
+  // (1) Resetea los componentes para lanzar la siguiente petición
   reset;
-
+  // (2) Ataca a la ruta de login (es la única del servidor que está abierta para atacar sin TOKEN)
   fRESTClient.BaseURL := c_URL_REST_SERVER+'/auth/login';
   fRESTRequest.Method := rmPOST;
   fRESTRequest.AddBody('{"userName":"'+p_userName+'","password":"'+p_password+'"}"',ctAPPLICATION_JSON);
   fRESTRequest.Execute;
 
+  // (3) Evalua el resutado, si es 200 es correcto y el servidor devolverá el TOKEN
   if fRESTResponse.StatusCode = 200 then
   begin
+    // (3.1) Creamos una instancia a la clase que almacenará los datos del usuario para la sesión "interna" del cliente (es servidor es stateless)
     if Assigned(fClientSession) then FreeAndNil(fClientSession); // Si ya tenía algo asignado lo liberamos
-    fClientSession := TClientSession.create((fRESTResponse.JSONValue).GetValue<String>('token'), p_userName, p_password);
+    fClientSession := TClientSession.create(fRESTResponse.JSONValue.GetValue<String>('token'), p_userName, p_password);
+
+    // (3.2) Recuperamos datos del usuario necesarios para la aplicación y los añadimos a la instancia de sesión
+    var respuestaJSON: TJSONValue;
+    DoRequestGet('/user',  p_userName , respuestaJSON);
+    fClientSession.fNAME := respuestaJSON.GetValue<String>('name');
+    fClientSession.fUserID := respuestaJSON.GetValue<integer>('userId');
+    fClientSession.fROLE := respuestaJSON.GetValue<TJSONObject>('role').GetValue<String>('code');
+    // (3.3) Devuelve true indicando que el login ha sigo satisfactorio
     result := true;
   end
   else
@@ -107,7 +138,7 @@ begin
 
   fRESTClient.BaseURL := c_URL_REST_SERVER+p_URL_MAPPING+'/'+p_param;
   fRESTRequest.Method := rmGET;
-  fRESTRequest.AddParameter('Authorization','Bearer '+ClientSession.Token, TRESTRequestParameterKind.pkHTTPHEADER,[TRESTRequestParameterOption.poDoNotEncode]);
+  AddJWT_TokenToHeader;
   fRESTRequest.Execute;
   p_OUT_JSONValue := fRESTResponse.JSONValue;
 end;

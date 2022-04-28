@@ -3,10 +3,23 @@ unit ufmLogin;
 interface
 
 uses
-  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
-  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Objects,
-  FMX.StdCtrls, FMX.Controls.Presentation, FMX.Edit, FMX.Layouts, uTParentForm,
-  FMX.ExtCtrls, FMX.ListBox;
+  System.SysUtils,
+  System.Types,
+  System.UITypes,
+  System.Classes,
+  FMX.Types,
+  FMX.Controls,
+  FMX.Forms,
+  FMX.Graphics,
+  FMX.Dialogs,
+  FMX.Objects,
+  FMX.StdCtrls,
+  FMX.Controls.Presentation,
+  FMX.Edit,
+  FMX.Layouts,
+  uTParentForm,
+  FMX.ExtCtrls,
+  FMX.ListBox;
 
 type
   TfmLogin = class(TParentForm)
@@ -37,7 +50,9 @@ type
 
 implementation
 
-uses udmCore, System.JSON, REST.Types;
+uses
+  udmCore,
+  ufmMain;
 
 {$R *.fmx}
 
@@ -60,22 +75,18 @@ begin
   dmCore.SetLanguage(pb_selector_idioma.Text);
 end;
 
+// Evento LOGIN al pulsar el botón
 procedure TfmLogin.sb_LoginClick(Sender: TObject);
-var
-  respuestaJSON: TJSONValue;
 begin
   if validate_fields then
   begin
     if dmCore.CommunicationManager.DoRequestAuth(ed_userName.text, ed_password.Text) then
-    begin
-
-      dmCore.CommunicationManager.DoRequestGet('/user',  dmCore.CommunicationManager.ClientSession.UserName ,respuestaJSON);
-      ShowMessage(respuestaJSON.ToString);
-
+    begin // Si login es correcto
+      fmMain.LoginDone; // Notifica al formulario principal que se acaba de realizar un LOGIN
       Close;
     end
     else
-    begin
+    begin // Si login falla
       LA_INFO.TextSettings.FontColor := TAlphaColorRec.Red;
       LA_INFO.Text := dmCore.getAppMessage('MSG0004');
     end;

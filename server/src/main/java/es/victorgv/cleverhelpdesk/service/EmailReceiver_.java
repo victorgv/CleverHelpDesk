@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 import javax.mail.internet.MimeMessage;
 
 @Service
-public class EmailReader {
+public class EmailReceiver_ {
 
     @Autowired
     UserService user_ser;
@@ -24,7 +24,7 @@ public class EmailReader {
     @Autowired
     ITicket ticket_repo;
 
-    public EmailReader(DirectChannel emailDirectChannel) {
+    public EmailReceiver_(DirectChannel emailDirectChannel) {
         // Nos suscribimos al canal y llamará asincronamente al handleMessage cada vez que entre un email nuevo
         emailDirectChannel.subscribe(new MessageHandler() {
             @Override
