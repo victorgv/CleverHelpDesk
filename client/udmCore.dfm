@@ -31,36 +31,10 @@ object dmCore: TdmCore
     Left = 32
     Top = 216
   end
-  object RESTClient2: TRESTClient
-    Accept = 'application/json'
-    BaseURL = 'http://localhost:8080/user/login'
-    Params = <>
-    Left = 160
-    Top = 96
-  end
-  object RESTRequest2: TRESTRequest
-    AssignedValues = [rvConnectTimeout, rvReadTimeout]
-    Client = RESTClient2
-    Method = rmPOST
-    Params = <
-      item
-        Kind = pkREQUESTBODY
-        Name = 'bodyC747CE91033B4C20B93AA634FB0CC9E5'
-        Value = '{'#13#10'    "email":"admin@admin.es",'#13#10'    "password":"1234"'#13#10'}'
-        ContentType = ctAPPLICATION_JSON
-      end>
-    Response = RESTResponse2
-    Left = 160
-    Top = 160
-  end
-  object RESTResponse2: TRESTResponse
-    Left = 160
-    Top = 216
-  end
   object la_idiomas: TLang
     Lang = 'es'
-    Left = 200
-    Top = 24
+    Left = 128
+    Top = 16
     ResourcesBin = {
       460000004C006F00670069006E000D000A002A002A002A00200069006E006600
       6F0020002A002A002A000D000A0046006F00720067006F007400200070006100
@@ -89,5 +63,13 @@ object dmCore: TdmCore
       470030003000300031003D0045006D00610069006C002000650073007400E100
       2000760061006300ED006F000D000A0055007300650072003D00550073007500
       6100720069006F000D000A00}
+  end
+  object AL_GLOBAL: TActionList
+    Left = 216
+    Top = 16
+    object AC_HardwareBack: TAction
+      Text = 'AC_HardwareBack'
+      ShortCut = 137
+    end
   end
 end

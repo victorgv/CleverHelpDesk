@@ -37,8 +37,8 @@ public class CleverHelpdeskApplication {
 			masterStatus_rep.saveAll(Arrays.asList(
 					new MasterStatus(1L,"Registrado"),
 					new MasterStatus(2L,"Pendiente de información"),
-					new MasterStatus(3L,"Trabajando"),
-					new MasterStatus(4L,"Parado"),
+					new MasterStatus(3L,"Parado"),
+					new MasterStatus(4L,"Trabajando"),
 					new MasterStatus(5L,"Terminado"),
 					new MasterStatus(6L,"Cancelado")
 			));

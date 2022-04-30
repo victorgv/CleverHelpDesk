@@ -12,7 +12,7 @@ uses
   System.UITypes,
   ufmLogin,
   System.RegularExpressions,
-  uTCommunicationManager, REST.Types;
+  uTCommunicationManager, REST.Types, System.Actions, FMX.ActnList;
 
 
 
@@ -23,10 +23,9 @@ type
     RESTClient1: TRESTClient;
     RESTRequest1: TRESTRequest;
     RESTResponse1: TRESTResponse;
-    RESTClient2: TRESTClient;
-    RESTRequest2: TRESTRequest;
-    RESTResponse2: TRESTResponse;
     la_idiomas: TLang;
+    AL_GLOBAL: TActionList;
+    AC_HardwareBack: TAction;
     procedure DataModuleCreate(Sender: TObject);
     procedure ti_userAuthenticatedTimer(Sender: TObject);
     procedure DataModuleDestroy(Sender: TObject);

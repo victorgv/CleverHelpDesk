@@ -34,8 +34,11 @@ type
     Button1: TButton;
     Button2: TButton;
     MailImage: TImage;
+    Button3: TButton;
+    TitleText: TText;
     procedure bt_exitClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure Button3Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -48,9 +51,25 @@ var
 
 implementation
 
+uses ufmTicket;
+
 {$R *.fmx}
 
 // Algunas inicializaciones al crear el formulario
+procedure TfmMain.Button3Click(Sender: TObject);
+var
+  ticket: TfmTicket;
+  vModalResult: TModalResult;
+begin
+  ticket := TfmTicket.Create(nil);
+  ticket.RunFormAsModal(procedure(pModalResult: TModalResult)  // Modal http://docwiki.embarcadero.com/RADStudio/Sydney/en/Using_FireMonkey_Modal_Dialog_Boxes
+      begin
+        vModalResult := pModalResult;
+      end
+    );
+
+end;
+
 procedure TfmMain.FormCreate(Sender: TObject);
 begin
   LA_NOMBRE_USUARIO.Text := '';

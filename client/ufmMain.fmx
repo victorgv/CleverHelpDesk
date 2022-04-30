@@ -11,30 +11,47 @@ object fmMain: TfmMain
   DesignerMasterStyle = 0
   object tb_main: TToolBar
     Size.Width = 640.000000000000000000
-    Size.Height = 40.000000000000000000
+    Size.Height = 48.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 0
     object Layout1: TLayout
       Align = Client
-      Size.Width = 535.000000000000000000
-      Size.Height = 40.000000000000000000
+      Size.Width = 544.000000000000000000
+      Size.Height = 48.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 2
+      object TitleText: TText
+        Align = Client
+        Size.Width = 544.000000000000000000
+        Size.Height = 48.000000000000000000
+        Size.PlatformDefault = False
+        Text = 'CleverHelpDesk'
+        TextSettings.Font.Size = 22.000000000000000000
+        TextSettings.Font.StyleExt = {00070000000000000004000000}
+        TextSettings.FontColor = claLightslategray
+        object Button3: TButton
+          Position.X = 8.000000000000000000
+          Position.Y = 16.000000000000000000
+          TabOrder = 0
+          Text = 'Button3'
+          OnClick = Button3Click
+        end
+      end
     end
     object bt_open_multiview: TButton
       Align = Left
       ControlType = Platform
-      Size.Width = 49.000000000000000000
-      Size.Height = 40.000000000000000000
+      Size.Width = 48.000000000000000000
+      Size.Height = 48.000000000000000000
       Size.PlatformDefault = False
       StyleLookup = 'drawertoolbutton'
       TabOrder = 1
     end
     object bt_doBack: TButton
       Align = Right
-      Position.X = 584.000000000000000000
-      Size.Width = 56.000000000000000000
-      Size.Height = 40.000000000000000000
+      Position.X = 592.000000000000000000
+      Size.Width = 48.000000000000000000
+      Size.Height = 48.000000000000000000
       Size.PlatformDefault = False
       StyleLookup = 'backtoolbutton'
       TabOrder = 0
@@ -43,23 +60,24 @@ object fmMain: TfmMain
   object TabControl1: TTabControl
     Align = Client
     Size.Width = 640.000000000000000000
-    Size.Height = 440.000000000000000000
+    Size.Height = 432.000000000000000000
     Size.PlatformDefault = False
+    TabHeight = 49.000000000000000000
     TabIndex = 0
     TabOrder = 2
     TabPosition = Top
     Sizes = (
       640s
-      414s
+      383s
       640s
-      414s)
+      383s)
     object TabItem1: TTabItem
       CustomIcon = <
         item
         end>
       IsSelected = True
-      Size.Width = 69.000000000000000000
-      Size.Height = 26.000000000000000000
+      Size.Width = 319.000000000000000000
+      Size.Height = 49.000000000000000000
       Size.PlatformDefault = False
       StyleLookup = ''
       TabOrder = 0
@@ -69,8 +87,8 @@ object fmMain: TfmMain
       object SpeedButton1: TSpeedButton
         Position.X = 160.000000000000000000
         Position.Y = 14.000000000000000000
-        Size.Width = 145.000000000000000000
-        Size.Height = 35.000000000000000000
+        Size.Width = 32.000000000000000000
+        Size.Height = 32.000000000000000000
         Size.PlatformDefault = False
         StyleLookup = 'searcheditbutton'
         Text = 'SpeedButton1'
@@ -81,8 +99,8 @@ object fmMain: TfmMain
         item
         end>
       IsSelected = False
-      Size.Width = 69.000000000000000000
-      Size.Height = 26.000000000000000000
+      Size.Width = 319.000000000000000000
+      Size.Height = 49.000000000000000000
       Size.PlatformDefault = False
       StyleLookup = ''
       TabOrder = 0
@@ -98,6 +116,7 @@ object fmMain: TfmMain
     Size.Width = 250.000000000000000000
     Size.Height = 440.000000000000000000
     Size.PlatformDefault = False
+    Visible = False
     TabOrder = 1
     object ly_header: TLayout
       Align = Top
@@ -357,7 +376,7 @@ object fmMain: TfmMain
       object BT_Control_Panel: TButton
         Align = Top
         Size.Width = 250.000000000000000000
-        Size.Height = 22.000000000000000000
+        Size.Height = 48.000000000000000000
         Size.PlatformDefault = False
         StyleLookup = 'toolbutton'
         TabOrder = 0
@@ -365,9 +384,9 @@ object fmMain: TfmMain
       end
       object BT_Queries: TButton
         Align = Top
-        Position.Y = 22.000000000000000000
+        Position.Y = 48.000000000000000000
         Size.Width = 250.000000000000000000
-        Size.Height = 22.000000000000000000
+        Size.Height = 48.000000000000000000
         Size.PlatformDefault = False
         StyleLookup = 'toolbutton'
         TabOrder = 1
@@ -375,9 +394,9 @@ object fmMain: TfmMain
       end
       object BT_Users: TButton
         Align = Top
-        Position.Y = 65.000000000000000000
+        Position.Y = 117.000000000000000000
         Size.Width = 250.000000000000000000
-        Size.Height = 22.000000000000000000
+        Size.Height = 48.000000000000000000
         Size.PlatformDefault = False
         StyleLookup = 'toolbutton'
         TabOrder = 4
@@ -385,7 +404,7 @@ object fmMain: TfmMain
       end
       object Layout2: TLayout
         Align = Top
-        Position.Y = 44.000000000000000000
+        Position.Y = 96.000000000000000000
         Size.Width = 250.000000000000000000
         Size.Height = 21.000000000000000000
         Size.PlatformDefault = False
@@ -393,9 +412,9 @@ object fmMain: TfmMain
       end
       object BT_Channels: TButton
         Align = Top
-        Position.Y = 87.000000000000000000
+        Position.Y = 165.000000000000000000
         Size.Width = 250.000000000000000000
-        Size.Height = 22.000000000000000000
+        Size.Height = 48.000000000000000000
         Size.PlatformDefault = False
         StyleLookup = 'toolbutton'
         TabOrder = 3
@@ -411,7 +430,7 @@ object fmMain: TfmMain
       TabOrder = 1
       object bt_exit: TButton
         Align = Left
-        Size.Width = 49.000000000000000000
+        Size.Width = 48.000000000000000000
         Size.Height = 65.000000000000000000
         Size.PlatformDefault = False
         StyleLookup = 'escapetoolbutton'

@@ -8,7 +8,9 @@ uses
   udmCore in 'udmCore.pas' {dmCore: TDataModule},
   uTParentForm in 'uTParentForm.pas',
   uTCommunicationManager in 'uTCommunicationManager.pas',
-  uConstant in 'uConstant.pas';
+  uConstant in 'uConstant.pas',
+  ufmTicket in 'ufmTicket.pas' {fmTicket},
+  uHelper in 'uHelper.pas';
 
 {$R *.res}
 
