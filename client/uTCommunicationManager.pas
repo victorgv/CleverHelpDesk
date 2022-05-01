@@ -147,10 +147,10 @@ end;
 procedure TCommunicationManager.DoRequestPost(const p_URL_MAPPING, p_JSON_BODY: String; var p_OUT_JSONValue: TJSONValue);
 begin
   reset;
-
-  fRESTClient.BaseURL := c_URL_REST_SERVER+p_URL_MAPPING;
+  fRESTClient.BaseURL := c_URL_REST_SERVER+p_URL_MAPPING+'/';
   fRESTRequest.Method := rmPOST;
   fRESTRequest.AddBody(p_JSON_BODY,ctAPPLICATION_JSON);
+  AddJWT_TokenToHeader;
   fRESTRequest.Execute;
   p_OUT_JSONValue := fRESTResponse.JSONValue;
 end;

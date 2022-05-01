@@ -13,6 +13,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
     @Autowired IUser user_rep;
 
+    public IUser getUser_rep() {
+        return user_rep;
+    }
+
     public User loginUser(User_LoginDTO userLoginDTO) {
         return user_rep.findByUserName(userLoginDTO.getUserName());
     }

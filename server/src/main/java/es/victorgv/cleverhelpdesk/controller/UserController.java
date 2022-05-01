@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
 
 @RestController
@@ -40,7 +41,6 @@ public class UserController {
     }
 
 
-
     @PostMapping("/login") // *********************************************************
     public ResponseEntity<?> loginUser(@RequestBody User_LoginDTO userLoginDTO) {
         User user = userService.loginUser(userLoginDTO);
@@ -52,5 +52,10 @@ public class UserController {
     public ResponseEntity<?> findByUsername(@PathVariable("userName") String userName) {
         User user = userService.findByUserName(userName);
         return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    @GetMapping("/")
+    public List<User> findAll() {
+        return userService.getUser_rep().findAll();
     }
 }

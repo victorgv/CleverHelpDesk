@@ -21,6 +21,15 @@
             <Overwrite>True</Overwrite>
             <Required>True</Required>
         </DeployFile>
+        <DeployFile Include="AndroidManifest.template.xml" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>CleverHelpDesk\</RemoteDir>
+            <RemoteName>AndroidManifest.template.xml</RemoteName>
+            <DeployClass>ProjectFile</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
     </ItemGroup>
     <ItemGroup Condition="'$(Platform)'=='Win32'">
         <DeployFile Include="Win32\Debug\CleverHelpDesk.exe" Condition="'$(Config)'=='Debug'">

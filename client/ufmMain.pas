@@ -14,10 +14,6 @@ type
     Layout1: TLayout;
     bt_open_multiview: TButton;
     bt_doBack: TButton;
-    TabControl1: TTabControl;
-    TabItem1: TTabItem;
-    SpeedButton1: TSpeedButton;
-    TabItem2: TTabItem;
     mv_main: TMultiView;
     ly_header: TLayout;
     ly_body: TLayout;
@@ -62,6 +58,7 @@ var
   vModalResult: TModalResult;
 begin
   ticket := TfmTicket.Create(nil);
+  ticket.DoConfigureINSERT;
   ticket.RunFormAsModal(procedure(pModalResult: TModalResult)  // Modal http://docwiki.embarcadero.com/RADStudio/Sydney/en/Using_FireMonkey_Modal_Dialog_Boxes
       begin
         vModalResult := pModalResult;

@@ -12,7 +12,8 @@ uses
   System.UITypes,
   ufmLogin,
   System.RegularExpressions,
-  uTCommunicationManager, REST.Types, System.Actions, FMX.ActnList;
+  uTCommunicationManager, REST.Types, System.Actions, FMX.ActnList,
+  FMX.Controls;
 
 
 
@@ -45,6 +46,7 @@ type
     function ValidateEmail(const p_email: String): boolean;
     procedure SetLanguage(const p_lang: String); // Cambia el idioma de la aplicación (por ahora "es" o "en")
     function getAppMessage(const p_msg_code: String): String; // Para recuperar mensajes de aplicación
+    procedure WPResizeTControlToContents( AControl : TControl; Width : Boolean  = true; Height : Boolean = true ); // Ajusta el tamaño del contenedor al contenido (cuando hay un "resize" y el contenedor es TFlowLayout)
     //
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -59,7 +61,7 @@ implementation
 
 {$R *.dfm}
 
-uses FMX.Platform, FMX.Dialogs;
+uses FMX.Platform, FMX.Dialogs, System.Types;
 
 { TdmCore }
 // Constructor de la clase
@@ -167,5 +169,24 @@ begin
 end;
 
 
+// Ajusta el tamaño del contenedor al contenido (cuando hay un "resize" y el contenedor es TFlowLayout)
+procedure TdmCore.WPResizeTControlToContents(AControl: TControl; Width, Height: Boolean);
+var I : Integer; r : TRectF;
+begin
+  if AControl.Align in [TAlignLayout.Top, TAlignLayout.Bottom, TAlignLayout.MostTop, TAlignLayout.MostBottom, TAlignLayout.Client, TAlignLayout.Scale, TAlignLayout.Fit] then
+    Width := false;
+  if AControl.Align in [TAlignLayout.Left, TAlignLayout.Right, TAlignLayout.MostLeft, TAlignLayout.MostRight, TAlignLayout.Client, TAlignLayout.Scale, TAlignLayout.Fit] then
+    Height := false;
+  r := TRectF.Empty;
+  for I := 0 to AControl.ChildrenCount-1 do
+    if AControl.Children[I] is TControl then
+      UnionRect(r, r, TControl(AControl.Children[I]).BoundsRect );
+  if Width and Height then
+    AControl.Size.Size := TSizeF.Create(r.Width, r.Height)
+  else if Width then
+    AControl.Width := r.Width
+  else if Height then
+    AControl.Height := r.Height;
+end;
 
 end.

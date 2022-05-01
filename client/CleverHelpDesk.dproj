@@ -5,7 +5,7 @@
         <FrameworkType>FMX</FrameworkType>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Debug</Config>
-        <Platform Condition="'$(Platform)'==''">Android64</Platform>
+        <Platform Condition="'$(Platform)'==''">Win64</Platform>
         <TargetedPlatforms>37890</TargetedPlatforms>
         <AppType>Application</AppType>
         <MainSource>CleverHelpDesk.dpr</MainSource>
@@ -300,6 +300,10 @@
             <FormType>fmx</FormType>
         </DCCReference>
         <DCCReference Include="uHelper.pas"/>
+        <DCCReference Include="ufmPruebas.pas">
+            <Form>fmPruebas</Form>
+            <FormType>fmx</FormType>
+        </DCCReference>
         <None Include="AndroidManifest.template.xml"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
@@ -444,6 +448,12 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
+                <DeployFile LocalName="Win64\Debug\CleverHelpDesk.rsm" Configuration="Debug" Class="DebugSymbols">
+                    <Platform Name="Win64">
+                        <RemoteName>CleverHelpDesk.rsm</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile LocalName="Android64\Debug\splash_image_def.xml" Configuration="Debug" Class="AndroidSplashImageDef">
                     <Platform Name="Android64">
                         <Overwrite>true</Overwrite>
@@ -497,6 +507,12 @@
                 <DeployFile LocalName="Android64\Debug\libCleverHelpDesk.so" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Android64">
                         <RemoteName>libCleverHelpDesk.so</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="AndroidManifest.template.xml" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win64">
+                        <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
