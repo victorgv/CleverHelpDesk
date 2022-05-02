@@ -304,6 +304,22 @@
             <Form>fmPruebas</Form>
             <FormType>fmx</FormType>
         </DCCReference>
+        <DCCReference Include="ufmMntProyectos.pas">
+            <Form>fmMntProyectos</Form>
+            <FormType>fmx</FormType>
+        </DCCReference>
+        <DCCReference Include="ufmMntUsuarios.pas">
+            <Form>fmMntUsuarios</Form>
+            <FormType>fmx</FormType>
+        </DCCReference>
+        <DCCReference Include="ufmMntProyectos_EDITA.pas">
+            <Form>fmMntProyectos_EDITA</Form>
+            <FormType>fmx</FormType>
+        </DCCReference>
+        <DCCReference Include="ufmMntUsuarios_EDITA.pas">
+            <Form>fmMntUsuarios_EDITA</Form>
+            <FormType>fmx</FormType>
+        </DCCReference>
         <None Include="AndroidManifest.template.xml"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
@@ -431,14 +447,14 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="Android64\Debug\styles.xml" Configuration="Debug" Class="AndroidSplashStyles">
-                    <Platform Name="Android64">
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
                 <DeployFile LocalName="$(BDS)\bin\Artwork\Android\FM_NotificationIcon_24x24.png" Configuration="Debug" Class="Android_NotificationIcon24">
                     <Platform Name="Android64">
                         <RemoteName>ic_notification.png</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="Android64\Debug\styles.xml" Configuration="Debug" Class="AndroidSplashStyles">
+                    <Platform Name="Android64">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

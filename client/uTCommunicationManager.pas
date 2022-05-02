@@ -46,6 +46,7 @@ Type
     procedure reset; // Inicializa los componentes de conexión al servidor rest
     function DoRequestAuth(const p_userName: String; const p_password: String): boolean;
     procedure DoRequestPost(const p_URL_MAPPING: String; const p_JSON_BODY: String; var p_OUT_JSONValue: TJSONValue);
+    procedure DoRequestPut(const p_URL_MAPPING: String; const p_param: String; const p_JSON_BODY: String; var p_OUT_JSONValue: TJSONValue);
     procedure DoRequestGet(const p_URL_MAPPING: String; const p_param: String; var p_OUT_JSONValue: TJSONValue);
   end;
 
@@ -149,6 +150,17 @@ begin
   reset;
   fRESTClient.BaseURL := c_URL_REST_SERVER+p_URL_MAPPING+'/';
   fRESTRequest.Method := rmPOST;
+  fRESTRequest.AddBody(p_JSON_BODY,ctAPPLICATION_JSON);
+  AddJWT_TokenToHeader;
+  fRESTRequest.Execute;
+  p_OUT_JSONValue := fRESTResponse.JSONValue;
+end;
+
+procedure TCommunicationManager.DoRequestPut(const p_URL_MAPPING, p_param, p_JSON_BODY: String; var p_OUT_JSONValue: TJSONValue);
+begin
+  reset;
+  fRESTClient.BaseURL := c_URL_REST_SERVER+p_URL_MAPPING+p_param+'/';
+  fRESTRequest.Method := rmPUT;
   fRESTRequest.AddBody(p_JSON_BODY,ctAPPLICATION_JSON);
   AddJWT_TokenToHeader;
   fRESTRequest.Execute;

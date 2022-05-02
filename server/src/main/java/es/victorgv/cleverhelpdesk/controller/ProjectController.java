@@ -1,20 +1,14 @@
 package es.victorgv.cleverhelpdesk.controller;
 
-import es.victorgv.cleverhelpdesk.DTO.MensajeDTO;
-import es.victorgv.cleverhelpdesk.DTO.User_LoginDTO;
-import es.victorgv.cleverhelpdesk.DTO.User_NewDTO;
 import es.victorgv.cleverhelpdesk.model.MasterStatus;
 import es.victorgv.cleverhelpdesk.model.MasterType;
 import es.victorgv.cleverhelpdesk.model.Project;
-import es.victorgv.cleverhelpdesk.model.User;
+import es.victorgv.cleverhelpdesk.model.Ticket;
 import es.victorgv.cleverhelpdesk.repository.IMasterStatus;
 import es.victorgv.cleverhelpdesk.repository.IMasterType;
 import es.victorgv.cleverhelpdesk.repository.IProject;
-import es.victorgv.cleverhelpdesk.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
+import org.springframework.http.RequestEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -42,5 +36,19 @@ public class ProjectController {
         return repo_project.findAll();
     }
 
+    @PostMapping("/project")
+    public Project createProyect(@RequestBody Project newProject) {
+        return repo_project.save(newProject);
+    }
+
+    @PutMapping("/project/{id}")
+    public Project updateProducto(@RequestBody Project updateProject, @PathVariable Long id) {
+        if (repo_project.existsById(id)) {
+            updateProject.setProjectId(id);
+            return repo_project.save(updateProject);
+        } else {
+            return null;
+        }
+    }
 
 }

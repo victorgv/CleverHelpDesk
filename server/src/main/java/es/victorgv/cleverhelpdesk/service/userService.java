@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class UserService {
-    @Autowired IUser user_rep;
+    @Autowired private IUser user_rep;
 
     public IUser getUser_rep() {
         return user_rep;

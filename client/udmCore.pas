@@ -30,6 +30,7 @@ type
     procedure DataModuleCreate(Sender: TObject);
     procedure ti_userAuthenticatedTimer(Sender: TObject);
     procedure DataModuleDestroy(Sender: TObject);
+    procedure AC_HardwareBackExecute(Sender: TObject);
   private
     { Private declarations }
     fCommunicationManager: TCommunicationManager;
@@ -61,7 +62,7 @@ implementation
 
 {$R *.dfm}
 
-uses FMX.Platform, FMX.Dialogs, System.Types;
+uses FMX.Platform, FMX.Dialogs, System.Types, FMX.Forms;
 
 { TdmCore }
 // Constructor de la clase
@@ -78,6 +79,14 @@ begin
   fCommunicationManager.Free;
   inherited;
 end;
+
+// Implementa la funcionalidad del botón "atras" de android
+procedure TdmCore.AC_HardwareBackExecute(Sender: TObject);
+begin
+  if Sender is TForm then
+    TForm(Sender).close;
+end;
+
 
 procedure TdmCore.DataModuleCreate(Sender: TObject);
 begin

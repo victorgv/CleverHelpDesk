@@ -80,6 +80,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure SB_CANCELARClick(Sender: TObject);
     procedure SB_GRABARClick(Sender: TObject);
+    procedure SB_GRABAR_IMAGENClick(Sender: TObject);
   private
     fTickeID: integer; // Almacena el ID del ticket que estamos modificando o -1 si es inserción
     //
@@ -101,6 +102,7 @@ type
 implementation
 
 {$R *.fmx}
+{$R *.LgXhdpiPh.fmx ANDROID}
 
 uses
   udmCore,
@@ -121,6 +123,7 @@ end;
 procedure TfmTicket.DoConfigureINSERT;
 begin
   fTickeID := -1;
+  Caption := 'Creación Nuevo Ticket';
   ED_ID.Visible := FALSE;
   ED_ABIERTO.Date := Now;
   ED_CERRADO.IsEmpty := true;
@@ -134,6 +137,7 @@ end;
 procedure TfmTicket.DoConfigureUPDATE(p_ID: integer);
 begin
   fTickeID := p_ID;
+  Caption := 'Gestión de Ticket';
 
 end;
 
@@ -230,6 +234,11 @@ begin
 end;
 
 
+procedure TfmTicket.SB_GRABAR_IMAGENClick(Sender: TObject);
+begin
+
+end;
+
 // Validamos campos obligatorios
 procedure TfmTicket.ValidateFields;
 begin
@@ -248,7 +257,8 @@ begin
   vBody := '{"opened":"'+DateToISO8601(Now)+
            '","subject":"'+ED_ASUNTO.Text+
            '","description":"'+ME_DESCRIPCION.Text+
-           '","priority":"'+CB_PRIORIDAD.Selected.Index.ToString+'"}';
+           '","priority":"'+CB_PRIORIDAD.Selected.Index.ToString+
+           '","userOpenedId":{"userId":'+dmCore.CommunicationManager.ClientSession.UserID.ToString+'}}';
 
   if fTickeID = -1 then // Caso inserción
   begin

@@ -1,502 +1,43 @@
-object fmTicket: TfmTicket
+object fmMntProyectos_EDITA: TfmMntProyectos_EDITA
   Left = 0
   Top = 0
-  Caption = 'Ticket'
-  ClientHeight = 527
-  ClientWidth = 890
-  StyleBook = StyleBook1
+  Caption = 'Form1'
+  ClientHeight = 480
+  ClientWidth = 640
   FormFactor.Width = 320
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
-  OnCreate = FormCreate
+  OnClose = FormClose
   DesignerMasterStyle = 0
-  object LA_CABECERA: TLayout
-    Align = MostTop
-    Size.Width = 890.000000000000000000
-    Size.Height = 37.000000000000000000
+  object tb_main: TToolBar
+    Size.Width = 640.000000000000000000
+    Size.Height = 48.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 1
-    object Rectangle1: TRectangle
+    object Layout1: TLayout
       Align = Client
-      Fill.Color = xFFDBEAEE
-      Size.Width = 890.000000000000000000
-      Size.Height = 37.000000000000000000
+      Size.Width = 640.000000000000000000
+      Size.Height = 48.000000000000000000
       Size.PlatformDefault = False
-      Stroke.Kind = None
-      object ED_ID: TEdit
-        Touch.InteractiveGestures = [LongTap, DoubleTap]
-        Align = Left
-        TabOrder = 1
+      TabOrder = 0
+      object TITULO_VENTANA: TText
+        Align = Client
+        Size.Width = 640.000000000000000000
+        Size.Height = 48.000000000000000000
+        Size.PlatformDefault = False
+        Text = 'Introduce el nombre de Proyecto'
         TextSettings.Font.Size = 22.000000000000000000
         TextSettings.Font.StyleExt = {00070000000000000004000000}
-        TextSettings.HorzAlign = Center
-        Enabled = False
-        Size.Width = 113.000000000000000000
-        Size.Height = 37.000000000000000000
-        Size.PlatformDefault = False
-        TextPrompt = 'ID'
-        StyledSettings = [Family, FontColor]
+        TextSettings.FontColor = claLightslategray
       end
-      object ED_ASUNTO: TEdit
-        Touch.InteractiveGestures = [LongTap, DoubleTap]
-        Align = Client
-        StyleLookup = 'Edit2Style1'
-        TabOrder = 0
-        MaxLength = 200
-        TextSettings.Font.Size = 22.000000000000000000
-        TextSettings.HorzAlign = Center
-        Padding.Left = 10.000000000000000000
-        Padding.Right = 10.000000000000000000
-        Size.Width = 777.000000000000000000
-        Size.Height = 37.000000000000000000
-        Size.PlatformDefault = False
-        TextPrompt = 'Introduzca un asunto que resuma el ticket'
-        StyledSettings = [Family, Style, FontColor]
-      end
-    end
-  end
-  object TC_TICKET_MAIN: TTabControl
-    Align = Client
-    Size.Width = 890.000000000000000000
-    Size.Height = 422.000000000000000000
-    Size.PlatformDefault = False
-    TabHeight = 49.000000000000000000
-    TabIndex = 0
-    TabOrder = 3
-    TabPosition = PlatformDefault
-    Sizes = (
-      890s
-      373s
-      890s
-      373s
-      890s
-      373s)
-    object TI_DATOS: TTabItem
-      CustomIcon = <
-        item
-        end>
-      IsSelected = True
-      Size.Width = 51.000000000000000000
-      Size.Height = 49.000000000000000000
-      Size.PlatformDefault = False
-      StyleLookup = ''
-      TabOrder = 0
-      Text = 'Datos'
-      ExplicitSize.cx = 69.000000000000000000
-      ExplicitSize.cy = 26.000000000000000000
-      object LA_DATOS_MAIN: TLayout
-        Align = Client
-        Size.Width = 890.000000000000000000
-        Size.Height = 373.000000000000000000
-        Size.PlatformDefault = False
-        TabOrder = 0
-        object FL_PANEL_CAMPOS: TFlowLayout
-          Align = MostTop
-          Size.Width = 890.000000000000000000
-          Size.Height = 185.000000000000000000
-          Size.PlatformDefault = False
-          TabOrder = 3
-          Justify = Left
-          JustifyLastLine = Left
-          FlowDirection = LeftToRight
-          OnResize = FL_PANEL_CAMPOSResize
-          object Layout6: TLayout
-            Size.Width = 380.000000000000000000
-            Size.Height = 33.000000000000000000
-            Size.PlatformDefault = False
-            TabOrder = 4
-            object Label1: TLabel
-              Align = Left
-              StyledSettings = [Family, Style, FontColor]
-              Margins.Right = 3.000000000000000000
-              Size.Width = 110.000000000000000000
-              Size.Height = 33.000000000000000000
-              Size.PlatformDefault = False
-              TextSettings.Font.Size = 22.000000000000000000
-              TextSettings.HorzAlign = Trailing
-              Text = 'Estado'
-              TabOrder = 3
-            end
-            object CB_ESTADO: TComboBox
-              Align = Client
-              Size.Width = 267.000000000000000000
-              Size.Height = 33.000000000000000000
-              Size.PlatformDefault = False
-              TabOrder = 2
-              object ListBoxItem7: TListBoxItem
-                TextSettings.Font.Size = 18.000000000000000000
-                StyledSettings = [Family, Style, FontColor, Other]
-                TabOrder = 0
-                Text = 'Registrado'
-              end
-              object ListBoxItem8: TListBoxItem
-                TextSettings.Font.Size = 18.000000000000000000
-                StyledSettings = [Family, Style, FontColor, Other]
-                TabOrder = 1
-                Text = 'Pendiente Informaci'#243'n'
-              end
-              object ListBoxItem9: TListBoxItem
-                TextSettings.Font.Size = 18.000000000000000000
-                StyledSettings = [Family, Style, FontColor, Other]
-                TabOrder = 2
-                Text = 'Parado'
-              end
-              object ListBoxItem10: TListBoxItem
-                TextSettings.Font.Size = 18.000000000000000000
-                StyledSettings = [Family, Style, FontColor, Other]
-                TabOrder = 3
-                Text = 'Trabajando'
-              end
-              object ListBoxItem11: TListBoxItem
-                TextSettings.Font.Size = 18.000000000000000000
-                StyledSettings = [Family, Style, FontColor, Other]
-                TabOrder = 4
-                Text = 'Terminado'
-              end
-              object ListBoxItem12: TListBoxItem
-                TextSettings.Font.Size = 18.000000000000000000
-                StyledSettings = [Family, Style, FontColor, Other]
-                TabOrder = 5
-                Text = 'Cancelado'
-              end
-            end
-          end
-          object Layout7: TLayout
-            Position.X = 380.000000000000000000
-            Size.Width = 248.000000000000000000
-            Size.Height = 33.000000000000000000
-            Size.PlatformDefault = False
-            TabOrder = 6
-            object Label3: TLabel
-              Align = Left
-              StyledSettings = [Family, Style, FontColor]
-              Margins.Right = 3.000000000000000000
-              Size.Width = 110.000000000000000000
-              Size.Height = 33.000000000000000000
-              Size.PlatformDefault = False
-              TextSettings.Font.Size = 22.000000000000000000
-              TextSettings.HorzAlign = Trailing
-              Text = 'Abierto'
-              TabOrder = 3
-            end
-            object ED_ABIERTO: TDateEdit
-              Date = 44681.000000000000000000
-              Format = 'dd/mm/yyyy'
-              Align = Client
-              Enabled = False
-              Size.Width = 135.000000000000000000
-              Size.Height = 33.000000000000000000
-              Size.PlatformDefault = False
-              StyledSettings = [Family, Style, FontColor]
-              TabOrder = 6
-              TextSettings.Font.Size = 18.000000000000000000
-              TextSettings.HorzAlign = Center
-            end
-          end
-          object Layout10: TLayout
-            Position.X = 628.000000000000000000
-            Size.Width = 248.000000000000000000
-            Size.Height = 33.000000000000000000
-            Size.PlatformDefault = False
-            TabOrder = 8
-            object Label4: TLabel
-              Align = Left
-              StyledSettings = [Family, Style, FontColor]
-              Margins.Right = 3.000000000000000000
-              Size.Width = 110.000000000000000000
-              Size.Height = 33.000000000000000000
-              Size.PlatformDefault = False
-              TextSettings.Font.Size = 22.000000000000000000
-              TextSettings.HorzAlign = Trailing
-              Text = 'Cerrado'
-              TabOrder = 5
-            end
-            object ED_CERRADO: TDateEdit
-              Date = 44681.000000000000000000
-              Format = 'dd/mm/yyyy'
-              Align = Client
-              Enabled = False
-              Size.Width = 135.000000000000000000
-              Size.Height = 33.000000000000000000
-              Size.PlatformDefault = False
-              StyledSettings = [Family, Style, FontColor]
-              TabOrder = 8
-              TextSettings.Font.Size = 18.000000000000000000
-              TextSettings.HorzAlign = Center
-            end
-          end
-          object Layout2: TLayout
-            Position.Y = 33.000000000000000000
-            Size.Width = 380.000000000000000000
-            Size.Height = 33.000000000000000000
-            Size.PlatformDefault = False
-            TabOrder = 5
-            object Label2: TLabel
-              Align = Left
-              StyledSettings = [Family, Style, FontColor]
-              Margins.Right = 3.000000000000000000
-              Size.Width = 110.000000000000000000
-              Size.Height = 33.000000000000000000
-              Size.PlatformDefault = False
-              TextSettings.Font.Size = 22.000000000000000000
-              TextSettings.HorzAlign = Trailing
-              Text = 'Tipo'
-              TabOrder = 3
-            end
-            object CB_TIPO: TComboBox
-              Align = Client
-              Size.Width = 267.000000000000000000
-              Size.Height = 33.000000000000000000
-              Size.PlatformDefault = False
-              TabOrder = 2
-              object ListBoxItem1: TListBoxItem
-                TabOrder = 0
-                Text = 'Registrado'
-              end
-              object ListBoxItem2: TListBoxItem
-                TabOrder = 1
-                Text = 'Pendiente Informaci'#243'n'
-              end
-              object ListBoxItem3: TListBoxItem
-                TabOrder = 2
-                Text = 'Parado'
-              end
-              object ListBoxItem4: TListBoxItem
-                TabOrder = 3
-                Text = 'Trabajando'
-              end
-              object ListBoxItem5: TListBoxItem
-                TabOrder = 4
-                Text = 'Terminado'
-              end
-              object ListBoxItem6: TListBoxItem
-                TextSettings.Font.Size = 22.000000000000000000
-                StyledSettings = [Family, Style, FontColor, Other]
-                TabOrder = 5
-                Text = 'Cancelado'
-              end
-            end
-          end
-          object Layout9: TLayout
-            Position.X = 380.000000000000000000
-            Position.Y = 33.000000000000000000
-            Size.Width = 380.000000000000000000
-            Size.Height = 33.000000000000000000
-            Size.PlatformDefault = False
-            TabOrder = 3
-            object Asignado: TLabel
-              Align = Left
-              StyledSettings = [Family, Style, FontColor]
-              Margins.Right = 3.000000000000000000
-              Size.Width = 110.000000000000000000
-              Size.Height = 33.000000000000000000
-              Size.PlatformDefault = False
-              TextSettings.Font.Size = 22.000000000000000000
-              TextSettings.HorzAlign = Trailing
-              Text = 'Asignado'
-              TabOrder = 3
-            end
-            object CB_ASIGNADO: TComboBox
-              Align = Client
-              Size.Width = 267.000000000000000000
-              Size.Height = 33.000000000000000000
-              Size.PlatformDefault = False
-              TabOrder = 2
-            end
-          end
-          object FlowLayoutBreak1: TFlowLayoutBreak
-            ChangesRules = False
-            Justify = Left
-            JustifyLastLine = Left
-            FlowDirection = LeftToRight
-          end
-          object Layout1: TLayout
-            Position.Y = 66.000000000000000000
-            Size.Width = 380.000000000000000000
-            Size.Height = 33.000000000000000000
-            Size.PlatformDefault = False
-            TabOrder = 2
-            object Label6: TLabel
-              Align = Left
-              StyledSettings = [Family, Style, FontColor]
-              Margins.Right = 3.000000000000000000
-              Size.Width = 110.000000000000000000
-              Size.Height = 33.000000000000000000
-              Size.PlatformDefault = False
-              TextSettings.Font.Size = 22.000000000000000000
-              TextSettings.HorzAlign = Trailing
-              Text = 'Reportado'
-              TabOrder = 3
-            end
-            object CB_REPORTADO: TComboBox
-              Align = Client
-              Size.Width = 267.000000000000000000
-              Size.Height = 33.000000000000000000
-              Size.PlatformDefault = False
-              TabOrder = 2
-            end
-          end
-          object Layout3: TLayout
-            Position.X = 380.000000000000000000
-            Position.Y = 66.000000000000000000
-            Size.Width = 380.000000000000000000
-            Size.Height = 33.000000000000000000
-            Size.PlatformDefault = False
-            TabOrder = 1
-            object Label7: TLabel
-              Align = Left
-              StyledSettings = [Family, Style, FontColor]
-              Margins.Right = 3.000000000000000000
-              Size.Width = 110.000000000000000000
-              Size.Height = 33.000000000000000000
-              Size.PlatformDefault = False
-              TextSettings.Font.Size = 22.000000000000000000
-              TextSettings.HorzAlign = Trailing
-              Text = 'Proyecto'
-              TabOrder = 3
-            end
-            object CB_PROYECTOS: TComboBox
-              Align = Client
-              Size.Width = 267.000000000000000000
-              Size.Height = 33.000000000000000000
-              Size.PlatformDefault = False
-              TabOrder = 2
-            end
-          end
-          object Layout4: TLayout
-            Position.Y = 99.000000000000000000
-            Size.Width = 380.000000000000000000
-            Size.Height = 33.000000000000000000
-            Size.PlatformDefault = False
-            TabOrder = 0
-            object Label8: TLabel
-              Align = Left
-              StyledSettings = [Family, Style, FontColor]
-              Margins.Right = 3.000000000000000000
-              Size.Width = 110.000000000000000000
-              Size.Height = 33.000000000000000000
-              Size.PlatformDefault = False
-              TextSettings.Font.Size = 22.000000000000000000
-              TextSettings.HorzAlign = Trailing
-              Text = 'Prioridad'
-              TabOrder = 3
-            end
-            object CB_PRIORIDAD: TComboBox
-              Align = Client
-              Size.Width = 267.000000000000000000
-              Size.Height = 33.000000000000000000
-              Size.PlatformDefault = False
-              TabOrder = 2
-              object ListBoxItem13: TListBoxItem
-                TabOrder = 0
-                Text = 'Muy baja'
-              end
-              object ListBoxItem14: TListBoxItem
-                TabOrder = 1
-                Text = 'Baja'
-              end
-              object ListBoxItem15: TListBoxItem
-                TabOrder = 2
-                Text = 'Normal'
-              end
-              object ListBoxItem16: TListBoxItem
-                TabOrder = 3
-                Text = 'Alta'
-              end
-              object ListBoxItem17: TListBoxItem
-                TabOrder = 4
-                Text = 'Cr'#237'tica'
-              end
-            end
-          end
-        end
-        object LA_DESCRIPCION: TLayout
-          Align = Top
-          Position.Y = 185.000000000000000000
-          Size.Width = 890.000000000000000000
-          Size.Height = 208.000000000000000000
-          Size.PlatformDefault = False
-          TabOrder = 1
-          object Layout11: TLayout
-            Align = Left
-            Margins.Right = 3.000000000000000000
-            Size.Width = 111.000000000000000000
-            Size.Height = 208.000000000000000000
-            Size.PlatformDefault = False
-            TabOrder = 3
-            object Layout12: TLayout
-              Align = Top
-              Size.Width = 111.000000000000000000
-              Size.Height = 33.000000000000000000
-              Size.PlatformDefault = False
-              TabOrder = 4
-              object Label5: TLabel
-                Align = Top
-                StyledSettings = [Family, Style, FontColor]
-                Margins.Right = 3.000000000000000000
-                Size.Width = 108.000000000000000000
-                Size.Height = 33.000000000000000000
-                Size.PlatformDefault = False
-                TextSettings.Font.Size = 18.000000000000000000
-                TextSettings.HorzAlign = Trailing
-                Text = 'Descripci'#243'n'
-                TabOrder = 3
-              end
-            end
-          end
-          object ME_DESCRIPCION: TMemo
-            Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
-            DataDetectorTypes = []
-            MaxLength = 4000
-            StyledSettings = [Family, Style, FontColor]
-            TextSettings.Font.Size = 18.000000000000000000
-            Align = Client
-            Margins.Right = 10.000000000000000000
-            Size.Width = 766.000000000000000000
-            Size.Height = 208.000000000000000000
-            Size.PlatformDefault = False
-            TabOrder = 4
-            Viewport.Width = 762.000000000000000000
-            Viewport.Height = 204.000000000000000000
-          end
-        end
-      end
-    end
-    object TI_COMENTARIOS: TTabItem
-      CustomIcon = <
-        item
-        end>
-      IsSelected = False
-      Size.Width = 116.000000000000000000
-      Size.Height = 49.000000000000000000
-      Size.PlatformDefault = False
-      StyleLookup = ''
-      TabOrder = 0
-      Text = 'TI_COMENTARIOS'
-      ExplicitSize.cx = 69.000000000000000000
-      ExplicitSize.cy = 26.000000000000000000
-    end
-    object TI_HISTORICO: TTabItem
-      CustomIcon = <
-        item
-        end>
-      IsSelected = False
-      Size.Width = 68.000000000000000000
-      Size.Height = 49.000000000000000000
-      Size.PlatformDefault = False
-      StyleLookup = ''
-      TabOrder = 0
-      Text = 'Hist'#243'rico'
-      ExplicitSize.cx = 296.000000000000000000
-      ExplicitSize.cy = 49.000000000000000000
     end
   end
   object LA_PIE: TLayout
     Align = MostBottom
     Margins.Top = 8.000000000000000000
     Margins.Bottom = 10.000000000000000000
-    Position.Y = 467.000000000000000000
-    Size.Width = 890.000000000000000000
+    Position.Y = 420.000000000000000000
+    Size.Width = 640.000000000000000000
     Size.Height = 50.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 0
@@ -740,7 +281,6 @@ object fmTicket: TfmTicket
           Size.Width = 119.000000000000000000
           Size.Height = 46.000000000000000000
           Size.PlatformDefault = False
-          OnClick = SB_GRABAR_IMAGENClick
         end
       end
       object SB_CANCELAR: TSpeedButton
@@ -951,111 +491,27 @@ object fmTicket: TfmTicket
       end
     end
   end
-  object StyleBook1: TStyleBook
-    Styles = <
-      item
+  object Layout2: TLayout
+    Align = Client
+    Size.Width = 640.000000000000000000
+    Size.Height = 364.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 2
+    object Layout3: TLayout
+      Align = Top
+      Size.Width = 640.000000000000000000
+      Size.Height = 65.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 3
+      object ED_NAME: TEdit
+        Touch.InteractiveGestures = [LongTap, DoubleTap]
+        Align = Center
+        TabOrder = 3
+        MaxLength = 60
+        Size.Width = 560.000000000000000000
+        Size.Height = 33.000000000000000000
+        Size.PlatformDefault = False
       end
-      item
-        Platform = 'Windows 10 Desktop'
-        ResourcesBin = {
-          464D585F5354594C4520322E3501060B45646974325374796C653103960A0616
-          45646974325374796C65314C6162656C5374796C653103110100545046300754
-          4C61796F757400095374796C654E616D65060B45646974325374796C65310541
-          6C69676E070643656E7465720A53697A652E57696474680500000000000040C2
-          08400B53697A652E48656967687405000000000000008004401453697A652E50
-          6C6174666F726D44656661756C7408085461624F72646572020A001254416374
-          6976655374796C654F626A65637400095374796C654E616D65060A6261636B67
-          726F756E6405416C69676E0708436F6E74656E74730C536F757263654C6F6F6B
-          7570061B57696E646F7773203130204465736B746F707374796C652E706E670A
-          53697A652E57696474680500000000000040C208400B53697A652E4865696768
-          7405000000000000008004401453697A652E506C6174666F726D44656661756C
-          74080D416374697665547269676765720707466F63757365640A416374697665
-          4C696E6B0E010E436170496E736574732E4C6566740500000000000000E00140
-          0D436170496E736574732E546F700500000000000000E001400F436170496E73
-          6574732E52696768740500000000000000E0014010436170496E736574732E42
-          6F74746F6D0500000000000000E001400F536F75726365526563742E4C656674
-          05000000000000008507400E536F75726365526563742E546F70050000000000
-          0000A2054010536F75726365526563742E526967687405000000000000809807
-          4011536F75726365526563742E426F74746F6D0500000000000000DC05400001
-          0E436170496E736574732E4C6566740500000000000000A002400D436170496E
-          736574732E546F700500000000000000A002400F436170496E736574732E5269
-          6768740500000000000000A0024010436170496E736574732E426F74746F6D05
-          00000000000000A00240055363616C650500000000000000C0FF3F0F536F7572
-          6365526563742E4C6566740500000000000080C707400E536F75726365526563
-          742E546F700500000000000000F2054010536F75726365526563742E52696768
-          740500000000000080E4074011536F75726365526563742E426F74746F6D0500
-          000000000000A5064000010E436170496E736574732E4C656674050000000000
-          0000E002400D436170496E736574732E546F700500000000000000E002400F43
-          6170496E736574732E52696768740500000000000000E0024010436170496E73
-          6574732E426F74746F6D0500000000000000E00240055363616C650500000000
-          0000008000400F536F75726365526563742E4C65667405000000000000008508
-          400E536F75726365526563742E546F700500000000000000A2064010536F7572
-          6365526563742E5269676874050000000000008098084011536F757263655265
-          63742E426F74746F6D0500000000000000DC064000000A536F757263654C696E
-          6B0E010E436170496E736574732E4C6566740500000000000000E001400D4361
-          70496E736574732E546F700500000000000000E001400F436170496E73657473
-          2E52696768740500000000000000E0014010436170496E736574732E426F7474
-          6F6D0500000000000000E001400F536F75726365526563742E4C656674050000
-          0000000000E106400E536F75726365526563742E546F700500000000000000A2
-          054010536F75726365526563742E526967687405000000000000008407401153
-          6F75726365526563742E426F74746F6D0500000000000000DC054000010E4361
-          70496E736574732E4C6566740500000000000000A002400D436170496E736574
-          732E546F700500000000000000A002400F436170496E736574732E5269676874
-          0500000000000000A0024010436170496E736574732E426F74746F6D05000000
-          00000000A00240055363616C650500000000000000C0FF3F0F536F7572636552
-          6563742E4C6566740500000000000080A807400E536F75726365526563742E54
-          6F700500000000000000F2054010536F75726365526563742E52696768740500
-          000000000000C6074011536F75726365526563742E426F74746F6D0500000000
-          000000A5064000010E436170496E736574732E4C6566740500000000000000E0
-          02400D436170496E736574732E546F700500000000000000E002400F43617049
-          6E736574732E52696768740500000000000000E0024010436170496E73657473
-          2E426F74746F6D0500000000000000E00240055363616C650500000000000000
-          8000400F536F75726365526563742E4C6566740500000000000000E107400E53
-          6F75726365526563742E546F700500000000000000A2064010536F7572636552
-          6563742E5269676874050000000000000084084011536F75726365526563742E
-          426F74746F6D0500000000000000DC0640000013546F756368416E696D617469
-          6F6E2E4C696E6B0E00000007544C61796F757400095374796C654E616D650607
-          636F6E74656E7405416C69676E0706436C69656E74064C6F636B6564090C4D61
-          7267696E732E4C6566740500000000000000C000400B4D617267696E732E546F
-          700500000000000000C000400D4D617267696E732E5269676874050000000000
-          0000C000400E4D617267696E732E426F74746F6D0500000000000000C000400A
-          53697A652E576964746805000000000000C0B308400B53697A652E4865696768
-          740500000000000000D003401453697A652E506C6174666F726D44656661756C
-          7408000A5452656374616E676C6500095374796C654E616D65060A5265637461
-          6E676C653305416C69676E0706436C69656E740A46696C6C2E436F6C6F72070C
-          636C61416C696365626C75650748697454657374080C4D617267696E732E4C65
-          66740500000000000000C000C00B4D617267696E732E546F7005000000000000
-          00C000C00D4D617267696E732E52696768740500000000000000C000C00E4D61
-          7267696E732E426F74746F6D0500000000000000C000C00A53697A652E576964
-          74680500000000000040B508400B53697A652E48656967687405000000000000
-          008004401453697A652E506C6174666F726D44656661756C740800000007544C
-          61796F757400095374796C654E616D650607627574746F6E7305416C69676E07
-          055269676874064C6F636B6564090B4D617267696E732E546F70050000000000
-          00008000400D4D617267696E732E526967687405000000000000008000400E4D
-          617267696E732E426F74746F6D05000000000000008000400A506F736974696F
-          6E2E580500000000000040B508400A506F736974696F6E2E5905000000000000
-          008000400A53697A652E57696474680500000000000000C804400B53697A652E
-          4865696768740500000000000000E003401453697A652E506C6174666F726D44
-          656661756C740800000C5442727573684F626A65637400095374796C654E616D
-          65060A666F726567726F756E640B42727573682E436F6C6F720708636C61426C
-          61636B00000C5442727573684F626A65637400095374796C654E616D65060973
-          656C656374696F6E0B42727573682E436F6C6F72070978374632413936464600
-          000B54466F6E744F626A65637400095374796C654E616D650604666F6E740000
-          06544C6162656C00095374796C654E616D65060670726F6D707405416C69676E
-          0703466974064C6F636B656409074F706163697479050000000000000080FE3F
-          0B5374796C654C6F6F6B7570061645646974325374796C65314C6162656C5374
-          796C65310756697369626C65080000005450463007544C61796F757400095374
-          796C654E616D65061645646974325374796C65314C6162656C5374796C653105
-          416C69676E070643656E7465720A53697A652E57696474680500000000000040
-          C208400B53697A652E48656967687405000000000000008004401453697A652E
-          506C6174666F726D44656661756C74080756697369626C6508085461624F7264
-          657202030005545465787400095374796C654E616D6506047465787405416C69
-          676E0706436C69656E74064C6F636B6564090748697454657374080A53697A65
-          2E57696474680500000000000040C208400B53697A652E486569676874050000
-          00000000008004401453697A652E506C6174666F726D44656661756C74080000
-          00}
-      end>
-    Left = 40
-    Top = 480
+    end
   end
 end

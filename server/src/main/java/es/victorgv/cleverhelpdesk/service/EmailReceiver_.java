@@ -18,11 +18,9 @@ import javax.mail.internet.MimeMessage;
 @Service
 public class EmailReceiver_ {
 
-    @Autowired
-    UserService user_ser;
+    @Autowired UserService user_ser;
 
-    @Autowired
-    ITicket ticket_repo;
+    @Autowired ITicket ticket_repo;
 
     public EmailReceiver_(DirectChannel emailDirectChannel) {
         // Nos suscribimos al canal y llamará asincronamente al handleMessage cada vez que entre un email nuevo

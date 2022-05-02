@@ -15,7 +15,6 @@ public class TicketController {
 
     @PostMapping("/")
     public Ticket createTicket(@RequestBody Ticket newTicket) {
-        System.out.println(newTicket.getSubject());
         return ticketService.createTicket(newTicket);
     }
 }

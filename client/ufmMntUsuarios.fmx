@@ -1,0 +1,55 @@
+object fmMntUsuarios: TfmMntUsuarios
+  Left = 0
+  Top = 0
+  Caption = 'Gesti'#243'n de Usuarios'
+  ClientHeight = 480
+  ClientWidth = 640
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnClose = FormClose
+  DesignerMasterStyle = 0
+  object tb_main: TToolBar
+    Size.Width = 640.000000000000000000
+    Size.Height = 48.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    object Layout1: TLayout
+      Align = Client
+      Size.Width = 640.000000000000000000
+      Size.Height = 48.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      object TITULO_VENTANA: TText
+        Align = Client
+        Size.Width = 640.000000000000000000
+        Size.Height = 48.000000000000000000
+        Size.PlatformDefault = False
+        Text = 'Gesti'#243'n Usuarios'
+        TextSettings.Font.Size = 22.000000000000000000
+        TextSettings.Font.StyleExt = {00070000000000000004000000}
+        TextSettings.FontColor = claLightslategray
+        object BT_CREA_NUEVO: TButton
+          Align = Right
+          Position.X = 544.000000000000000000
+          Size.Width = 56.000000000000000000
+          Size.Height = 48.000000000000000000
+          Size.PlatformDefault = False
+          StyleLookup = 'additembutton'
+          TabOrder = 1
+          Text = 'BT_CREA_NUEVO'
+        end
+        object BT_BACK: TButton
+          Align = MostRight
+          Position.X = 600.000000000000000000
+          Size.Width = 40.000000000000000000
+          Size.Height = 48.000000000000000000
+          Size.PlatformDefault = False
+          StyleLookup = 'backtoolbutton'
+          TabOrder = 0
+          OnClick = BT_BACKClick
+        end
+      end
+    end
+  end
+end

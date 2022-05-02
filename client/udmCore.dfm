@@ -70,6 +70,7 @@ object dmCore: TdmCore
     object AC_HardwareBack: TAction
       Text = 'AC_HardwareBack'
       ShortCut = 137
+      OnExecute = AC_HardwareBackExecute
     end
   end
 end
