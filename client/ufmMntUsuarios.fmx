@@ -3,35 +3,38 @@ object fmMntUsuarios: TfmMntUsuarios
   Top = 0
   Caption = 'Gesti'#243'n de Usuarios'
   ClientHeight = 480
-  ClientWidth = 640
+  ClientWidth = 439
   FormFactor.Width = 320
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
+  OnCreate = FormCreate
   OnClose = FormClose
   DesignerMasterStyle = 0
   object tb_main: TToolBar
-    Size.Width = 640.000000000000000000
+    Size.Width = 439.000000000000000000
     Size.Height = 48.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 0
     object Layout1: TLayout
       Align = Client
-      Size.Width = 640.000000000000000000
+      Size.Width = 439.000000000000000000
       Size.Height = 48.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 0
       object TITULO_VENTANA: TText
         Align = Client
-        Size.Width = 640.000000000000000000
+        Margins.Left = 5.000000000000000000
+        Size.Width = 434.000000000000000000
         Size.Height = 48.000000000000000000
         Size.PlatformDefault = False
         Text = 'Gesti'#243'n Usuarios'
         TextSettings.Font.Size = 22.000000000000000000
         TextSettings.Font.StyleExt = {00070000000000000004000000}
         TextSettings.FontColor = claLightslategray
+        TextSettings.HorzAlign = Leading
         object BT_CREA_NUEVO: TButton
           Align = Right
-          Position.X = 544.000000000000000000
+          Position.X = 338.000000000000000000
           Size.Width = 56.000000000000000000
           Size.Height = 48.000000000000000000
           Size.PlatformDefault = False
@@ -41,7 +44,7 @@ object fmMntUsuarios: TfmMntUsuarios
         end
         object BT_BACK: TButton
           Align = MostRight
-          Position.X = 600.000000000000000000
+          Position.X = 394.000000000000000000
           Size.Width = 40.000000000000000000
           Size.Height = 48.000000000000000000
           Size.PlatformDefault = False
@@ -51,5 +54,76 @@ object fmMntUsuarios: TfmMntUsuarios
         end
       end
     end
+  end
+  object LV_USUARIOS: TListView
+    ItemAppearanceClassName = 'TDynamicAppearance'
+    ItemEditAppearanceClassName = 'TDynamicAppearance'
+    HeaderAppearanceClassName = 'TListHeaderObjects'
+    FooterAppearanceClassName = 'TListHeaderObjects'
+    Align = Client
+    Size.Width = 439.000000000000000000
+    Size.Height = 432.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    ItemAppearance.ItemHeight = 55
+    ItemAppearanceObjects.ItemObjects.ObjectsCollection = <
+      item
+        AppearanceObjectName = 'name'
+        AppearanceClassName = 'TTextObjectAppearance'
+        Appearance.Font.Size = 20.000000000000000000
+        Appearance.Font.StyleExt = {00070000000000000004000000}
+        Appearance.TextAlign = Leading
+        Appearance.TextColor = claDarkslategray
+        Appearance.Width = 361.000000000000000000
+        Appearance.Height = 25.000000000000000000
+        Appearance.PlaceOffset.X = 6.000000000000000000
+        Appearance.PlaceOffset.Y = 4.000000000000000000
+      end
+      item
+        AppearanceObjectName = 'userName'
+        AppearanceClassName = 'TTextObjectAppearance'
+        Appearance.Font.Size = 16.000000000000000000
+        Appearance.TextAlign = Leading
+        Appearance.Width = 94.000000000000000000
+        Appearance.Height = 20.000000000000000000
+        Appearance.PlaceOffset.X = 6.000000000000000000
+        Appearance.PlaceOffset.Y = 29.000000000000000000
+      end
+      item
+        AppearanceObjectName = 'Accessory3'
+        AppearanceClassName = 'TAccessoryObjectAppearance'
+        Appearance.Width = 49.000000000000000000
+        Appearance.Height = 44.000000000000000000
+        Appearance.PlaceOffset.X = 362.000000000000000000
+        Appearance.PlaceOffset.Y = 4.000000000000000000
+      end
+      item
+        AppearanceObjectName = 'email'
+        AppearanceClassName = 'TTextObjectAppearance'
+        Appearance.Font.Size = 16.000000000000000000
+        Appearance.TextAlign = Leading
+        Appearance.Width = 202.000000000000000000
+        Appearance.Height = 20.000000000000000000
+        Appearance.PlaceOffset.X = 100.000000000000000000
+        Appearance.PlaceOffset.Y = 29.000000000000000000
+      end
+      item
+        AppearanceObjectName = 'role'
+        AppearanceClassName = 'TTextObjectAppearance'
+        Appearance.Font.Size = 16.000000000000000000
+        Appearance.TextAlign = Leading
+        Appearance.Width = 65.000000000000000000
+        Appearance.Height = 20.000000000000000000
+        Appearance.PlaceOffset.X = 302.000000000000000000
+        Appearance.PlaceOffset.Y = 29.000000000000000000
+      end>
+    ItemAppearanceObjects.ItemEditObjects.ObjectsCollection = <
+      item
+        AppearanceObjectName = 'Text1'
+        AppearanceClassName = 'TTextObjectAppearance'
+      end>
+    ItemAppearanceObjects.FooterObjects.Text.Width = 486.000000000000000000
+    ItemAppearanceObjects.FooterObjects.Text.Height = -64.000000000000000000
+    OnItemClick = LV_USUARIOSItemClick
   end
 end

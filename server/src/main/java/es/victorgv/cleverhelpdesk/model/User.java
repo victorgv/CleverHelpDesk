@@ -1,6 +1,7 @@
 package es.victorgv.cleverhelpdesk.model;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
@@ -27,6 +28,18 @@ public class User {
     @ManyToOne(optional = false)
     @JoinColumn(name = "role_code", foreignKey = @ForeignKey(name="user_role_fk"))
     private Role role;
+
+    private LocalDate deletedDate;
+
+    public LocalDate getDeletedDate() {
+        return deletedDate;
+    }
+
+    public void setDeletedDate(LocalDate deletedDate) {
+        this.deletedDate = deletedDate;
+    }
+
+
 
     public Long getUserId() {
         return userId;
@@ -92,11 +105,12 @@ public class User {
     public User() {
     }
 
-    public User(String userName, String name, String email, String password, Role role) {
+    public User(String userName, String name, String email, String password, Role role, LocalDate DeletedDate) {
         this.userName = userName;
         this.name = name;
         this.email = email;
         this.password = password;
         this.role = role;
+        this.deletedDate = DeletedDate;
     }
 }

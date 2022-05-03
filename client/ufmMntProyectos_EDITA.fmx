@@ -22,13 +22,15 @@ object fmMntProyectos_EDITA: TfmMntProyectos_EDITA
       TabOrder = 0
       object TITULO_VENTANA: TText
         Align = Client
-        Size.Width = 640.000000000000000000
+        Margins.Left = 5.000000000000000000
+        Size.Width = 635.000000000000000000
         Size.Height = 48.000000000000000000
         Size.PlatformDefault = False
         Text = 'Introduce el nombre de Proyecto'
         TextSettings.Font.Size = 22.000000000000000000
         TextSettings.Font.StyleExt = {00070000000000000004000000}
         TextSettings.FontColor = claLightslategray
+        TextSettings.HorzAlign = Leading
       end
     end
   end
@@ -508,7 +510,7 @@ object fmMntProyectos_EDITA: TfmMntProyectos_EDITA
         Align = Center
         TabOrder = 3
         MaxLength = 60
-        Size.Width = 560.000000000000000000
+        Size.Width = 376.000000000000000000
         Size.Height = 33.000000000000000000
         Size.PlatformDefault = False
       end

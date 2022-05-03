@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 
 @Service
 @Transactional
@@ -31,6 +33,10 @@ public class UserService {
         return user_rep.findByUserName(userName);
     }
 
+    public User findByUserId(Long userId) {
+        return user_rep.findByUserId(userId);
+    }
+
     public boolean existsByUserName(String userName) {
         return user_rep.existsByUserName(userName);
     }
@@ -42,5 +48,6 @@ public class UserService {
     public void save(User user) {
         user_rep.save(user);
     }
+
 
 }

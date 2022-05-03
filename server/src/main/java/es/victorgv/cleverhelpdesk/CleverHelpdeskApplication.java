@@ -54,7 +54,7 @@ public class CleverHelpdeskApplication {
 
 			// Crea el usuario administrador (solo si no existía)
 			if (!user_rep.existsByUserName("ADMIN"))
-				user_rep.save(new User("ADMIN","Pepe Administrador","admin@admin.es",passwordEncoder.encode("admin"), role_rep.findById("ADMIN").orElse(null)));
+				user_rep.save(new User("ADMIN","Pepe Administrador","admin@admin.es",passwordEncoder.encode("admin"), role_rep.findById("ADMIN").orElse(null), null));
 		};
 	}
 

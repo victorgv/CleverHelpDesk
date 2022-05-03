@@ -14,7 +14,7 @@ type
     Layout1: TLayout;
     bt_open_multiview: TButton;
     bt_doBack: TButton;
-    ÿ: TMultiView;
+    MV_MAIN: TMultiView;
     ly_header: TLayout;
     ly_body: TLayout;
     BT_Control_Panel: TButton;

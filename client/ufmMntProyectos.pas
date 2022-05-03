@@ -19,17 +19,16 @@ type
     TITULO_VENTANA: TText;
     BT_CREA_NUEVO: TButton;
     BT_BACK: TButton;
-    ListView1: TListView;
+    LV_PROYECTOS: TListView;
     procedure BT_BACKClick(Sender: TObject);
     procedure BT_CREA_NUEVOClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure ListView1ItemClick(const Sender: TObject;
+    procedure LV_PROYECTOSItemClick(const Sender: TObject;
       const AItem: TListViewItem);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
     procedure formInsercionEdicion(item: TListViewItem);
-
   public
     { Public declarations }
   end;
@@ -54,20 +53,19 @@ begin
   formInsercionEdicion(nil);
 end;
 
+// Determinará si es modificación porque el paármetro "item" vendrá instnaciado, si es inseción será NIL
 procedure TfmMntProyectos.formInsercionEdicion(item: TListViewItem);
 var
   proyecto: TfmMntProyectos_EDITA;
   vModalResult: TModalResult;
 begin
   proyecto := TfmMntProyectos_EDITA.Create(item);
-
-
-  // Show your dialog box and provide an anonymous method that handles the closing of your dialog box.
+  // Muestra el formulario y provee un bloque anónimo que se lanzará a modo "callback" cuando el formulario se cierre
   proyecto.ShowModal(
     procedure(ModalResult: TModalResult)
     begin
         if (ModalResult = mrOK) AND (NOT Assigned(item)) then // Añade el registro nuevo creado
-          with ListView1.items.Add do begin
+          with LV_PROYECTOS.items.Add do begin
             Text := proyecto.ED_NAME.Text;
             Tag := proyecto.ProjectID;
           end;
@@ -88,14 +86,14 @@ begin
   JsonArray := resultado as TJsonArray;
   // Recorre el array y rellena combos ASIGNADO y REPORTADO
   for elementoJSON in JsonArray do begin
-    with ListView1.items.Add do begin
+    with LV_PROYECTOS.items.Add do begin
       Text := elementoJSON.GetValue<String>('name');
       Tag := elementoJSON.GetValue<integer>('projectId');
     end;
   end;
 end;
 
-procedure TfmMntProyectos.ListView1ItemClick(const Sender: TObject; const AItem: TListViewItem);
+procedure TfmMntProyectos.LV_PROYECTOSItemClick(const Sender: TObject; const AItem: TListViewItem);
 begin
   formInsercionEdicion(AItem);
 end;

@@ -456,8 +456,8 @@ object fmTicket: TfmTicket
             Size.Height = 208.000000000000000000
             Size.PlatformDefault = False
             TabOrder = 4
-            Viewport.Width = 762.000000000000000000
-            Viewport.Height = 204.000000000000000000
+            Viewport.Width = 766.000000000000000000
+            Viewport.Height = 208.000000000000000000
           end
         end
       end

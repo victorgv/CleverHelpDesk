@@ -1,4 +1,4 @@
-﻿object fmMain: TfmMain
+object fmMain: TfmMain
   Left = 0
   Top = 0
   Caption = 'CleverHelpDesk'
@@ -57,14 +57,13 @@
     Left = 513
     Top = 16
   end
-  object ÿ: TMultiView
+  object MV_MAIN: TMultiView
     MasterButton = bt_open_multiview
     Mode = Drawer
     NavigationPaneOptions.CollapsedWidth = 250.000000000000000000
     Size.Width = 377.000000000000000000
     Size.Height = 432.000000000000000000
     Size.PlatformDefault = False
-    Visible = False
     TabOrder = 1
     object ly_header: TLayout
       Align = MostTop
@@ -1447,16 +1446,16 @@
       end
     end
     object ly_foot: TLayout
-      Align = Bottom
-      Position.Y = 367.000000000000000000
+      Align = MostBottom
+      Position.Y = 366.000000000000000000
       Size.Width = 377.000000000000000000
-      Size.Height = 65.000000000000000000
+      Size.Height = 66.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 1
       object bt_exit: TButton
         Align = Left
         Size.Width = 48.000000000000000000
-        Size.Height = 65.000000000000000000
+        Size.Height = 66.000000000000000000
         Size.PlatformDefault = False
         StyleLookup = 'escapetoolbutton'
         TabOrder = 0

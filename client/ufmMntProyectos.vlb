@@ -1,8 +1,4 @@
-﻿[ListView1]
-Coordinates=10,10,89,141
-Visible=True
-
-[TITULO_VENTANA]
+﻿[TITULO_VENTANA]
 Coordinates=363,10,107,51
 
 [tb_main]
@@ -22,4 +18,8 @@ Coordinates=145,188,59,33
 
 []
 Coordinates=136,109,82,33
+
+[LV_PROYECTOS]
+Coordinates=10,10,89,141
+Visible=True
 

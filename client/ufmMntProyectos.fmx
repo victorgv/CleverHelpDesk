@@ -29,16 +29,18 @@ object fmMntProyectos: TfmMntProyectos
         TabOrder = 0
         object TITULO_VENTANA: TText
           Align = Client
-          Size.Width = 640.000000000000000000
+          Margins.Left = 5.000000000000000000
+          Size.Width = 635.000000000000000000
           Size.Height = 48.000000000000000000
           Size.PlatformDefault = False
           Text = 'Mantenimiento de Proyectos'
           TextSettings.Font.Size = 22.000000000000000000
           TextSettings.Font.StyleExt = {00070000000000000004000000}
           TextSettings.FontColor = claLightslategray
+          TextSettings.HorzAlign = Leading
           object BT_CREA_NUEVO: TButton
             Align = Right
-            Position.X = 544.000000000000000000
+            Position.X = 539.000000000000000000
             Size.Width = 56.000000000000000000
             Size.Height = 48.000000000000000000
             Size.PlatformDefault = False
@@ -49,7 +51,7 @@ object fmMntProyectos: TfmMntProyectos
           end
           object BT_BACK: TButton
             Align = MostRight
-            Position.X = 600.000000000000000000
+            Position.X = 595.000000000000000000
             Size.Width = 40.000000000000000000
             Size.Height = 48.000000000000000000
             Size.PlatformDefault = False
@@ -60,7 +62,7 @@ object fmMntProyectos: TfmMntProyectos
         end
       end
     end
-    object ListView1: TListView
+    object LV_PROYECTOS: TListView
       ItemAppearanceClassName = 'TListItemAppearance'
       ItemEditAppearanceClassName = 'TListItemShowCheckAppearance'
       HeaderAppearanceClassName = 'TListHeaderObjects'
@@ -70,7 +72,7 @@ object fmMntProyectos: TfmMntProyectos
       Size.Height = 432.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 1
-      OnItemClick = ListView1ItemClick
+      OnItemClick = LV_PROYECTOSItemClick
     end
   end
 end

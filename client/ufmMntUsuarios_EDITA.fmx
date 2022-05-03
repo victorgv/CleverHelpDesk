@@ -1,7 +1,7 @@
 object fmMntUsuarios_EDITA: TfmMntUsuarios_EDITA
   Left = 0
   Top = 0
-  Caption = 'Form2'
+  Caption = 'Gesti'#243'n usuario'
   ClientHeight = 480
   ClientWidth = 640
   FormFactor.Width = 320
@@ -22,26 +22,18 @@ object fmMntUsuarios_EDITA: TfmMntUsuarios_EDITA
       TabOrder = 0
       object TITULO_VENTANA: TText
         Align = Client
-        Size.Width = 640.000000000000000000
+        Margins.Left = 5.000000000000000000
+        Size.Width = 635.000000000000000000
         Size.Height = 48.000000000000000000
         Size.PlatformDefault = False
         Text = 'Introduce la informaci'#243'n del Usuario'
         TextSettings.Font.Size = 22.000000000000000000
         TextSettings.Font.StyleExt = {00070000000000000004000000}
         TextSettings.FontColor = claLightslategray
-        object BT_CREA_NUEVO: TButton
-          Align = Right
-          Position.X = 544.000000000000000000
-          Size.Width = 56.000000000000000000
-          Size.Height = 48.000000000000000000
-          Size.PlatformDefault = False
-          StyleLookup = 'additembutton'
-          TabOrder = 1
-          Text = 'BT_CREA_NUEVO'
-        end
+        TextSettings.HorzAlign = Leading
         object BT_BACK: TButton
           Align = MostRight
-          Position.X = 600.000000000000000000
+          Position.X = 595.000000000000000000
           Size.Width = 40.000000000000000000
           Size.Height = 48.000000000000000000
           Size.PlatformDefault = False
@@ -307,6 +299,7 @@ object fmMntUsuarios_EDITA: TfmMntUsuarios_EDITA
         Size.Width = 125.000000000000000000
         Size.Height = 50.000000000000000000
         Size.PlatformDefault = False
+        OnClick = SB_CANCELARClick
         object SB_CANCELAR_IMAGEN: TImage
           MultiResBitmap.Height = 33
           MultiResBitmap.Width = 33
@@ -514,5 +507,238 @@ object fmMntUsuarios_EDITA: TfmMntUsuarios_EDITA
     Size.Height = 364.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 2
+    object Layout3: TLayout
+      Align = Client
+      Size.Width = 640.000000000000000000
+      Size.Height = 364.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      object FlowLayout1: TFlowLayout
+        Align = Center
+        Size.Width = 354.000000000000000000
+        Size.Height = 321.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 0
+        Justify = Left
+        JustifyLastLine = Left
+        FlowDirection = LeftToRight
+        object Layout7: TLayout
+          Size.Width = 338.000000000000000000
+          Size.Height = 33.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 11
+          object Label3: TLabel
+            Align = Left
+            StyledSettings = [Family, Style, FontColor]
+            Margins.Right = 3.000000000000000000
+            Size.Width = 113.000000000000000000
+            Size.Height = 33.000000000000000000
+            Size.PlatformDefault = False
+            TextSettings.Font.Size = 22.000000000000000000
+            TextSettings.HorzAlign = Trailing
+            Text = 'ID'
+            TabOrder = 3
+          end
+          object ED_ID: TEdit
+            Touch.InteractiveGestures = [LongTap, DoubleTap]
+            Align = Client
+            TabOrder = 6
+            TextSettings.Font.Size = 18.000000000000000000
+            Enabled = False
+            Size.Width = 222.000000000000000000
+            Size.Height = 33.000000000000000000
+            Size.PlatformDefault = False
+            StyledSettings = [Family, Style, FontColor]
+          end
+        end
+        object Layout5: TLayout
+          Position.Y = 33.000000000000000000
+          Size.Width = 338.000000000000000000
+          Size.Height = 33.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 10
+          object Label2: TLabel
+            Align = Left
+            StyledSettings = [Family, Style, FontColor]
+            Margins.Right = 3.000000000000000000
+            Size.Width = 113.000000000000000000
+            Size.Height = 33.000000000000000000
+            Size.PlatformDefault = False
+            TextSettings.Font.Size = 22.000000000000000000
+            TextSettings.HorzAlign = Trailing
+            Text = 'Nombre'
+            TabOrder = 3
+          end
+          object ED_NOMBRE: TEdit
+            Touch.InteractiveGestures = [LongTap, DoubleTap]
+            Align = Client
+            TabOrder = 6
+            MaxLength = 60
+            TextSettings.Font.Size = 18.000000000000000000
+            Size.Width = 222.000000000000000000
+            Size.Height = 33.000000000000000000
+            Size.PlatformDefault = False
+            StyledSettings = [Family, Style, FontColor]
+          end
+        end
+        object Layout6: TLayout
+          Position.Y = 66.000000000000000000
+          Size.Width = 338.000000000000000000
+          Size.Height = 33.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 9
+          object Label5: TLabel
+            Align = Left
+            StyledSettings = [Family, Style, FontColor]
+            Margins.Right = 3.000000000000000000
+            Size.Width = 113.000000000000000000
+            Size.Height = 33.000000000000000000
+            Size.PlatformDefault = False
+            TextSettings.Font.Size = 22.000000000000000000
+            TextSettings.HorzAlign = Trailing
+            Text = 'Email'
+            TabOrder = 3
+          end
+          object ED_EMAIL: TEdit
+            Touch.InteractiveGestures = [LongTap, DoubleTap]
+            Align = Client
+            TabOrder = 6
+            MaxLength = 100
+            TextSettings.Font.Size = 18.000000000000000000
+            Size.Width = 222.000000000000000000
+            Size.Height = 33.000000000000000000
+            Size.PlatformDefault = False
+            StyledSettings = [Family, Style, FontColor]
+          end
+        end
+        object Layout8: TLayout
+          Position.Y = 99.000000000000000000
+          Size.Width = 338.000000000000000000
+          Size.Height = 33.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 7
+          object Label4: TLabel
+            Align = Left
+            StyledSettings = [Family, Style, FontColor]
+            Margins.Right = 3.000000000000000000
+            Size.Width = 113.000000000000000000
+            Size.Height = 33.000000000000000000
+            Size.PlatformDefault = False
+            TextSettings.Font.Size = 22.000000000000000000
+            TextSettings.HorzAlign = Trailing
+            Text = 'Usuario'
+            TabOrder = 3
+          end
+          object ED_USUARIO: TEdit
+            Touch.InteractiveGestures = [LongTap, DoubleTap]
+            Align = Client
+            TabOrder = 6
+            MaxLength = 25
+            TextSettings.Font.Size = 18.000000000000000000
+            Size.Width = 222.000000000000000000
+            Size.Height = 33.000000000000000000
+            Size.PlatformDefault = False
+            StyledSettings = [Family, Style, FontColor]
+          end
+        end
+        object Label7: TLabel
+          Align = Left
+          StyledSettings = [Family, Style, FontColor]
+          Margins.Right = 3.000000000000000000
+          Position.Y = 132.000000000000000000
+          Size.Width = 113.000000000000000000
+          Size.Height = 33.000000000000000000
+          Size.PlatformDefault = False
+          TextSettings.Font.Size = 22.000000000000000000
+          TextSettings.HorzAlign = Trailing
+          Text = 'Password'
+          TabOrder = 3
+        end
+        object ED_PASSWORD: TEdit
+          Touch.InteractiveGestures = [LongTap, DoubleTap]
+          Align = Client
+          TabOrder = 8
+          Password = True
+          MaxLength = 25
+          Text = 'no modificado'
+          TextSettings.Font.Size = 18.000000000000000000
+          Size.Width = 222.000000000000000000
+          Size.Height = 33.000000000000000000
+          Size.PlatformDefault = False
+          StyledSettings = [Family, Style, FontColor]
+        end
+        object Layout9: TLayout
+          Position.Y = 165.000000000000000000
+          Size.Width = 338.000000000000000000
+          Size.Height = 33.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 6
+          object Label6: TLabel
+            Align = Left
+            StyledSettings = [Family, Style, FontColor]
+            Margins.Right = 3.000000000000000000
+            Size.Width = 113.000000000000000000
+            Size.Height = 33.000000000000000000
+            Size.PlatformDefault = False
+            TextSettings.Font.Size = 22.000000000000000000
+            TextSettings.HorzAlign = Trailing
+            Text = 'Perfil'
+            TabOrder = 3
+          end
+          object CB_PERFIL: TComboBox
+            Align = Client
+            Size.Width = 222.000000000000000000
+            Size.Height = 33.000000000000000000
+            Size.PlatformDefault = False
+            TabOrder = 2
+            object ListBoxItem1: TListBoxItem
+              TabOrder = 0
+              Text = 'ADMIN'
+            end
+            object ListBoxItem2: TListBoxItem
+              TabOrder = 1
+              Text = 'AGENT'
+            end
+            object ListBoxItem3: TListBoxItem
+              TabOrder = 2
+              Text = 'USER'
+            end
+          end
+        end
+        object Layout4: TLayout
+          Position.Y = 198.000000000000000000
+          Size.Width = 241.000000000000000000
+          Size.Height = 33.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 5
+          object Label1: TLabel
+            Align = Left
+            StyledSettings = [Family, Style, FontColor]
+            Margins.Right = 3.000000000000000000
+            Size.Width = 113.000000000000000000
+            Size.Height = 33.000000000000000000
+            Size.PlatformDefault = False
+            TextSettings.Font.Size = 22.000000000000000000
+            TextSettings.HorzAlign = Trailing
+            Text = 'Baja'
+            TabOrder = 3
+          end
+          object ED_BAJA: TDateEdit
+            Date = 44681.000000000000000000
+            Format = 'dd/mm/yyyy'
+            IsEmpty = True
+            Align = Client
+            Enabled = False
+            Size.Width = 125.000000000000000000
+            Size.Height = 33.000000000000000000
+            Size.PlatformDefault = False
+            StyledSettings = [Family, Style, FontColor]
+            TabOrder = 6
+            TextSettings.Font.Size = 18.000000000000000000
+            TextSettings.HorzAlign = Center
+          end
+        end
+      end
+    end
   end
 end

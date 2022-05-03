@@ -54,8 +54,14 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
+    @GetMapping("/id/{userId}")
+    public ResponseEntity<?> findByUsername(@PathVariable("userId") Long id) {
+        User user = userService.findByUserId(id);
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
     @GetMapping("/")
     public List<User> findAll() {
-        return userService.getUser_rep().findAll();
+        return userService.getUser_rep().findAll(); //  findAllAndDeletedDateIsNull();
     }
 }

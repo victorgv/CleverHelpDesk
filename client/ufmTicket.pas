@@ -243,9 +243,6 @@ end;
 procedure TfmTicket.ValidateFields;
 begin
 
-
-
-
 end;
 
 // Método que hace la grabación
