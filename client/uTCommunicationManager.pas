@@ -4,7 +4,27 @@ interface
 
 uses
   REST.Client,
-  System.JSON, FMX.Dialogs;
+  System.JSON,
+  FMX.Dialogs,
+  System.UITypes,
+   System.SysUtils;
+
+type
+  TExceptionServer = class(TObject)
+  private
+    fError: String;
+    fMessage: String;
+    fCode: Integer;
+  public
+    constructor create(const pError, pMessage: String; pCode: Integer);
+
+    property error: String read fError;
+    property message: String read fMessage;
+    property code: Integer read fCode;
+
+    // Muestra un mensaje por pantalla
+    procedure ShowMessage;
+  end;
 
 
 type
@@ -37,6 +57,8 @@ Type
     fRESTResponse: TRESTResponse;
     //
     procedure AddJWT_TokenToHeader;
+    procedure DoExecuteAndHandleExceptions;
+    procedure ShowErrorMessage(e: Exception);
   public
     property ClientSession: TClientSession read fClientSession;
     //
@@ -52,10 +74,12 @@ Type
 
 implementation
 
-uses uConstant, System.SysUtils, REST.Types;
+uses uConstant,
+     REST.Types,
+     udmCore;
 
 { TCommunicationManager }
-
+// Inicializaciones de la clase
 constructor TCommunicationManager.create;
 begin
   inherited;
@@ -63,11 +87,11 @@ begin
   fRESTClient := TRESTClient.Create(c_URL_REST_SERVER);
   fRESTRequest := TRESTRequest.Create(nil);
   fRESTResponse := TRESTResponse.Create(nil);
-
   fRESTRequest.Client := fRESTClient;
   fRESTRequest.Response := fRESTResponse;
 end;
 
+// Libera recursos
 destructor TCommunicationManager.destroy;
 begin
   freeAndNil(fClientSession);
@@ -89,6 +113,45 @@ begin
    );
 end;
 
+// Lanza el request contra el sevidor de forma controlada, si se produce algún error lo gestiona
+procedure TCommunicationManager.DoExecuteAndHandleExceptions;
+begin
+  try
+    fRESTRequest.Execute;
+  except
+    on e: ERestException do
+      ShowErrorMessage(e);
+    on e: Exception do
+      ShowErrorMessage(e);
+  end;
+end;
+
+procedure TCommunicationManager.ShowErrorMessage(e: Exception);
+begin
+  if Assigned(fRESTResponse.JSONValue)  then
+  begin
+    // Errores que se gestionan fuera de este método
+    if fRESTResponse.JSONValue.GetValue<String>('error') = 'BadCredentialsException' then
+    begin
+      // No hace nada, sigue el flujo del programa. Más adelante se capturará (seguramente en función del fRESTResponse.StatusCode como se tiene que actuar)
+    end
+    else
+    begin // Se trata aquí
+      ShowMessage('ERROR:'+#10+
+                 '(HTTP_CODE='+fRESTResponse.JSONValue.GetValue<String>('code')+') '+
+                 fRESTResponse.JSONValue.GetValue<String>('error')+ #10 +
+                 fRESTResponse.JSONValue.GetValue<String>('message')+#10+
+                 '('+e.ClassName+')'
+                 );
+      abort;
+    end;
+  end
+  else
+  begin
+    ShowMessage('ERROR:'+#10+e.Message+#10+'('+e.ClassName+')');
+    abort;
+  end;
+end;
 
 // Realiza la autenticación y genera el TOKEN necesario para el resto de peticiones
 function TCommunicationManager.DoRequestAuth(const p_userName, p_password: String): boolean;
@@ -99,7 +162,8 @@ begin
   fRESTClient.BaseURL := c_URL_REST_SERVER+'/auth/login';
   fRESTRequest.Method := rmPOST;
   fRESTRequest.AddBody('{"userName":"'+p_userName+'","password":"'+p_password+'"}"',ctAPPLICATION_JSON);
-  fRESTRequest.Execute;
+  DoExecuteAndHandleExceptions;
+
 
   // (3) Evalua el resutado, si es 200 es correcto y el servidor devolverá el TOKEN
   if fRESTResponse.StatusCode = 200 then
@@ -133,6 +197,7 @@ begin
 //  RESTResponseDataSetAdapter.ResetToDefaults;
 end;
 
+
 procedure TCommunicationManager.DoRequestGet(const p_URL_MAPPING, p_param: String; var p_OUT_JSONValue: TJSONValue);
 begin
   reset;
@@ -140,7 +205,7 @@ begin
   fRESTClient.BaseURL := c_URL_REST_SERVER+p_URL_MAPPING+'/'+p_param;
   fRESTRequest.Method := rmGET;
   AddJWT_TokenToHeader;
-  fRESTRequest.Execute;
+  DoExecuteAndHandleExceptions;
   p_OUT_JSONValue := fRESTResponse.JSONValue;
 end;
 
@@ -152,7 +217,7 @@ begin
   fRESTRequest.Method := rmPOST;
   fRESTRequest.AddBody(p_JSON_BODY,ctAPPLICATION_JSON);
   AddJWT_TokenToHeader;
-  fRESTRequest.Execute;
+  DoExecuteAndHandleExceptions;
   p_OUT_JSONValue := fRESTResponse.JSONValue;
 end;
 
@@ -163,7 +228,7 @@ begin
   fRESTRequest.Method := rmPUT;
   fRESTRequest.AddBody(p_JSON_BODY,ctAPPLICATION_JSON);
   AddJWT_TokenToHeader;
-  fRESTRequest.Execute;
+  DoExecuteAndHandleExceptions;
   p_OUT_JSONValue := fRESTResponse.JSONValue;
 end;
 
@@ -176,5 +241,22 @@ begin
   fPassword := p_password;
 end;
 
+
+{ TExceptionServer }
+// Implementa las excepciones recuperadas del servidor REST para poder darle tratamiento
+constructor TExceptionServer.create(const pError, pMessage: String; pCode: Integer);
+begin
+  inherited create;
+  fError := pError;
+  fMessage := pMessage;
+  fCode := pCode;
+end;
+
+procedure TExceptionServer.ShowMessage;
+begin
+ FMX.Dialogs.ShowMessage('ERROR:'+#10+
+                         'Código HTTP='+fCode.ToString+' Mensaje='+fMessage+#10+
+                         'Información='+fMessage);
+end;
 
 end.

@@ -63,6 +63,7 @@ object fmMntUsuarios_EDITA: TfmMntUsuarios_EDITA
         Size.Width = 125.000000000000000000
         Size.Height = 50.000000000000000000
         Size.PlatformDefault = False
+        OnClick = SB_GRABARClick
         object SB_GRABAR_IMAGEN: TImage
           MultiResBitmap.Height = 43
           MultiResBitmap.Width = 38
@@ -526,7 +527,8 @@ object fmMntUsuarios_EDITA: TfmMntUsuarios_EDITA
           Size.Width = 338.000000000000000000
           Size.Height = 33.000000000000000000
           Size.PlatformDefault = False
-          TabOrder = 11
+          TabOrder = 0
+          TabStop = False
           object Label3: TLabel
             Align = Left
             StyledSettings = [Family, Style, FontColor]
@@ -556,7 +558,7 @@ object fmMntUsuarios_EDITA: TfmMntUsuarios_EDITA
           Size.Width = 338.000000000000000000
           Size.Height = 33.000000000000000000
           Size.PlatformDefault = False
-          TabOrder = 10
+          TabOrder = 1
           object Label2: TLabel
             Align = Left
             StyledSettings = [Family, Style, FontColor]
@@ -586,7 +588,7 @@ object fmMntUsuarios_EDITA: TfmMntUsuarios_EDITA
           Size.Width = 338.000000000000000000
           Size.Height = 33.000000000000000000
           Size.PlatformDefault = False
-          TabOrder = 9
+          TabOrder = 2
           object Label5: TLabel
             Align = Left
             StyledSettings = [Family, Style, FontColor]
@@ -616,7 +618,7 @@ object fmMntUsuarios_EDITA: TfmMntUsuarios_EDITA
           Size.Width = 338.000000000000000000
           Size.Height = 33.000000000000000000
           Size.PlatformDefault = False
-          TabOrder = 7
+          TabOrder = 3
           object Label4: TLabel
             Align = Left
             StyledSettings = [Family, Style, FontColor]
@@ -652,12 +654,12 @@ object fmMntUsuarios_EDITA: TfmMntUsuarios_EDITA
           TextSettings.Font.Size = 22.000000000000000000
           TextSettings.HorzAlign = Trailing
           Text = 'Password'
-          TabOrder = 3
+          TabOrder = 8
         end
         object ED_PASSWORD: TEdit
           Touch.InteractiveGestures = [LongTap, DoubleTap]
           Align = Client
-          TabOrder = 8
+          TabOrder = 4
           Password = True
           MaxLength = 25
           Text = 'no modificado'
@@ -672,7 +674,7 @@ object fmMntUsuarios_EDITA: TfmMntUsuarios_EDITA
           Size.Width = 338.000000000000000000
           Size.Height = 33.000000000000000000
           Size.PlatformDefault = False
-          TabOrder = 6
+          TabOrder = 5
           object Label6: TLabel
             Align = Left
             StyledSettings = [Family, Style, FontColor]
@@ -710,7 +712,7 @@ object fmMntUsuarios_EDITA: TfmMntUsuarios_EDITA
           Size.Width = 241.000000000000000000
           Size.Height = 33.000000000000000000
           Size.PlatformDefault = False
-          TabOrder = 5
+          TabOrder = 6
           object Label1: TLabel
             Align = Left
             StyledSettings = [Family, Style, FontColor]
@@ -728,7 +730,6 @@ object fmMntUsuarios_EDITA: TfmMntUsuarios_EDITA
             Format = 'dd/mm/yyyy'
             IsEmpty = True
             Align = Client
-            Enabled = False
             Size.Width = 125.000000000000000000
             Size.Height = 33.000000000000000000
             Size.PlatformDefault = False
@@ -737,6 +738,19 @@ object fmMntUsuarios_EDITA: TfmMntUsuarios_EDITA
             TextSettings.Font.Size = 18.000000000000000000
             TextSettings.HorzAlign = Center
           end
+        end
+        object LA_INFO: TLabel
+          Align = Bottom
+          StyledSettings = [Family, Style]
+          Position.Y = 231.000000000000000000
+          Size.Width = 353.000000000000000000
+          Size.Height = 26.000000000000000000
+          Size.PlatformDefault = False
+          TextSettings.Font.Size = 16.000000000000000000
+          TextSettings.FontColor = claRed
+          TextSettings.HorzAlign = Center
+          Text = '*** info ***'
+          TabOrder = 7
         end
       end
     end

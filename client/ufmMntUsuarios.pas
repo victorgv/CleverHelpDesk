@@ -22,6 +22,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure LV_USUARIOSItemClick(const Sender: TObject;
       const AItem: TListViewItem);
+    procedure BT_CREA_NUEVOClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -42,6 +43,11 @@ uses
 procedure TfmMntUsuarios.BT_BACKClick(Sender: TObject);
 begin
   Close;
+end;
+
+procedure TfmMntUsuarios.BT_CREA_NUEVOClick(Sender: TObject);
+begin
+  formInsercionEdicion(nil);
 end;
 
 procedure TfmMntUsuarios.FormClose(Sender: TObject; var Action: TCloseAction);

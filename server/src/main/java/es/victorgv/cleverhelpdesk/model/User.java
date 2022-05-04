@@ -3,6 +3,7 @@ package es.victorgv.cleverhelpdesk.model;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Objects;
+import java.util.Optional;
 
 @Entity
 @Table(name = "user_")
@@ -30,6 +31,7 @@ public class User {
     private Role role;
 
     private LocalDate deletedDate;
+
 
     public LocalDate getDeletedDate() {
         return deletedDate;
@@ -113,4 +115,6 @@ public class User {
         this.role = role;
         this.deletedDate = DeletedDate;
     }
+
+
 }

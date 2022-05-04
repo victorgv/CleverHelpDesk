@@ -41,6 +41,7 @@ object fmMntUsuarios: TfmMntUsuarios
           StyleLookup = 'additembutton'
           TabOrder = 1
           Text = 'BT_CREA_NUEVO'
+          OnClick = BT_CREA_NUEVOClick
         end
         object BT_BACK: TButton
           Align = MostRight
@@ -123,7 +124,6 @@ object fmMntUsuarios: TfmMntUsuarios
         AppearanceClassName = 'TTextObjectAppearance'
       end>
     ItemAppearanceObjects.FooterObjects.Text.Width = 486.000000000000000000
-    ItemAppearanceObjects.FooterObjects.Text.Height = -64.000000000000000000
     OnItemClick = LV_USUARIOSItemClick
   end
 end

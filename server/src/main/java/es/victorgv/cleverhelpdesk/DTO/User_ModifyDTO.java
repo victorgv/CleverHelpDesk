@@ -1,11 +1,23 @@
 package es.victorgv.cleverhelpdesk.DTO;
 
-public class User_NewDTO {
+import java.time.LocalDate;
+
+public class User_ModifyDTO {
+    private Long userId;
     private String userName;
     private String name;
     private String email;
-    private String password;
+    private String newPassword;
     private String roleCode;
+    private LocalDate deletedDate;
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 
     public String getUserName() {
         return userName;
@@ -31,12 +43,12 @@ public class User_NewDTO {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
+    public String getNewPassword() {
+        return newPassword;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setNewPassword(String newPassword) {
+        this.newPassword = newPassword;
     }
 
     public String getRoleCode() {
@@ -45,5 +57,13 @@ public class User_NewDTO {
 
     public void setRoleCode(String roleCode) {
         this.roleCode = roleCode;
+    }
+
+    public LocalDate getDeletedDate() {
+        return deletedDate;
+    }
+
+    public void setDeletedDate(LocalDate deletedDate) {
+        this.deletedDate = deletedDate;
     }
 }

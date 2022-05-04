@@ -1,19 +1,23 @@
 package es.victorgv.cleverhelpdesk.service;
 
 import es.victorgv.cleverhelpdesk.DTO.User_LoginDTO;
+import es.victorgv.cleverhelpdesk.DTO.User_CreateDTO;
+import es.victorgv.cleverhelpdesk.DTO.User_ModifyDTO;
 import es.victorgv.cleverhelpdesk.model.User;
+import es.victorgv.cleverhelpdesk.repository.IRole;
 import es.victorgv.cleverhelpdesk.repository.IUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 
 @Service
 @Transactional
 public class UserService {
     @Autowired private IUser user_rep;
+    @Autowired private PasswordEncoder passwordEncoder;
+    @Autowired private IRole role_rep;
 
     public IUser getUser_rep() {
         return user_rep;
@@ -49,5 +53,22 @@ public class UserService {
         user_rep.save(user);
     }
 
+    // Método que creará el usuario
+    public User createUser(User_CreateDTO newUser) {
+        return user_rep.save(new User(newUser.getUserName(),newUser.getName(),newUser.getEmail(),passwordEncoder.encode(newUser.getPassword()), role_rep.findById(newUser.getRoleCode()).orElse(null), null));
+    }
 
+    // Modificará el usuario
+    public User modifyUser(User_ModifyDTO modifiedUser, Long id) {
+        User user = user_rep.findByUserId(id); // Recupera el usuario y le actualizamos los campos
+        user.setUserName(modifiedUser.getUserName());
+        user.setName(modifiedUser.getName());
+        user.setEmail(modifiedUser.getEmail());
+        user.setDeletedDate(modifiedUser.getDeletedDate());
+        user.setRole(role_rep.findById(modifiedUser.getRoleCode()).orElse(null));
+        if (modifiedUser.getNewPassword() != null) // Si se ha asignado un passw nuevo también lo tenemos que grabar
+            user.setPassword(passwordEncoder.encode(modifiedUser.getNewPassword()));
+
+        return user_rep.save(user);
+    }
 }

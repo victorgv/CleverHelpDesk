@@ -73,7 +73,7 @@ object fmLogin: TfmLogin
       Size.Width = 440.000000000000000000
       Size.Height = 24.000000000000000000
       Size.PlatformDefault = False
-      TextSettings.HorzAlign = Trailing
+      TextSettings.HorzAlign = Center
       Text = '*** info ***'
       TabOrder = 2
     end

@@ -111,6 +111,11 @@ begin
     else if p_msg_code = 'MSG0002' then result := 'Email incorrecto'
     else if p_msg_code = 'MSG0003' then result := 'Password vacío'
     else if p_msg_code = 'MSG0004' then result := 'Usuario y/o password incorrecto'
+    else if p_msg_code = 'MSG0005' then result := 'Nombre es obligatorio'
+    else if p_msg_code = 'MSG0006' then result := 'Email es obligatorio'
+    else if p_msg_code = 'MSG0007' then result := 'Email formato incorrecto'
+    else if p_msg_code = 'MSG0008' then result := 'Password es obligatorio'
+    else if p_msg_code = 'MSG0009' then result := 'Perfil requerido'
     ;
   end
   else
@@ -119,6 +124,11 @@ begin
     else if p_msg_code = 'MSG0002' then result := 'Wrong email'
     else if p_msg_code = 'MSG0003' then result := 'Password is empty'
     else if p_msg_code = 'MSG0004' then result := 'Wrong user/password'
+    else if p_msg_code = 'MSG0005' then result := 'Name is required'
+    else if p_msg_code = 'MSG0006' then result := 'Email is required'
+    else if p_msg_code = 'MSG0007' then result := 'Email wrong format'
+    else if p_msg_code = 'MSG0008' then result := 'Password required'
+    else if p_msg_code = 'MSG0009' then result := 'Role required'
     ;
   end;
 

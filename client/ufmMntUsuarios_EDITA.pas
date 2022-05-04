@@ -46,12 +46,15 @@ type
     Layout4: TLayout;
     Label1: TLabel;
     ED_BAJA: TDateEdit;
+    LA_INFO: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure SB_CANCELARClick(Sender: TObject);
+    procedure SB_GRABARClick(Sender: TObject);
   private
     { Private declarations }
     fidUsuario: integer;
     fitemListView: TListViewItem;
+    function ValidacionCampos: boolean;
   public
     { Public declarations }
     constructor create(item: TListViewItem); virtual;
@@ -64,7 +67,9 @@ var
 implementation
 
 uses
-  udmCore, System.JSON;
+  udmCore,
+  System.JSON,
+  System.DateUtils;
 
 {$R *.fmx}
 
@@ -75,24 +80,30 @@ var
   JSONResult: TJSONValue;
 begin
   inherited create(nil);
-  fidUsuario := item.Tag;
+  LA_INFO.Visible := false;
 
   if not Assigned(item) then // Modo inserción
   begin
     TITULO_VENTANA.Text := 'Usuario nuevo';
-
+    fidUsuario := -1;
+    ED_BAJA.Enabled := false;
+    ED_PASSWORD.Text := '';
   end
   else // Modo MODIFICACIÓN
   begin
+    fidUsuario := item.Tag;
+    fitemListView := item;
+    ED_USUARIO.Enabled := FALSE;
     TITULO_VENTANA.Text := 'Modificar usuario';
     dmCore.CommunicationManager.DoRequestGet('/user/id',fIdUsuario.ToString,JSONResult);
     ED_ID.Text := JSONResult.GetValue<String>('userId');
+    ED_PASSWORD.Text := '*#no modificado#*';
     ED_NOMBRE.Text := JSONResult.GetValue<String>('name');
     ED_USUARIO.Text := JSONResult.GetValue<String>('userName');
     ED_EMAIL.Text := JSONResult.GetValue<String>('email');
     if JSONResult.GetValue<String>('deletedDate') = '' then ED_BAJA.IsEmpty := true
     else ED_BAJA.Date := JSONResult.GetValue<TDateTime>('deletedDate');
-    CB_PERFIL.ItemIndex := CB_PERFIL.items.IndexOfName(JSONResult.GetValue<TJSONObject>('role').GetValue<String>('code'));
+    CB_PERFIL.ItemIndex := CB_PERFIL.items.IndexOf(JSONResult.GetValue<TJSONObject>('role').GetValue<String>('code'));
   end;
 end;
 
@@ -105,6 +116,83 @@ procedure TfmMntUsuarios_EDITA.SB_CANCELARClick(Sender: TObject);
 begin
   ModalResult := mrCancel;
   close;
+end;
+
+procedure TfmMntUsuarios_EDITA.SB_GRABARClick(Sender: TObject);
+var
+  JSONResult: TJSONValue;
+  vBody: String;
+begin
+  if Assigned(fitemListView) then // Es edición
+  begin
+    var passCambiado: String := ''; // Determina si se ha cambiado el PASSW, solo se enviará si se modifica
+    if ED_PASSWORD.Text <> '*#no modificado#*' then passCambiado := ED_PASSWORD.Text;
+    vBody := '{"userId":"'+fidUsuario.ToString+'","userName":"'+ED_USUARIO.Text+'","name":"'+ED_NOMBRE.Text+'","email":"'+ED_EMAIL.Text+
+             '","newPassword":"'+passCambiado+'","rodeCode":"'+CB_PERFIL.selected.Text+'","LocalDate":"'+DateToISO8601(ED_BAJA.Date)+'"}';
+    dmCore.CommunicationManager.DoRequestPut('/user/', fidUsuario.ToString, vBody, JSONResult);
+    ShowMessage(JSONResult.ToString );
+    fitemListView.Data['name'] := ED_NOMBRE.Text;
+    fitemListView.Data['userName'] := ED_USUARIO.Text;
+    fitemListView.Data['email'] := ED_EMAIL.Text;
+    fitemListView.Data['role'] := CB_PERFIL.selected.Text;
+  end
+  else // Es inserción
+  begin
+    vBody := '{"userName":"'+ED_USUARIO.Text+'","name:":"'+ED_NOMBRE.text+'","email":"'+ED_EMAIL.text+'","password":"'+ED_PASSWORD.text+'","roleCode":"'+CB_PERFIL.selected.Text+'"}';
+    dmCore.CommunicationManager.DoRequestPost('/user/',vBody,JSONResult);
+    fidUsuario := JSONResult.GetValue<integer>('userId');
+    ShowMessage(JSONResult.ToString );
+  end;
+  close;
+  ModalResult := mrOK;
+end;
+
+// Valida que los campos obligatorios están cargados
+function TfmMntUsuarios_EDITA.ValidacionCampos: boolean;
+begin
+  result := true;
+  if ED_USUARIO.Text.Trim.Length = 0 then // Valida que se ha introducido algo en userName
+  begin
+    result := false;
+    LA_INFO.TextSettings.FontColor := TAlphaColorRec.Red;
+    LA_INFO.Text := dmCore.getAppMessage('MSG0001');
+    ED_USUARIO.SetFocus;
+  end
+  else if ED_EMAIL.Text.Trim.Length = 0 then //
+  begin
+    result := false;
+    LA_INFO.TextSettings.FontColor := TAlphaColorRec.Red;
+    LA_INFO.Text := dmCore.getAppMessage('MSG0006');
+    ED_EMAIL.SetFocus;
+  end
+  else if NOT dmCore.ValidateEmail(ED_EMAIL.Text) then //
+  begin
+    result := false;
+    LA_INFO.TextSettings.FontColor := TAlphaColorRec.Red;
+    LA_INFO.Text := dmCore.getAppMessage('MSG0007');
+    ED_EMAIL.SetFocus;
+  end
+  else if ED_NOMBRE.Text.Trim.Length = 0 then //
+  begin
+    result := false;
+    LA_INFO.TextSettings.FontColor := TAlphaColorRec.Red;
+    LA_INFO.Text := dmCore.getAppMessage('MSG0005');
+    ED_NOMBRE.SetFocus;
+  end
+  else if ED_PASSWORD.Text.Trim.Length = 0 then //
+  begin
+    result := false;
+    LA_INFO.TextSettings.FontColor := TAlphaColorRec.Red;
+    LA_INFO.Text := dmCore.getAppMessage('MSG0008');
+    ED_PASSWORD.SetFocus;
+  end
+  else if CB_PERFIL.ItemIndex = -1 then //
+  begin
+    result := false;
+    LA_INFO.TextSettings.FontColor := TAlphaColorRec.Red;
+    LA_INFO.Text := dmCore.getAppMessage('MSG0009');
+    CB_PERFIL.SetFocus;
+  end
 end;
 
 end.
