@@ -1,5 +1,6 @@
 package es.victorgv.cleverhelpdesk.service;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
 import es.victorgv.cleverhelpdesk.DTO.User_LoginDTO;
 import es.victorgv.cleverhelpdesk.DTO.User_CreateDTO;
 import es.victorgv.cleverhelpdesk.DTO.User_ModifyDTO;
@@ -55,6 +56,7 @@ public class UserService {
 
     // Método que creará el usuario
     public User createUser(User_CreateDTO newUser) {
+        System.out.println("*************************************** "+newUser.getName());
         return user_rep.save(new User(newUser.getUserName(),newUser.getName(),newUser.getEmail(),passwordEncoder.encode(newUser.getPassword()), role_rep.findById(newUser.getRoleCode()).orElse(null), null));
     }
 
@@ -68,7 +70,6 @@ public class UserService {
         user.setRole(role_rep.findById(modifiedUser.getRoleCode()).orElse(null));
         if (modifiedUser.getNewPassword() != null) // Si se ha asignado un passw nuevo también lo tenemos que grabar
             user.setPassword(passwordEncoder.encode(modifiedUser.getNewPassword()));
-
         return user_rep.save(user);
     }
 }

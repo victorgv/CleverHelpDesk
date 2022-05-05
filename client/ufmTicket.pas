@@ -84,10 +84,6 @@ type
   private
     fTickeID: integer; // Almacena el ID del ticket que estamos modificando o -1 si es inserción
     //
-    procedure FillCombosWith_MasterStatus;
-    procedure FillCombosWith_MasterTypes;
-    procedure FillCombosWith_Users;
-    procedure FillCombosWith_Projects;
     procedure ValidateFields;
     procedure SaveChanges;
   public
@@ -114,9 +110,10 @@ uses
 // Inicializaciones del formulario
 procedure TfmTicket.FormCreate(Sender: TObject);
 begin
-  FillCombosWith_Users;
-  FillCombosWith_MasterTypes;
-  FillCombosWith_MasterStatus;
+  dmCore.FillCombosWith_Users(CB_REPORTADO, CB_ASIGNADO);
+  dmCore.FillCombosWith_MasterTypes(CB_TIPO);
+  dmCore.FillCombosWith_MasterStatus(CB_ESTADO);
+  dmCore.FillCombosWith_Projects(CB_PROYECTOS);
 end;
 
 // Configuración formulario cuando queremos INTERTAR
@@ -139,73 +136,6 @@ begin
   fTickeID := p_ID;
   Caption := 'Gestión de Ticket';
 
-end;
-
-
-// Cargamos los diferentes tipos de estados
-procedure TfmTicket.FillCombosWith_MasterStatus;
-var
-  resultado: TJSONValue;
-  JsonArray: TJSONArray;
-  elementoJSON: TJSonValue;
-begin
-  dmCore.CommunicationManager.DoRequestGet('/global/status/','',resultado);
-  CB_ESTADO.Clear;
-  JsonArray := resultado as TJsonArray;
-  // Recorre el array y rellena combos ASIGNADO y REPORTADO
-  for elementoJSON in JsonArray do begin
-    CB_ESTADO.Items.AddObject(elementoJSON.GetValue<String>('name'), pointer(elementoJSON.GetValue<integer>('statusId')));
-  end;
-end;
-
-// Cargamos el combo con los tipos de incidencia reportadas
-procedure TfmTicket.FillCombosWith_MasterTypes;
-var
-  resultado: TJSONValue;
-  JsonArray: TJSONArray;
-  elementoJSON: TJSonValue;
-begin
-  dmCore.CommunicationManager.DoRequestGet('/global/type/','',resultado);
-  CB_TIPO.Clear;
-  JsonArray := resultado as TJsonArray;
-  // Recorre el array y rellena combos ASIGNADO y REPORTADO
-  for elementoJSON in JsonArray do begin
-    CB_TIPO.Items.AddObject(elementoJSON.GetValue<String>('name'), pointer(elementoJSON.GetValue<integer>('typeId')));
-  end;
-end;
-
-procedure TfmTicket.FillCombosWith_Projects;
-var
-  resultado: TJSONValue;
-  JsonArray: TJSONArray;
-  elementoJSON: TJSonValue;
-begin
-  dmCore.CommunicationManager.DoRequestGet('/global/proyect/','',resultado);
-  CB_PROYECTOS.Clear;
-  JsonArray := resultado as TJsonArray;
-  // Recorre el array y rellena combos ASIGNADO y REPORTADO
-  for elementoJSON in JsonArray do begin
-    CB_TIPO.Items.AddObject(elementoJSON.GetValue<String>('name'), pointer(elementoJSON.GetValue<integer>('projectId')));
-  end;
-end;
-
-// Cargamos los combos ASIGNADO y REPORTADO
-procedure TfmTicket.FillCombosWith_Users;
-var
-  resultado: TJSONValue;
-  JsonArray: TJSONArray;
-  elementoJSON: TJSonValue;
-  role: String;
-begin
-  dmCore.CommunicationManager.DoRequestGet('/user/','',resultado);
-  JsonArray := resultado as TJsonArray;
-  // Recorre el array y rellena combos ASIGNADO y REPORTADO
-  for elementoJSON in JsonArray do begin
-    CB_REPORTADO.Items.AddObject(elementoJSON.GetValue<String>('name'), pointer(elementoJSON.GetValue<integer>('userId')));
-    role := elementoJSON.GetValue<TJSONObject>('role').GetValue<String>('code');
-    if (role = 'ADMIN') OR (role = 'AGENT') then // Solo son asignables los que tienen ROL=ADMIN o AGENT
-      CB_ASIGNADO.Items.AddObject(elementoJSON.GetValue<String>('name'), pointer(elementoJSON.GetValue<integer>('userId')));
-  end;
 end;
 
 // Asegura que se amplia el tamaño del contenedor en el caso de modificar el tamaño del formulario para que se muestren todos los elementos

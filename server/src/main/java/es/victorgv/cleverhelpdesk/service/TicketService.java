@@ -9,9 +9,9 @@ import org.springframework.stereotype.Service;
 // Clase con la lógica de negocio del Ticket
 @Service
 public class TicketService {
-    @Autowired ITicket ticket_rep;
-    @Autowired UserService userService;
-    @Autowired EmailSender_ envioEmail;
+    @Autowired private ITicket ticket_rep;
+    @Autowired private UserService userService;
+    @Autowired private EmailSender_ envioEmail;
 
     // Método que creará el ticket, emitirá un email al creador del mismo con el número de ticket
     public Ticket createTicket(Ticket newTicket) {
@@ -36,4 +36,6 @@ public class TicketService {
 
         return ticketCreado;
     }
+
+    public ITicket getTicket_rep() {return ticket_rep;}
 }

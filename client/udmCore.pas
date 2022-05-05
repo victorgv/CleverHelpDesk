@@ -12,11 +12,12 @@ uses
   System.UITypes,
   ufmLogin,
   System.RegularExpressions,
-  uTCommunicationManager, REST.Types, System.Actions, FMX.ActnList,
-  FMX.Controls;
-
-
-
+  uTCommunicationManager,
+  REST.Types,
+  System.Actions,
+  FMX.ActnList,
+  FMX.Controls,
+  FMX.ListBox;
 
 type
   TdmCore = class(TDataModule)
@@ -48,6 +49,10 @@ type
     procedure SetLanguage(const p_lang: String); // Cambia el idioma de la aplicación (por ahora "es" o "en")
     function getAppMessage(const p_msg_code: String): String; // Para recuperar mensajes de aplicación
     procedure WPResizeTControlToContents( AControl : TControl; Width : Boolean  = true; Height : Boolean = true ); // Ajusta el tamaño del contenedor al contenido (cuando hay un "resize" y el contenedor es TFlowLayout)
+    procedure FillCombosWith_MasterStatus(combo: TComboBox); // Rellena combos Status
+    procedure FillCombosWith_MasterTypes(combo: TComboBox); // Rellena combos types
+    procedure FillCombosWith_Users(comboReportado, comboAsignado: TComboBox); // Rellena combos usuarios
+    procedure FillCombosWith_Projects(combo: TComboBox); // Rellena combos proyectos
     //
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -62,7 +67,12 @@ implementation
 
 {$R *.dfm}
 
-uses FMX.Platform, FMX.Dialogs, System.Types, FMX.Forms;
+uses
+  FMX.Platform,
+  FMX.Dialogs,
+  System.Types,
+  FMX.Forms,
+  System.JSON;
 
 { TdmCore }
 // Constructor de la clase
@@ -78,6 +88,75 @@ destructor TdmCore.Destroy;
 begin
   fCommunicationManager.Free;
   inherited;
+end;
+
+// Cargamos los diferentes tipos de estados
+procedure TdmCore.FillCombosWith_MasterStatus(combo: TComboBox);
+var
+  resultado: TJSONValue;
+  JsonArray: TJSONArray;
+  elementoJSON: TJSonValue;
+begin
+  dmCore.CommunicationManager.DoRequestGet('/global/status/','',resultado);
+  combo.Clear;
+  JsonArray := resultado as TJsonArray;
+  // Recorre el array y rellena combos ASIGNADO y REPORTADO
+  for elementoJSON in JsonArray do begin
+    combo.Items.AddObject(elementoJSON.GetValue<String>('name'), pointer(elementoJSON.GetValue<integer>('statusId')));
+  end;
+end;
+
+// Cargamos el combo con los tipos de incidencia reportadas
+procedure TdmCore.FillCombosWith_MasterTypes(combo: TComboBox);
+var
+  resultado: TJSONValue;
+  JsonArray: TJSONArray;
+  elementoJSON: TJSonValue;
+begin
+  dmCore.CommunicationManager.DoRequestGet('/global/type/','',resultado);
+  combo.Clear;
+  JsonArray := resultado as TJsonArray;
+  // Recorre el array y rellena combos ASIGNADO y REPORTADO
+  for elementoJSON in JsonArray do begin
+    combo.Items.AddObject(elementoJSON.GetValue<String>('name'), pointer(elementoJSON.GetValue<integer>('typeId')));
+  end;
+end;
+
+
+procedure TdmCore.FillCombosWith_Projects(combo: TComboBox);
+var
+  resultado: TJSONValue;
+  JsonArray: TJSONArray;
+  elementoJSON: TJSonValue;
+begin
+  dmCore.CommunicationManager.DoRequestGet('/global/project/','',resultado);
+  combo.Clear;
+  JsonArray := resultado as TJsonArray;
+  // Recorre el array y rellena combos ASIGNADO y REPORTADO
+  for elementoJSON in JsonArray do begin
+    combo.Items.AddObject(elementoJSON.GetValue<String>('name'), pointer(elementoJSON.GetValue<integer>('projectId')));
+  end;
+end;
+
+// Cargamos los combos ASIGNADO y REPORTADO
+procedure TdmCore.FillCombosWith_Users(comboReportado, comboAsignado: TComboBox);
+var
+  resultado: TJSONValue;
+  JsonArray: TJSONArray;
+  elementoJSON: TJSonValue;
+  role: String;
+begin
+  dmCore.CommunicationManager.DoRequestGet('/user/','',resultado);
+  comboReportado.Clear;
+  comboAsignado.Clear;
+  JsonArray := resultado as TJsonArray;
+  // Recorre el array y rellena combos ASIGNADO y REPORTADO
+  for elementoJSON in JsonArray do begin
+    comboReportado.Items.AddObject(elementoJSON.GetValue<String>('name'), pointer(elementoJSON.GetValue<integer>('userId')));
+    role := elementoJSON.GetValue<TJSONObject>('role').GetValue<String>('code');
+    if (role = 'ADMIN') OR (role = 'AGENT') then // Solo son asignables los que tienen ROL=ADMIN o AGENT
+      comboAsignado.Items.AddObject(elementoJSON.GetValue<String>('name'), pointer(elementoJSON.GetValue<integer>('userId')));
+  end;
 end;
 
 // Implementa la funcionalidad del botón "atras" de android

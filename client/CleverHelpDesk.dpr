@@ -22,8 +22,5 @@ uses
 begin
   Application.Initialize;
   Application.CreateForm(TfmMain, fmMain);
-  Application.CreateForm(TdmCore, dmCore);
-  Application.CreateForm(TfmMntProyectos_EDITA, fmMntProyectos_EDITA);
-  Application.CreateForm(TfmMntUsuarios_EDITA, fmMntUsuarios_EDITA);
   Application.Run;
 end.

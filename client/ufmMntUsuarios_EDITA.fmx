@@ -39,6 +39,7 @@ object fmMntUsuarios_EDITA: TfmMntUsuarios_EDITA
           Size.PlatformDefault = False
           StyleLookup = 'backtoolbutton'
           TabOrder = 0
+          OnClick = BT_BACKClick
         end
       end
     end
@@ -641,6 +642,7 @@ object fmMntUsuarios_EDITA: TfmMntUsuarios_EDITA
             Size.Height = 33.000000000000000000
             Size.PlatformDefault = False
             StyledSettings = [Family, Style, FontColor]
+            CharCase = ecUpperCase
           end
         end
         object Label7: TLabel

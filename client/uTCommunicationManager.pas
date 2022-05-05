@@ -7,7 +7,7 @@ uses
   System.JSON,
   FMX.Dialogs,
   System.UITypes,
-   System.SysUtils;
+  System.SysUtils;
 
 type
   TExceptionServer = class(TObject)

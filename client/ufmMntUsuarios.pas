@@ -93,14 +93,12 @@ begin
     begin
         if (ModalResult = mrOK) AND (NOT Assigned(item)) then // Añade el registro nuevo creado
           with LV_USUARIOS.items.Add do begin
-       { Data['name'] := elementoJSON.GetValue<String>('name');
-        Data['userName'] := elementoJSON.GetValue<String>('userName');
-        Data['email'] := elementoJSON.GetValue<String>('email');
-        Data['role'] := elementoJSON.GetValue<TJSONObject>('role').GetValue<String>('code');
-        Tag := elementoJSON.GetValue<integer>('userId');    }
-            //^***Text := usuario.ED_NAME.Text;
-            //****Tag := usuario.UserID;
-          end;
+            Data['name'] := usuario.ED_NOMBRE.Text;
+            Data['userName'] := usuario.ED_USUARIO.Text;
+            Data['email'] := usuario.ED_EMAIL.Text;
+            Data['role'] := usuario.CB_PERFIL.selected.Text;
+            Tag := usuario.UserID;
+      end;
     end
   );
 

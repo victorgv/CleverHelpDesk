@@ -7,6 +7,17 @@ public class User_CreateDTO {
     private String password;
     private String roleCode;
 
+    public User_CreateDTO(String userName, String name, String email, String password, String roleCode) {
+        this.userName = userName;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.roleCode = roleCode;
+    }
+
+    public User_CreateDTO() {
+    }
+
     public String getUserName() {
         return userName;
     }
@@ -15,9 +26,7 @@ public class User_CreateDTO {
         this.userName = userName;
     }
 
-    public String getName() {
-        return name;
-    }
+    public String getName() {return name;}
 
     public void setName(String name) {
         this.name = name;

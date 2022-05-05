@@ -73,6 +73,7 @@ end;
 procedure TfmLogin.pb_selector_idiomaChange(Sender: TObject);
 begin
   dmCore.SetLanguage(pb_selector_idioma.Text);
+  fmMain.pb_selector_idioma.ItemIndex := fmMain.pb_selector_idioma.Items.IndexOf(dmCore.idiomas.lang); // Actualizamos también mail para que haya coherencia con la selección
 end;
 
 // Evento LOGIN al pulsar el botón
@@ -115,7 +116,6 @@ begin
     result := true;
     LA_INFO.Text := '';
   end;
-
 end;
 
 end.

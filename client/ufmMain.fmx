@@ -8,6 +8,7 @@ object fmMain: TfmMain
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
   OnCreate = FormCreate
+  OnDestroy = FormDestroy
   DesignerMasterStyle = 0
   object tb_main: TToolBar
     Size.Width = 640.000000000000000000
@@ -57,6 +58,23 @@ object fmMain: TfmMain
     Left = 513
     Top = 16
   end
+  object Grid1: TGrid
+    Align = Client
+    CanFocus = True
+    ClipChildren = True
+    Size.Width = 640.000000000000000000
+    Size.Height = 432.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 3
+    Viewport.Width = 620.000000000000000000
+    Viewport.Height = 407.000000000000000000
+    object StringColumn1: TStringColumn
+    end
+    object StringColumn2: TStringColumn
+    end
+    object DateColumn1: TDateColumn
+    end
+  end
   object MV_MAIN: TMultiView
     MasterButton = bt_open_multiview
     Mode = Drawer
@@ -64,6 +82,7 @@ object fmMain: TfmMain
     Size.Width = 377.000000000000000000
     Size.Height = 432.000000000000000000
     Size.PlatformDefault = False
+    Visible = False
     TabOrder = 1
     object ly_header: TLayout
       Align = MostTop
@@ -1392,57 +1411,343 @@ object fmMain: TfmMain
     end
     object ly_body: TLayout
       Align = Top
-      Position.Y = 92.000000000000000000
+      Position.Y = 113.000000000000000000
       Size.Width = 377.000000000000000000
-      Size.Height = 216.000000000000000000
+      Size.Height = 243.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 0
-      object BT_Control_Panel: TButton
-        Align = Top
+      object FlowLayout1: TFlowLayout
+        Align = Client
         Size.Width = 377.000000000000000000
-        Size.Height = 48.000000000000000000
+        Size.Height = 243.000000000000000000
         Size.PlatformDefault = False
-        StyleLookup = 'toolbutton'
         TabOrder = 0
-        Text = 'BT_Control_Panel'
-      end
-      object BT_Queries: TButton
-        Align = Top
-        Position.Y = 48.000000000000000000
-        Size.Width = 377.000000000000000000
-        Size.Height = 48.000000000000000000
-        Size.PlatformDefault = False
-        StyleLookup = 'toolbutton'
-        TabOrder = 1
-        Text = 'BT_Queries'
-      end
-      object BT_Users: TButton
-        Align = Top
-        Position.Y = 117.000000000000000000
-        Size.Width = 377.000000000000000000
-        Size.Height = 48.000000000000000000
-        Size.PlatformDefault = False
-        StyleLookup = 'toolbutton'
-        TabOrder = 4
-        Text = 'Users'
-      end
-      object Layout2: TLayout
-        Align = Top
-        Position.Y = 96.000000000000000000
-        Size.Width = 377.000000000000000000
-        Size.Height = 21.000000000000000000
-        Size.PlatformDefault = False
-        TabOrder = 2
-      end
-      object BT_Channels: TButton
-        Align = Top
-        Position.Y = 165.000000000000000000
-        Size.Width = 377.000000000000000000
-        Size.Height = 48.000000000000000000
-        Size.PlatformDefault = False
-        StyleLookup = 'toolbutton'
-        TabOrder = 3
-        Text = 'Channels'
+        Justify = Left
+        JustifyLastLine = Left
+        FlowDirection = LeftToRight
+        object Layout4: TLayout
+          Size.Width = 218.000000000000000000
+          Size.Height = 33.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 10
+          object Label1: TLabel
+            Align = Left
+            StyledSettings = [Family, Style, FontColor]
+            Margins.Right = 3.000000000000000000
+            Size.Width = 95.000000000000000000
+            Size.Height = 33.000000000000000000
+            Size.PlatformDefault = False
+            TextSettings.Font.Size = 18.000000000000000000
+            TextSettings.HorzAlign = Trailing
+            Text = 'Desde'
+            TabOrder = 3
+          end
+          object ED_FILTRO_DESDE: TDateEdit
+            Date = 44681.000000000000000000
+            Format = 'dd/mm/yyyy'
+            IsEmpty = True
+            Align = Client
+            Size.Width = 120.000000000000000000
+            Size.Height = 33.000000000000000000
+            Size.PlatformDefault = False
+            StyledSettings = [Family, Style, FontColor]
+            TabOrder = 6
+            TextSettings.Font.Size = 18.000000000000000000
+            TextSettings.HorzAlign = Center
+          end
+        end
+        object Layout5: TLayout
+          Position.X = 218.000000000000000000
+          Size.Width = 138.000000000000000000
+          Size.Height = 33.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 11
+          object CK_FILTRO_MIS_TICKETS: TCheckBox
+            StyledSettings = [Family, Style, FontColor]
+            IsChecked = True
+            Position.X = 14.000000000000000000
+            Position.Y = 5.000000000000000000
+            Size.Width = 122.000000000000000000
+            Size.Height = 27.000000000000000000
+            Size.PlatformDefault = False
+            TabOrder = 0
+            Text = 'Mis  tickets'
+            TextSettings.Font.Size = 18.000000000000000000
+            TextSettings.HorzAlign = Center
+          end
+        end
+        object Layout2: TLayout
+          Position.Y = 33.000000000000000000
+          Size.Width = 218.000000000000000000
+          Size.Height = 33.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 4
+          object Label2: TLabel
+            Align = Left
+            StyledSettings = [Family, Style, FontColor]
+            Margins.Right = 3.000000000000000000
+            Size.Width = 95.000000000000000000
+            Size.Height = 33.000000000000000000
+            Size.PlatformDefault = False
+            TextSettings.Font.Size = 18.000000000000000000
+            TextSettings.HorzAlign = Trailing
+            Text = 'Hasta'
+            TabOrder = 3
+          end
+          object ED_FILTRO_HASTA: TDateEdit
+            Date = 44681.000000000000000000
+            Format = 'dd/mm/yyyy'
+            IsEmpty = True
+            Align = Client
+            Size.Width = 120.000000000000000000
+            Size.Height = 33.000000000000000000
+            Size.PlatformDefault = False
+            StyledSettings = [Family, Style, FontColor]
+            TabOrder = 6
+            TextSettings.Font.Size = 18.000000000000000000
+            TextSettings.HorzAlign = Center
+          end
+        end
+        object Layout9: TLayout
+          Position.Y = 66.000000000000000000
+          Size.Width = 345.000000000000000000
+          Size.Height = 33.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 9
+          object Label6: TLabel
+            Align = Left
+            StyledSettings = [Family, Style, FontColor]
+            Margins.Right = 3.000000000000000000
+            Size.Width = 95.000000000000000000
+            Size.Height = 33.000000000000000000
+            Size.PlatformDefault = False
+            TextSettings.Font.Size = 18.000000000000000000
+            TextSettings.HorzAlign = Trailing
+            Text = 'Estado'
+            TabOrder = 3
+          end
+          object CB_FILTRO_ESTADO: TComboBox
+            Align = Client
+            Size.Width = 216.000000000000000000
+            Size.Height = 33.000000000000000000
+            Size.PlatformDefault = False
+            TabOrder = 2
+            object ListBoxItem1: TListBoxItem
+              TabOrder = 0
+              Text = 'ADMIN'
+            end
+            object ListBoxItem2: TListBoxItem
+              TabOrder = 1
+              Text = 'AGENT'
+            end
+            object ListBoxItem3: TListBoxItem
+              TabOrder = 2
+              Text = 'USER'
+            end
+          end
+          object SB_FILTRO_LIMPIA_ESTADO: TSpeedButton
+            Align = Right
+            Position.X = 314.000000000000000000
+            Size.Width = 31.000000000000000000
+            Size.Height = 33.000000000000000000
+            Size.PlatformDefault = False
+            StyleLookup = 'cleareditbutton'
+            Text = 'SB_FILTRO_LIMPIA_ESTADO'
+            OnClick = SB_FILTRO_LIMPIA_ESTADOClick
+          end
+        end
+        object Layout6: TLayout
+          Position.Y = 99.000000000000000000
+          Size.Width = 345.000000000000000000
+          Size.Height = 33.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 8
+          object labelTipo: TLabel
+            Align = Left
+            StyledSettings = [Family, Style, FontColor]
+            Margins.Right = 3.000000000000000000
+            Size.Width = 95.000000000000000000
+            Size.Height = 33.000000000000000000
+            Size.PlatformDefault = False
+            TextSettings.Font.Size = 18.000000000000000000
+            TextSettings.HorzAlign = Trailing
+            Text = 'Tipo'
+            TabOrder = 3
+          end
+          object CB_FILTRO_TIPO: TComboBox
+            Align = Client
+            Size.Width = 216.000000000000000000
+            Size.Height = 33.000000000000000000
+            Size.PlatformDefault = False
+            TabOrder = 2
+            object ListBoxItem4: TListBoxItem
+              TabOrder = 0
+              Text = 'ADMIN'
+            end
+            object ListBoxItem5: TListBoxItem
+              TabOrder = 1
+              Text = 'AGENT'
+            end
+            object ListBoxItem6: TListBoxItem
+              TabOrder = 2
+              Text = 'USER'
+            end
+          end
+          object SB_FILTRO_LIMPIA_TIPO: TSpeedButton
+            Align = Right
+            Position.X = 314.000000000000000000
+            Size.Width = 31.000000000000000000
+            Size.Height = 33.000000000000000000
+            Size.PlatformDefault = False
+            StyleLookup = 'cleareditbutton'
+            Text = 'SpeedButton1'
+            OnClick = SB_FILTRO_LIMPIA_TIPOClick
+          end
+        end
+        object Layout7: TLayout
+          Position.Y = 132.000000000000000000
+          Size.Width = 345.000000000000000000
+          Size.Height = 33.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 7
+          object Label3: TLabel
+            Align = Left
+            StyledSettings = [Family, Style, FontColor]
+            Margins.Right = 3.000000000000000000
+            Size.Width = 95.000000000000000000
+            Size.Height = 33.000000000000000000
+            Size.PlatformDefault = False
+            TextSettings.Font.Size = 18.000000000000000000
+            TextSettings.HorzAlign = Trailing
+            Text = 'Proyecto'
+            TabOrder = 3
+          end
+          object CB_FILTRO_PROYECTO: TComboBox
+            Align = Client
+            Size.Width = 216.000000000000000000
+            Size.Height = 33.000000000000000000
+            Size.PlatformDefault = False
+            TabOrder = 2
+            object ListBoxItem7: TListBoxItem
+              TabOrder = 0
+              Text = 'ADMIN'
+            end
+            object ListBoxItem8: TListBoxItem
+              TabOrder = 1
+              Text = 'AGENT'
+            end
+            object ListBoxItem9: TListBoxItem
+              TabOrder = 2
+              Text = 'USER'
+            end
+          end
+          object SB_FILTRO_LIMPIA_PROYECTO: TSpeedButton
+            Align = Right
+            Position.X = 314.000000000000000000
+            Size.Width = 31.000000000000000000
+            Size.Height = 33.000000000000000000
+            Size.PlatformDefault = False
+            StyleLookup = 'cleareditbutton'
+            Text = 'SpeedButton1'
+            OnClick = SB_FILTRO_LIMPIA_PROYECTOClick
+          end
+        end
+        object Layout8: TLayout
+          Position.Y = 165.000000000000000000
+          Size.Width = 345.000000000000000000
+          Size.Height = 33.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 6
+          object Label4: TLabel
+            Align = Left
+            StyledSettings = [Family, Style, FontColor]
+            Margins.Right = 3.000000000000000000
+            Size.Width = 95.000000000000000000
+            Size.Height = 33.000000000000000000
+            Size.PlatformDefault = False
+            TextSettings.Font.Size = 18.000000000000000000
+            TextSettings.HorzAlign = Trailing
+            Text = 'Asignado'
+            TabOrder = 3
+          end
+          object CB_FILTRO_ASIGNADO: TComboBox
+            Align = Client
+            Size.Width = 216.000000000000000000
+            Size.Height = 33.000000000000000000
+            Size.PlatformDefault = False
+            TabOrder = 2
+            object ListBoxItem10: TListBoxItem
+              TabOrder = 0
+              Text = 'ADMIN'
+            end
+            object ListBoxItem11: TListBoxItem
+              TabOrder = 1
+              Text = 'AGENT'
+            end
+            object ListBoxItem12: TListBoxItem
+              TabOrder = 2
+              Text = 'USER'
+            end
+          end
+          object SB_FILTRO_LIMPIA_ASIGNADO: TSpeedButton
+            Align = Right
+            Position.X = 314.000000000000000000
+            Size.Width = 31.000000000000000000
+            Size.Height = 33.000000000000000000
+            Size.PlatformDefault = False
+            StyleLookup = 'cleareditbutton'
+            Text = 'SpeedButton1'
+            OnClick = SB_FILTRO_LIMPIA_ASIGNADOClick
+          end
+        end
+        object Layout11: TLayout
+          Position.Y = 198.000000000000000000
+          Size.Width = 345.000000000000000000
+          Size.Height = 33.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 5
+          object Label5: TLabel
+            Align = Left
+            StyledSettings = [Family, Style, FontColor]
+            Margins.Right = 3.000000000000000000
+            Size.Width = 95.000000000000000000
+            Size.Height = 33.000000000000000000
+            Size.PlatformDefault = False
+            TextSettings.Font.Size = 18.000000000000000000
+            TextSettings.HorzAlign = Trailing
+            Text = 'Reportado'
+            TabOrder = 3
+          end
+          object CB_FILTRO_REPORTADO: TComboBox
+            Align = Client
+            Size.Width = 216.000000000000000000
+            Size.Height = 33.000000000000000000
+            Size.PlatformDefault = False
+            TabOrder = 2
+            object ListBoxItem13: TListBoxItem
+              TabOrder = 0
+              Text = 'ADMIN'
+            end
+            object ListBoxItem14: TListBoxItem
+              TabOrder = 1
+              Text = 'AGENT'
+            end
+            object ListBoxItem15: TListBoxItem
+              TabOrder = 2
+              Text = 'USER'
+            end
+          end
+          object SB_FILTRO_LIMPIA_REPORTADO: TSpeedButton
+            Align = Right
+            Position.X = 314.000000000000000000
+            Size.Width = 31.000000000000000000
+            Size.Height = 33.000000000000000000
+            Size.PlatformDefault = False
+            StyleLookup = 'cleareditbutton'
+            Text = 'SpeedButton1'
+            OnClick = SB_FILTRO_LIMPIA_REPORTADOClick
+          end
+        end
       end
     end
     object ly_foot: TLayout
@@ -1462,6 +1767,28 @@ object fmMain: TfmMain
         Text = 'bt_exit'
         OnClick = bt_exitClick
       end
+      object pb_selector_idioma: TPopupBox
+        Align = Right
+        Items.Strings = (
+          'es'
+          'en')
+        Opacity = 0.500000000000000000
+        Position.X = 320.000000000000000000
+        Size.Width = 57.000000000000000000
+        Size.Height = 66.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 4
+        TabStop = False
+        OnChange = pb_selector_idiomaChange
+      end
+    end
+    object Layout10: TLayout
+      Align = MostTop
+      Position.Y = 92.000000000000000000
+      Size.Width = 377.000000000000000000
+      Size.Height = 21.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 3
     end
   end
 end

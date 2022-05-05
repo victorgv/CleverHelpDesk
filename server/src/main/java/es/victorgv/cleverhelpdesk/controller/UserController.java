@@ -18,13 +18,13 @@ import java.util.List;
 public class UserController {
     @Autowired UserService userService;
 
-    @PostMapping("/") // *********************************************************
+    @PostMapping("/") // EndPoint para crear un usuario
     public User createUser(@RequestBody User_CreateDTO nuevoUsuario) {
         return userService.createUser(nuevoUsuario);
     }
 
-    @PutMapping("/{userId}")
-    public User modifyUser(@RequestBody User_ModifyDTO modifiedUser, @PathVariable Long id) {
+    @PutMapping("/{id}") // EndPoint para modificar el usuario con el ID pasado en el path
+    public User modifyUser(@PathVariable("id") Long id, @RequestBody User_ModifyDTO modifiedUser) {
         return userService.modifyUser(modifiedUser, id);
     }
 
