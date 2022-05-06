@@ -23,8 +23,7 @@ type
     procedure BT_BACKClick(Sender: TObject);
     procedure BT_CREA_NUEVOClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure LV_PROYECTOSItemClick(const Sender: TObject;
-      const AItem: TListViewItem);
+    procedure LV_PROYECTOSItemClick(const Sender: TObject;  const AItem: TListViewItem);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }

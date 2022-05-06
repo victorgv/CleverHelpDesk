@@ -17,7 +17,7 @@ uses
   System.Actions,
   FMX.ActnList,
   FMX.Controls,
-  FMX.ListBox;
+  FMX.ListBox, FMX.ListView.Types;
 
 type
   TdmCore = class(TDataModule)
@@ -47,12 +47,13 @@ type
     //
     function ValidateEmail(const p_email: String): boolean;
     procedure SetLanguage(const p_lang: String); // Cambia el idioma de la aplicación (por ahora "es" o "en")
-    function getAppMessage(const p_msg_code: String): String; // Para recuperar mensajes de aplicación
+    function GetAppMessage(const p_msg_code: String): String; // Para recuperar mensajes de aplicación
     procedure WPResizeTControlToContents( AControl : TControl; Width : Boolean  = true; Height : Boolean = true ); // Ajusta el tamaño del contenedor al contenido (cuando hay un "resize" y el contenedor es TFlowLayout)
     procedure FillCombosWith_MasterStatus(combo: TComboBox); // Rellena combos Status
     procedure FillCombosWith_MasterTypes(combo: TComboBox); // Rellena combos types
     procedure FillCombosWith_Users(comboReportado, comboAsignado: TComboBox); // Rellena combos usuarios
     procedure FillCombosWith_Projects(combo: TComboBox); // Rellena combos proyectos
+    function ListViewItemGetTextHeight(const D: TListItemText; const Width: Single; const Text: string): Integer;
     //
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -72,7 +73,8 @@ uses
   FMX.Dialogs,
   System.Types,
   FMX.Forms,
-  System.JSON;
+  System.JSON,
+  FMX.TextLayout;
 
 { TdmCore }
 // Constructor de la clase
@@ -181,7 +183,7 @@ end;
 
 // Para recuperar mensajes de aplicación
 // { TODO : Extraer a otra clase y fichero con los textos. No es la mejor forma de implementarlo, pero es la opción más rápida }
-function TdmCore.getAppMessage(const p_msg_code: String): String;
+function TdmCore.GetAppMessage(const p_msg_code: String): String;
 begin
   result := '???';
   if la_idiomas.Lang = 'es' then // *** IDIOMA ESPAñOL
@@ -210,7 +212,6 @@ begin
     else if p_msg_code = 'MSG0009' then result := 'Role required'
     ;
   end;
-
 end;
 
 
@@ -226,6 +227,37 @@ begin
 
   if Result <> 'es' then
     Result := 'en'; // Cualquier otra cosa diferente a "es" lo devolvemos como "en"
+end;
+
+// Nos permitirá calcular el HEIGHT de un campo de texto dentro de un TListItem y así poder redimensionar dicho campo asegurando que cabe todo el contenido
+function TdmCore.ListViewItemGetTextHeight(const D: TListItemText; const Width: Single; const Text: string): Integer;
+var
+  Layout: TTextLayout;
+begin
+  // Create a TTextLayout to measure text dimensions
+  Layout := TTextLayoutManager.DefaultTextLayout.Create;
+  try
+    Layout.BeginUpdate;
+    try
+      // Initialize layout parameters with those of the drawable
+      Layout.Font.Assign(D.Font);
+      Layout.VerticalAlign := D.TextVertAlign;
+      Layout.HorizontalAlign := D.TextAlign;
+      Layout.WordWrap := D.WordWrap;
+      Layout.Trimming := D.Trimming;
+      Layout.MaxSize := TPointF.Create(Width, TTextLayout.MaxLayoutSize.Y);
+      Layout.Text := Text;
+    finally
+      Layout.EndUpdate;
+    end;
+    // Get layout height
+    Result := Round(Layout.Height);
+    // Add one em to the height
+    Layout.Text := 'm';
+    Result := Result + Round(Layout.Height);
+  finally
+    Layout.Free;
+  end;
 end;
 
 // Cambia el idioma de la aplicación (por ahora "es" o "en")

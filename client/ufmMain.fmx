@@ -17,13 +17,13 @@ object fmMain: TfmMain
     TabOrder = 0
     object Layout1: TLayout
       Align = Client
-      Size.Width = 544.000000000000000000
+      Size.Width = 536.000000000000000000
       Size.Height = 48.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 2
       object Z: TText
         Align = Client
-        Size.Width = 544.000000000000000000
+        Size.Width = 536.000000000000000000
         Size.Height = 48.000000000000000000
         Size.PlatformDefault = False
         Text = 'CleverHelpDesk'
@@ -39,16 +39,17 @@ object fmMain: TfmMain
       Size.Height = 48.000000000000000000
       Size.PlatformDefault = False
       StyleLookup = 'drawertoolbutton'
-      TabOrder = 1
+      TabOrder = 0
     end
-    object bt_doBack: TButton
+    object BT_CREA_NUEVO: TButton
       Align = Right
-      Position.X = 592.000000000000000000
-      Size.Width = 48.000000000000000000
+      Position.X = 584.000000000000000000
+      Size.Width = 56.000000000000000000
       Size.Height = 48.000000000000000000
       Size.PlatformDefault = False
-      StyleLookup = 'backtoolbutton'
-      TabOrder = 0
+      StyleLookup = 'additembutton'
+      TabOrder = 1
+      Text = 'BT_CREA_NUEVO'
     end
   end
   object StyleBook1: TStyleBook
@@ -58,21 +59,37 @@ object fmMain: TfmMain
     Left = 513
     Top = 16
   end
-  object Grid1: TGrid
+  object LY_LISTVIEW: TLayout
     Align = Client
-    CanFocus = True
-    ClipChildren = True
     Size.Width = 640.000000000000000000
     Size.Height = 432.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 3
-    Viewport.Width = 620.000000000000000000
-    Viewport.Height = 407.000000000000000000
-    object StringColumn1: TStringColumn
-    end
-    object StringColumn2: TStringColumn
-    end
-    object DateColumn1: TDateColumn
+    object LV_MAIN_TICKETS: TListView
+      ItemAppearanceClassName = 'TDynamicAppearance'
+      ItemEditAppearanceClassName = 'TDynamicAppearance'
+      HeaderAppearanceClassName = 'TListHeaderObjects'
+      FooterAppearanceClassName = 'TListHeaderObjects'
+      OnUpdateObjects = LV_MAIN_TICKETSUpdateObjects
+      Align = Client
+      Size.Width = 640.000000000000000000
+      Size.Height = 432.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      ItemAppearanceObjects.ItemObjects.ObjectsCollection = <
+        item
+          AppearanceObjectName = 'txtSubject'
+          AppearanceClassName = 'TTextObjectAppearance'
+          Appearance.Font.Size = 17.000000000000000000
+          Appearance.TextAlign = Leading
+          Appearance.WordWrap = True
+          Appearance.TextColor = claDarkslategray
+        end>
+      ItemAppearanceObjects.ItemEditObjects.ObjectsCollection = <
+        item
+          AppearanceObjectName = 'Text1'
+          AppearanceClassName = 'TTextObjectAppearance'
+        end>
     end
   end
   object MV_MAIN: TMultiView

@@ -71,7 +71,7 @@ object fmMntUsuarios: TfmMntUsuarios
       item
         AppearanceObjectName = 'name'
         AppearanceClassName = 'TTextObjectAppearance'
-        Appearance.Font.Size = 20.000000000000000000
+        Appearance.Font.Size = 19.000000000000000000
         Appearance.Font.StyleExt = {00070000000000000004000000}
         Appearance.TextAlign = Leading
         Appearance.TextColor = claDarkslategray
@@ -83,7 +83,7 @@ object fmMntUsuarios: TfmMntUsuarios
       item
         AppearanceObjectName = 'userName'
         AppearanceClassName = 'TTextObjectAppearance'
-        Appearance.Font.Size = 16.000000000000000000
+        Appearance.Font.Size = 15.000000000000000000
         Appearance.TextAlign = Leading
         Appearance.Width = 94.000000000000000000
         Appearance.Height = 20.000000000000000000
@@ -101,7 +101,7 @@ object fmMntUsuarios: TfmMntUsuarios
       item
         AppearanceObjectName = 'email'
         AppearanceClassName = 'TTextObjectAppearance'
-        Appearance.Font.Size = 16.000000000000000000
+        Appearance.Font.Size = 15.000000000000000000
         Appearance.TextAlign = Leading
         Appearance.Width = 202.000000000000000000
         Appearance.Height = 20.000000000000000000
@@ -111,7 +111,7 @@ object fmMntUsuarios: TfmMntUsuarios
       item
         AppearanceObjectName = 'role'
         AppearanceClassName = 'TTextObjectAppearance'
-        Appearance.Font.Size = 16.000000000000000000
+        Appearance.Font.Size = 15.000000000000000000
         Appearance.TextAlign = Leading
         Appearance.Width = 65.000000000000000000
         Appearance.Height = 20.000000000000000000

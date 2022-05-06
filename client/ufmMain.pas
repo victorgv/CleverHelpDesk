@@ -7,14 +7,15 @@ uses
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.MultiView,
   FMX.StdCtrls, FMX.TabControl, FMX.Layouts, FMX.Controls.Presentation,
   udmCore, FMX.Objects, FMX.DateTimeCtrls, FMX.ListBox, FMX.ExtCtrls,
-  System.Rtti, FMX.Grid.Style, FMX.Grid, FMX.ScrollBox, System.JSON;
+  System.Rtti, FMX.Grid.Style, FMX.Grid, FMX.ScrollBox, System.JSON,
+  FMX.ListView.Types, FMX.ListView.Appearances, FMX.ListView.Adapters.Base,
+  FMX.ListView;
 
 type
   TfmMain = class(TForm)
     tb_main: TToolBar;
     Layout1: TLayout;
     bt_open_multiview: TButton;
-    bt_doBack: TButton;
     MV_MAIN: TMultiView;
     ly_header: TLayout;
     ly_body: TLayout;
@@ -78,10 +79,9 @@ type
     ListBoxItem14: TListBoxItem;
     ListBoxItem15: TListBoxItem;
     SB_FILTRO_LIMPIA_REPORTADO: TSpeedButton;
-    Grid1: TGrid;
-    StringColumn1: TStringColumn;
-    DateColumn1: TDateColumn;
-    StringColumn2: TStringColumn;
+    LY_LISTVIEW: TLayout;
+    LV_MAIN_TICKETS: TListView;
+    BT_CREA_NUEVO: TButton;
     procedure bt_exitClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure BT_NUEVO_TICKETClick(Sender: TObject);
@@ -94,9 +94,10 @@ type
     procedure SB_FILTRO_LIMPIA_PROYECTOClick(Sender: TObject);
     procedure SB_FILTRO_LIMPIA_ASIGNADOClick(Sender: TObject);
     procedure SB_FILTRO_LIMPIA_REPORTADOClick(Sender: TObject);
+    procedure LV_MAIN_TICKETSUpdateObjects(const Sender: TObject;
+      const AItem: TListViewItem);
   private
     { Private declarations }
-    ticketsJsonArray: TJSONArray;
     procedure PostLoginInicialations;
     procedure LoadTickets;
   public
@@ -217,23 +218,62 @@ end;
 procedure TfmMain.LoadTickets;
 var
   resultado: TJSONValue;
-
+  JsonArray: TJSONArray;
   elementoJSON: TJSonValue;
-  i: integer;
 begin
-  i := 0;
   dmCore.CommunicationManager.DoRequestGet('/ticket/','',resultado);
-  ticketsJsonArray := resultado as TJsonArray;
-  Grid1.RowCount := ticketsJsonArray.Count;
-//  Grid1.UpdateColumns;
+  JsonArray := resultado as TJsonArray;
 
-
+  // Recorre el array y rellena combos ASIGNADO y REPORTADO
+  for elementoJSON in JsonArray do begin
+    with LV_MAIN_TICKETS.items.Add do begin
+      Data['txtSubject'] := elementoJSON.GetValue<String>('subject');
+      Tag := elementoJSON.GetValue<integer>('ticketId');
+    end;
+  end;
 end;
 
 procedure TfmMain.LoginDone;
 begin
   LA_NOMBRE_USUARIO.Text := dmCore.CommunicationManager.ClientSession.NAME;
   PostLoginInicialations;
+end;
+
+procedure TfmMain.LV_MAIN_TICKETSUpdateObjects(const Sender: TObject; const AItem: TListViewItem);
+var
+  Drawable: TListItemText;
+  SizeImg: TListItemImage;
+  Text: string;
+  AvailableWidth: Single;
+begin
+  //SizeImg := TListItemImage(AItem.View.FindDrawable('imgSize'));
+  AvailableWidth := TListView(Sender).Width; // - TListView(Sender).ItemSpaces.Left - TListView(Sender).ItemSpaces.Right - SizeImg.Width;
+
+  // Find the text drawable which is used to calcualte item size.
+  // For dynamic appearance, use item name.
+  // For classic appearances use TListViewItem.TObjectNames.Text
+  // Drawable := TListItemText(AItem.View.FindDrawable(TListViewItem.TObjectNames.Text));
+  Drawable := TListItemText(AItem.View.FindDrawable('txtSubject'));
+  Text := Drawable.Text;
+
+  // Randomize the font when updating for the first time
+  if Drawable.TagFloat = 0 then
+  begin
+    Drawable.Font.Size := 1; // Ensure that default font sizes do not play against us
+    Drawable.Font.Size := 17;
+
+    Drawable.TagFloat := Drawable.Font.Size;
+    if Text.Length < 100 then
+      Drawable.Font.Style := [TFontStyle.fsBold];
+  end;
+
+  // Calculate item height based on text in the drawable
+  AItem.Height := dmCore.ListViewItemGetTextHeight(Drawable, AvailableWidth, Text);
+  Drawable.Height := AItem.Height;
+  Drawable.Width := AvailableWidth;
+
+  //SizeImg.OwnsBitmap := False;
+  //SizeImg.Bitmap := GetDimensionBitmap(SizeImg.Width, AItem.Height);
 end;
 
 procedure TfmMain.pb_selector_idiomaChange(Sender: TObject);

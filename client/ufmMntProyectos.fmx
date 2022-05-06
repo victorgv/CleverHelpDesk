@@ -72,6 +72,8 @@ object fmMntProyectos: TfmMntProyectos
       Size.Height = 432.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 1
+      ItemAppearanceObjects.ItemObjects.Text.Font.Size = 18.000000000000000000
+      ItemAppearanceObjects.ItemObjects.Text.TextColor = claAquamarine
       OnItemClick = LV_PROYECTOSItemClick
     end
   end

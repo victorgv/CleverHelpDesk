@@ -89,7 +89,7 @@ begin
     else
     begin // Si login falla
       LA_INFO.TextSettings.FontColor := TAlphaColorRec.Red;
-      LA_INFO.Text := dmCore.getAppMessage('MSG0004');
+      LA_INFO.Text := dmCore.GetAppMessage('MSG0004');
     end;
   end;
 end;
@@ -101,14 +101,14 @@ begin
   begin
     result := false;
     LA_INFO.TextSettings.FontColor := TAlphaColorRec.Red;
-    LA_INFO.Text := dmCore.getAppMessage('MSG0001');
+    LA_INFO.Text := dmCore.GetAppMessage('MSG0001');
     ed_userName.SetFocus;
   end
   else if ed_password.Text.Trim.Length = 0 then
   begin
     result := false;
     LA_INFO.TextSettings.FontColor := TAlphaColorRec.Red;
-    LA_INFO.Text := dmCore.getAppMessage('MSG0003'); // Valida que se haya introducido algo en el campo "password"
+    LA_INFO.Text := dmCore.GetAppMessage('MSG0003'); // Valida que se haya introducido algo en el campo "password"
     ed_password.SetFocus;
   end
   else
