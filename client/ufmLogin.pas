@@ -59,7 +59,7 @@ uses
 constructor TfmLogin.create(AOwner: TComponent);
 begin
   inherited;
-  pb_selector_idioma.ItemIndex := pb_selector_idioma.Items.IndexOf(dmCore.idiomas.lang);
+  pb_selector_idioma.ItemIndex := pb_selector_idioma.Items.IndexOf('es');
   LA_INFO.text := '';
 end;
 

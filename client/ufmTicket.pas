@@ -90,7 +90,8 @@ type
     { Public declarations }
     procedure DoConfigureINSERT;
     procedure DoConfigureUPDATE(p_ID: integer);
-
+    //
+    property TickeID: integer read fTickeID;
   end;
 
 
@@ -191,9 +192,6 @@ begin
   begin
     dmCore.CommunicationManager.DoRequestPost('/ticket/',vBody,JSONResult);
     ShowMessage(JSONResult.ToString );
-
-
-
   end
   else // Caso modificación
   begin

@@ -56,7 +56,6 @@ public class UserService {
 
     // Método que creará el usuario
     public User createUser(User_CreateDTO newUser) {
-        System.out.println("*************************************** "+newUser.getName());
         return user_rep.save(new User(newUser.getUserName(),newUser.getName(),newUser.getEmail(),passwordEncoder.encode(newUser.getPassword()), role_rep.findById(newUser.getRoleCode()).orElse(null), null));
     }
 

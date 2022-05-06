@@ -194,14 +194,12 @@ begin
   fRESTRequest.ResetToDefaults;
   fRESTClient.ResetToDefaults;
   fRESTResponse.ResetToDefaults;
-//  RESTResponseDataSetAdapter.ResetToDefaults;
 end;
 
 
 procedure TCommunicationManager.DoRequestGet(const p_URL_MAPPING, p_param: String; var p_OUT_JSONValue: TJSONValue);
 begin
   reset;
-
   fRESTClient.BaseURL := c_URL_REST_SERVER+p_URL_MAPPING+'/'+p_param;
   fRESTRequest.Method := rmGET;
   AddJWT_TokenToHeader;

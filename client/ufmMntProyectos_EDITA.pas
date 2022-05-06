@@ -76,33 +76,15 @@ begin
       vBody := '{"name":"'+ED_NAME.Text+'"}';
     dmCore.CommunicationManager.DoRequestPut('/global/project/', fitemListView.Tag.ToString, vBody, JSONResult);
     fitemListView.Text := ED_NAME.Text;
-    ShowMessage(JSONResult.ToString );
-
   end
   else // Es inserción
   begin
     vBody := '{"name":"'+ED_NAME.Text+'"}';
     dmCore.CommunicationManager.DoRequestPost('/global/project/',vBody,JSONResult);
     fProjectID := JSONResult.GetValue<integer>('projectId');
-    ShowMessage(JSONResult.ToString );
   end;
   close;
   ModalResult := mrOK;
-{  if fTickeID = -1 then // Caso inserción
-  begin
-
-var
-  respuesta: TJSONValue;
-begin
-  dmCore.CommunicationManager.DoRequestPost('/global/project/', '{"name":"(ATR) Asignación Trabajadores en Tiempo Real"}//', respuesta);
-{  ShowMessage(respuesta.ToString);
-
-
-  end
-  else // Caso modificación
-  begin
-
-  end;}
 end;
 
 end.

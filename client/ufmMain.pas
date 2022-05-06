@@ -3,7 +3,7 @@ unit ufmMain;
 interface
 
 uses
-  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
+  System.Types, System.UITypes, System.Classes, System.Variants,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.MultiView,
   FMX.StdCtrls, FMX.TabControl, FMX.Layouts, FMX.Controls.Presentation,
   udmCore, FMX.Objects, FMX.DateTimeCtrls, FMX.ListBox, FMX.ExtCtrls,
@@ -31,8 +31,6 @@ type
     Image1: TImage;
     BT_MNT_USUARIOS: TButton;
     Image2: TImage;
-    BT_NUEVO_TICKET: TButton;
-    Image3: TImage;
     FlowLayout1: TFlowLayout;
     Layout4: TLayout;
     Label1: TLabel;
@@ -82,9 +80,10 @@ type
     LY_LISTVIEW: TLayout;
     LV_MAIN_TICKETS: TListView;
     BT_CREA_NUEVO: TButton;
+    BT_RECARGAR: TButton;
+    Image3: TImage;
     procedure bt_exitClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure BT_NUEVO_TICKETClick(Sender: TObject);
     procedure BT_MNT_USUARIOSClick(Sender: TObject);
     procedure BT_MNT_PROYECTOSClick(Sender: TObject);
     procedure pb_selector_idiomaChange(Sender: TObject);
@@ -94,12 +93,14 @@ type
     procedure SB_FILTRO_LIMPIA_PROYECTOClick(Sender: TObject);
     procedure SB_FILTRO_LIMPIA_ASIGNADOClick(Sender: TObject);
     procedure SB_FILTRO_LIMPIA_REPORTADOClick(Sender: TObject);
-    procedure LV_MAIN_TICKETSUpdateObjects(const Sender: TObject;
-      const AItem: TListViewItem);
+    procedure LV_MAIN_TICKETSUpdateObjects(const Sender: TObject; const AItem: TListViewItem);
+    procedure BT_CREA_NUEVOClick(Sender: TObject);
+    procedure BT_RECARGARClick(Sender: TObject);
   private
     { Private declarations }
     procedure PostLoginInicialations;
     procedure LoadTickets;
+    function GenerateParamsOfFilter: String;
   public
     { Public declarations }
     procedure LoginDone; // Para configura el formulario tras el login
@@ -110,7 +111,7 @@ var
 
 implementation
 
-uses ufmTicket, ufmMntUsuarios, ufmMntProyectos;
+uses ufmTicket, ufmMntUsuarios, ufmMntProyectos, System.SysUtils;
 
 {$R *.fmx}
 
@@ -129,6 +130,7 @@ procedure TfmMain.FormDestroy(Sender: TObject);
 begin
   dmCore.Free;
 end;
+
 
 // Inicializaciones que se realizan una vez el usuario esté logueado
 procedure TfmMain.PostLoginInicialations;
@@ -191,8 +193,13 @@ begin
     );
 end;
 
-// Algunas inicializaciones al crear el formulario
-procedure TfmMain.BT_NUEVO_TICKETClick(Sender: TObject);
+
+procedure TfmMain.BT_RECARGARClick(Sender: TObject);
+begin
+  LoadTickets;
+end;
+
+procedure TfmMain.BT_CREA_NUEVOClick(Sender: TObject);
 var
   ticket: TfmTicket;
 begin
@@ -202,78 +209,93 @@ begin
       begin // Esto es el "back-call" del ticket
         if ModalResult = mrOk then
           // [TO-DO]
+          with LV_MAIN_TICKETS.items.Add do
+          begin
+            Data['txtSubject'] := '('+ticket.TickeID.ToString+') '+ticket.ED_ASUNTO.Text;
+            Data['txtSubject'] := Data['txtSubject'].ToString  + ' | Estado= ' + UpperCase(ticket.CB_ESTADO.Selected.text);
+            Data['txtSubject'] := Data['txtSubject'].ToString  + ' | Creado=' + FormatDateTime('dd-mm-yyyy', ticket.ED_ABIERTO.Date);
+            Tag := ticket.TickeID;
+          end
         else
           ; // [TO-DO]
       end
     );
 end;
 
-
 procedure TfmMain.bt_exitClick(Sender: TObject);
 begin
   Application.Terminate;
 end;
 
-// Configura el formulario tras el login
+
+// Hace la carga de los tickets desde servidor y los muestra en pantalla
 procedure TfmMain.LoadTickets;
 var
   resultado: TJSONValue;
   JsonArray: TJSONArray;
   elementoJSON: TJSonValue;
+  txtAux: String;
 begin
-  dmCore.CommunicationManager.DoRequestGet('/ticket/','',resultado);
+  dmCore.CommunicationManager.DoRequestGet('/ticket',GenerateParamsOfFilter,resultado);
   JsonArray := resultado as TJsonArray;
+  LV_MAIN_TICKETS.items.Clear;
 
-  // Recorre el array y rellena combos ASIGNADO y REPORTADO
-  for elementoJSON in JsonArray do begin
-    with LV_MAIN_TICKETS.items.Add do begin
-      Data['txtSubject'] := elementoJSON.GetValue<String>('subject');
-      Tag := elementoJSON.GetValue<integer>('ticketId');
+  LV_MAIN_TICKETS.BeginUpdate;
+  try
+    // Recorre el array y rellena combos ASIGNADO y REPORTADO
+    for elementoJSON in JsonArray do begin
+      with LV_MAIN_TICKETS.items.Add do begin
+        Data['txtSubject'] := '('+elementoJSON.GetValue<integer>('ticketId').ToString+') '+elementoJSON.GetValue<String>('subject');
+        if elementoJSON.GetValue<TJSONValue>('masterStatus').ToString <> 'null' then txtAux := 'Estado='+ UpperCase(elementoJSON.GetValue<TJSONObject>('masterStatus').GetValue<String>('name'))
+        else txtAux := 'Estado=NULL';
+        txtAux := txtAux + ' | Creado='+FormatDateTime('dd-mm-yyyy',elementoJSON.GetValue<TDateTime>('opened'));
+        if elementoJSON.GetValue<TJSONValue>('userAssignedId').ToString <> 'null' then txtAux := txtAux + ' | Asignado='+elementoJSON.GetValue<TJSONObject>('userAssignedId').GetValue<String>('userName')
+        else txtAux := txtAux + ' | Asignado=NULL';
+        Data['txtInfo'] := txtAux;
+        Tag := elementoJSON.GetValue<integer>('ticketId');
+      end;
     end;
+  finally
+    LV_MAIN_TICKETS.EndUpdate;
   end;
 end;
 
+// Genera string con los parámetros de la consulta que pasará la URL de la petición rest
+function TfmMain.GenerateParamsOfFilter: String;
+begin
+  Result := '?from='+FormatDateTIme('yyyy-mm-dd',ED_FILTRO_DESDE.Date)+'&to='+FormatDateTime('yyyy-mm-dd',ED_FILTRO_HASTA.Date);
+end;
+
+// Configura el formulario tras el login
 procedure TfmMain.LoginDone;
 begin
   LA_NOMBRE_USUARIO.Text := dmCore.CommunicationManager.ClientSession.NAME;
   PostLoginInicialations;
 end;
 
+// Evento que se lanza cada vez que se actualiza un registro TListViewItem y lo utilzo para redimensionar el heigth en función del texto contenido
 procedure TfmMain.LV_MAIN_TICKETSUpdateObjects(const Sender: TObject; const AItem: TListViewItem);
 var
-  Drawable: TListItemText;
+  DrawableTxtSubject: TListItemText;
+  DrawableTxtStatus: TListItemText;
   SizeImg: TListItemImage;
   Text: string;
   AvailableWidth: Single;
 begin
-  //SizeImg := TListItemImage(AItem.View.FindDrawable('imgSize'));
   AvailableWidth := TListView(Sender).Width; // - TListView(Sender).ItemSpaces.Left - TListView(Sender).ItemSpaces.Right - SizeImg.Width;
+  // Obtiene los objetos donde se pinta el texto del item
+  DrawableTxtSubject := TListItemText(AItem.View.FindDrawable('txtSubject'));
+  DrawableTxtStatus := TListItemText(AItem.View.FindDrawable('txtInfo'));
+  Text := DrawableTxtSubject.Text;
+  DrawableTxtSubject.Font.Size := 17;
+  DrawableTxtSubject.TagFloat := DrawableTxtSubject.Font.Size;
+  DrawableTxtSubject.Font.Style := [TFontStyle.fsBold];
 
-  // Find the text drawable which is used to calcualte item size.
-  // For dynamic appearance, use item name.
-  // For classic appearances use TListViewItem.TObjectNames.Text
-  // Drawable := TListItemText(AItem.View.FindDrawable(TListViewItem.TObjectNames.Text));
-  Drawable := TListItemText(AItem.View.FindDrawable('txtSubject'));
-  Text := Drawable.Text;
-
-  // Randomize the font when updating for the first time
-  if Drawable.TagFloat = 0 then
-  begin
-    Drawable.Font.Size := 1; // Ensure that default font sizes do not play against us
-    Drawable.Font.Size := 17;
-
-    Drawable.TagFloat := Drawable.Font.Size;
-    if Text.Length < 100 then
-      Drawable.Font.Style := [TFontStyle.fsBold];
-  end;
-
-  // Calculate item height based on text in the drawable
-  AItem.Height := dmCore.ListViewItemGetTextHeight(Drawable, AvailableWidth, Text);
-  Drawable.Height := AItem.Height;
-  Drawable.Width := AvailableWidth;
-
-  //SizeImg.OwnsBitmap := False;
-  //SizeImg.Bitmap := GetDimensionBitmap(SizeImg.Width, AItem.Height);
+  // Calcula el tamaño basandose en el texto del Drawable
+  DrawableTxtSubject.Height := dmCore.ListViewItemGetTextHeight(DrawableTxtSubject, AvailableWidth, Text);
+  AItem.Height := Trunc(DrawableTxtSubject.Height+DrawableTxtStatus.Height);
+  DrawableTxtStatus.PlaceOffset.Y := DrawableTxtSubject.Height;
+  DrawableTxtSubject.Width := AvailableWidth;
 end;
 
 procedure TfmMain.pb_selector_idiomaChange(Sender: TObject);
