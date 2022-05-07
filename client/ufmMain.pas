@@ -96,11 +96,15 @@ type
     procedure LV_MAIN_TICKETSUpdateObjects(const Sender: TObject; const AItem: TListViewItem);
     procedure BT_CREA_NUEVOClick(Sender: TObject);
     procedure BT_RECARGARClick(Sender: TObject);
+    procedure LV_MAIN_TICKETSItemClick(const Sender: TObject;
+      const AItem: TListViewItem);
+    procedure BT_CERRAR_SESIONClick(Sender: TObject);
   private
     { Private declarations }
     procedure PostLoginInicialations;
     procedure LoadTickets;
     function GenerateParamsOfFilter: String;
+    procedure formInsercionEdicion(item: TListViewItem);
   public
     { Public declarations }
     procedure LoginDone; // Para configura el formulario tras el login
@@ -128,7 +132,10 @@ end;
 // Libera recursos al finalizar la ejecución (cuando se cierra el form Main finaliza el programa)
 procedure TfmMain.FormDestroy(Sender: TObject);
 begin
-  dmCore.Free;
+  try
+    dmCore.Free;
+  except
+  end;
 end;
 
 
@@ -199,27 +206,15 @@ begin
   LoadTickets;
 end;
 
-procedure TfmMain.BT_CREA_NUEVOClick(Sender: TObject);
-var
-  ticket: TfmTicket;
+// LOGOUT, solicitará nuevo usuario o volver a introducir credenciales para continuar
+procedure TfmMain.BT_CERRAR_SESIONClick(Sender: TObject);
 begin
-  ticket := TfmTicket.Create(nil);
-  ticket.DoConfigureINSERT;
-  ticket.ShowModal(procedure(ModalResult: TModalResult)  // Modal http://docwiki.embarcadero.com/RADStudio/Sydney/en/Using_FireMonkey_Modal_Dialog_Boxes
-      begin // Esto es el "back-call" del ticket
-        if ModalResult = mrOk then
-          // [TO-DO]
-          with LV_MAIN_TICKETS.items.Add do
-          begin
-            Data['txtSubject'] := '('+ticket.TickeID.ToString+') '+ticket.ED_ASUNTO.Text;
-            Data['txtSubject'] := Data['txtSubject'].ToString  + ' | Estado= ' + UpperCase(ticket.CB_ESTADO.Selected.text);
-            Data['txtSubject'] := Data['txtSubject'].ToString  + ' | Creado=' + FormatDateTime('dd-mm-yyyy', ticket.ED_ABIERTO.Date);
-            Tag := ticket.TickeID;
-          end
-        else
-          ; // [TO-DO]
-      end
-    );
+  dmCore.DoLogOut;
+end;
+
+procedure TfmMain.BT_CREA_NUEVOClick(Sender: TObject);
+begin
+  formInsercionEdicion(nil);
 end;
 
 procedure TfmMain.bt_exitClick(Sender: TObject);
@@ -271,6 +266,54 @@ procedure TfmMain.LoginDone;
 begin
   LA_NOMBRE_USUARIO.Text := dmCore.CommunicationManager.ClientSession.NAME;
   PostLoginInicialations;
+end;
+
+// Abre el formulario del ticket para inserción o modificación según la selección del usuario
+procedure TfmMain.formInsercionEdicion(item: TListViewItem);
+var
+  ticket: TfmTicket;
+  itemEdicionTemporal: TListViewItem; // Simplemente para tener una referencia temporal al registro del listView para cargar/recargar los datos
+begin
+  ticket := TfmTicket.Create(nil);
+  if NOT Assigned(item) then ticket.DoConfigureINSERT
+  else ticket.DoConfigureUPDATE(item);
+
+  // Mostramos el formulario del ticket
+  ticket.ShowModal(procedure(ModalResult: TModalResult)  // Modal http://docwiki.embarcadero.com/RADStudio/Sydney/en/Using_FireMonkey_Modal_Dialog_Boxes
+      begin // Esto es el "back-call" del ticket
+        if ModalResult = mrOk then
+        begin
+          if NOT Assigned(ticket.ItemListView) then // CASO INSERCIÓN
+          begin
+            itemEdicionTemporal := LV_MAIN_TICKETS.items.Add;
+            Tag := ticket.TickeID;
+          end
+          else // CASO MODIFICACIÓN
+          begin
+            itemEdicionTemporal := ticket.ItemListView;
+          end;
+          // Cargamos/recargamos datos en el registro del ListView
+          with itemEdicionTemporal do
+          begin
+            Data['txtSubject'] := '('+ticket.TickeID.ToString+') '+ticket.ED_ASUNTO.Text;
+            Data['txtSubject'] := Data['txtSubject'].ToString  + ' | Estado= ' + UpperCase(ticket.CB_ESTADO.Selected.text);
+            Data['txtSubject'] := Data['txtSubject'].ToString  + ' | Creado=' + FormatDateTime('dd-mm-yyyy', ticket.ED_ABIERTO.Date);
+          end;
+        end
+        else
+        begin
+           // No hacemos nada ya que ha cancelado y no habrá cambios...
+        end;
+      end
+    );
+
+end;
+
+
+
+procedure TfmMain.LV_MAIN_TICKETSItemClick(const Sender: TObject; const AItem: TListViewItem);
+begin
+  formInsercionEdicion(AItem);
 end;
 
 // Evento que se lanza cada vez que se actualiza un registro TListViewItem y lo utilzo para redimensionar el heigth en función del texto contenido

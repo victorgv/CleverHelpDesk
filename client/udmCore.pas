@@ -17,7 +17,7 @@ uses
   System.Actions,
   FMX.ActnList,
   FMX.Controls,
-  FMX.ListBox, FMX.ListView.Types;
+  FMX.ListBox, FMX.ListView.Types, System.ImageList, FMX.ImgList;
 
 type
   TdmCore = class(TDataModule)
@@ -28,6 +28,7 @@ type
     la_idiomas: TLang;
     AL_GLOBAL: TActionList;
     AC_HardwareBack: TAction;
+    IL_LISTA_IMAGENES: TImageList;
     procedure DataModuleCreate(Sender: TObject);
     procedure ti_userAuthenticatedTimer(Sender: TObject);
     procedure DataModuleDestroy(Sender: TObject);
@@ -35,7 +36,6 @@ type
   private
     { Private declarations }
     fCommunicationManager: TCommunicationManager;
-    fUserAuthenticated: Boolean;
     fFmLogin: TfmLogin;
     fBaseURL_REST_SERVER: String; // URL base del servidor REST
     function getlocalLang: String; // Obtiene el idioma local del dispositivo (es o en cualquier otro caso devolverá en)
@@ -54,6 +54,8 @@ type
     procedure FillCombosWith_Users(comboReportado, comboAsignado: TComboBox); // Rellena combos usuarios
     procedure FillCombosWith_Projects(combo: TComboBox); // Rellena combos proyectos
     function ListViewItemGetTextHeight(const D: TListItemText; const Width: Single; const Text: string): Integer;
+    procedure DoLogOut;
+    function GetIdValueFromComboBox_ToRestValue(cb: TComboBox): string; // Obtiene el ID del elemento seleccionado y lo devuelve o null (texto) si no hay selección, para incluirlo en un campo del json
     //
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -90,6 +92,13 @@ destructor TdmCore.Destroy;
 begin
   fCommunicationManager.Free;
   inherited;
+end;
+
+// Al hacer LOGOUT solicita de nuevo credenciales
+procedure TdmCore.DoLogOut;
+begin
+  sleep(300);
+  FreeAndNil(fCommunicationManager.ClientSession);
 end;
 
 // Cargamos los diferentes tipos de estados
@@ -197,6 +206,13 @@ begin
     else if p_msg_code = 'MSG0007' then result := 'Email formato incorrecto'
     else if p_msg_code = 'MSG0008' then result := 'Password es obligatorio'
     else if p_msg_code = 'MSG0009' then result := 'Perfil requerido'
+    else if p_msg_code = 'MSG0010' then result := 'Debe seleccionar un estado'
+    else if p_msg_code = 'MSG0011' then result := 'Debe seleccionar un tipo'
+    else if p_msg_code = 'MSG0012' then result := 'Debe seleccionar una prioridad'
+    else if p_msg_code = 'MSG0013' then result := 'Introduzca una breve descripción'
+    else if p_msg_code = 'MSG0014' then result := 'UNAUTHORIZED Su token ha expirado'
+    else if p_msg_code = 'MSG0015' then result := 'BAD_REQUEST Petición incorrecta'
+    else if p_msg_code = 'MSG0016' then result := 'Debe introducir un asunto'
     ;
   end
   else
@@ -210,10 +226,25 @@ begin
     else if p_msg_code = 'MSG0007' then result := 'Email wrong format'
     else if p_msg_code = 'MSG0008' then result := 'Password required'
     else if p_msg_code = 'MSG0009' then result := 'Role required'
+    else if p_msg_code = 'MSG0010' then result := 'Status is required'
+    else if p_msg_code = 'MSG0011' then result := 'Type is required'
+    else if p_msg_code = 'MSG0012' then result := 'Priority is required'
+    else if p_msg_code = 'MSG0013' then result := 'Enter a short description'
+    else if p_msg_code = 'MSG0014' then result := 'UNAUTHORIZED token has expired'
+    else if p_msg_code = 'MSG0015' then result := 'BAD_REQUEST wrong request'
+    else if p_msg_code = 'MSG0016' then result := 'Subject is required'
     ;
   end;
 end;
 
+// Obtiene el ID del elemento seleccionado y lo devuelve o null (texto) si no hay selección, para incluirlo en un campo del json
+function TdmCore.GetIdValueFromComboBox_ToRestValue(cb: TComboBox): string;
+begin
+  if cb.ItemIndex = -1 then // No hay nada seleccionado
+    result := 'null'
+  else
+    result := integer(cb.items.objects[cb.ItemIndex] ).ToString;
+end;
 
 // Obtiene el idioma local del dispositivo (es o en cualquier otro caso devolverá en)
 function TdmCore.getlocalLang: String;
@@ -268,16 +299,17 @@ begin
 end;
 
 procedure TdmCore.ti_userAuthenticatedTimer(Sender: TObject);
-var
-  vModalResult: TModalResult;
 begin
   // Si el usuario no está autenticado y el formulario de login ya está abierto abrimos pantalla LOGIN
-  if (not fUserAuthenticated) AND (NOT Assigned(fFmLogin)) then
+  if (not Assigned(CommunicationManager.ClientSession))  AND (NOT Assigned(fFmLogin)) then
   begin
     fFmLogin := TfmLogin.Create(nil);
-    fFmLogin.RunFormAsModal(procedure(pModalResult: TModalResult)  // Modal http://docwiki.embarcadero.com/RADStudio/Sydney/en/Using_FireMonkey_Modal_Dialog_Boxes
+    fFmLogin.ShowModal(procedure(ModalResult: TModalResult)  // Modal http://docwiki.embarcadero.com/RADStudio/Sydney/en/Using_FireMonkey_Modal_Dialog_Boxes
       begin
-        vModalResult := pModalResult;
+        if ModalResult = mrOk then
+        begin
+          fFmLogin := nil; // La liberación la hace el propio formulario "caFree"
+        end;
       end
     );
   end;

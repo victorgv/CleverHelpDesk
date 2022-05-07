@@ -18,29 +18,24 @@ inherited fmTicket_LgXhdpiPh: TfmTicket_LgXhdpiPh
   end
   inherited TC_TICKET_MAIN: TTabControl
     Size.Width = 450.000000000000000000
-    Size.Height = 590.000000000000000000
+    Size.Height = 595.000000000000000000
     Sizes = (
       450s
-      541s
+      546s
       450s
-      541s
-      450s
-      541s)
+      546s
+      890s
+      352s)
     inherited TI_DATOS: TTabItem
-      Size.Width = 150.000000000000000000
+      Size.Width = 225.000000000000000000
       ExplicitSize.cx = 69.000000000000000000
       ExplicitSize.cy = 26.000000000000000000
       inherited LA_DATOS_MAIN: TLayout
         Size.Width = 450.000000000000000000
-        Size.Height = 541.000000000000000000
+        Size.Height = 546.000000000000000000
         inherited FL_PANEL_CAMPOS: TFlowLayout
           Size.Width = 450.000000000000000000
           Size.Height = 265.000000000000000000
-          inherited Layout6: TLayout
-            inherited CB_ESTADO: TComboBox
-              Size.Height = 32.000000000000000000
-            end
-          end
           inherited Layout7: TLayout
             Position.Y = 33.000000000000000000
             inherited ED_ABIERTO: TDateEdit
@@ -55,50 +50,57 @@ inherited fmTicket_LgXhdpiPh: TfmTicket_LgXhdpiPh
           end
           inherited Layout2: TLayout
             Position.Y = 99.000000000000000000
-            inherited CB_TIPO: TComboBox
-              Size.Height = 32.000000000000000000
-            end
           end
           inherited Layout9: TLayout
             Position.Y = 132.000000000000000000
-            inherited CB_ASIGNADO: TComboBox
-              Size.Height = 32.000000000000000000
-            end
           end
           inherited Layout1: TLayout
             Position.Y = 165.000000000000000000
-            inherited CB_REPORTADO: TComboBox
-              Size.Height = 32.000000000000000000
-            end
           end
           inherited Layout3: TLayout
             Position.Y = 198.000000000000000000
-            inherited CB_PROYECTOS: TComboBox
-              Size.Height = 32.000000000000000000
-            end
           end
           inherited Layout4: TLayout
             Position.Y = 231.000000000000000000
-            inherited CB_PRIORIDAD: TComboBox
-              Size.Height = 32.000000000000000000
-            end
           end
         end
         inherited LA_DESCRIPCION: TLayout
-          Position.Y = 265.000000000000000000
+          Position.Y = 390.000000000000000000
           Size.Width = 450.000000000000000000
           inherited ME_DESCRIPCION: TMemo
             Size.Width = 326.000000000000000000
             Viewport.Width = 326.000000000000000000
-            Viewport.Height = 208.000000000000000000
+            Viewport.Height = 156.000000000000000000
           end
+        end
+        inherited LA_INFO: TLabel
+          Position.Y = 364.000000000000000000
+          Size.Width = 450.000000000000000000
         end
       end
     end
     inherited TI_COMENTARIOS: TTabItem
-      Size.Width = 150.000000000000000000
+      Padding.Left = 10.000000000000000000
+      Padding.Top = 10.000000000000000000
+      Padding.Right = 10.000000000000000000
+      Padding.Bottom = 10.000000000000000000
+      Size.Width = 225.000000000000000000
       ExplicitSize.cx = 69.000000000000000000
       ExplicitSize.cy = 26.000000000000000000
+      inherited LV_COMMENT: TListView
+        Size.Width = 450.000000000000000000
+        Size.Height = 425.000000000000000000
+      end
+      inherited Layout5: TLayout
+        Size.Width = 450.000000000000000000
+        inherited ME_CARGA_COMMENT: TMemo
+          Viewport.Width = 425.000000000000000000
+          Viewport.Height = 73.000000000000000000
+        end
+      end
+      inherited Splitter1: TSplitter
+        Size.Width = 450.000000000000000000
+      end
     end
     inherited TI_HISTORICO: TTabItem
       Size.Width = 150.000000000000000000

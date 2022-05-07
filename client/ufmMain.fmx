@@ -102,6 +102,7 @@ object fmMain: TfmMain
           AppearanceObjectName = 'Text1'
           AppearanceClassName = 'TTextObjectAppearance'
         end>
+      OnItemClick = LV_MAIN_TICKETSItemClick
     end
   end
   object MV_MAIN: TMultiView
@@ -148,6 +149,7 @@ object fmMain: TfmMain
           Size.Height = 57.000000000000000000
           Size.PlatformDefault = False
           TabOrder = 8
+          OnClick = BT_CERRAR_SESIONClick
           object MailImage: TImage
             MultiResBitmap.Width = 33
             MultiResBitmap.LoadSize = 2

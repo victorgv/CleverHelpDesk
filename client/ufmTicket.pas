@@ -76,22 +76,32 @@ type
     ListBoxItem15: TListBoxItem;
     ListBoxItem16: TListBoxItem;
     ListBoxItem17: TListBoxItem;
+    LA_INFO: TLabel;
+    LV_COMMENT: TListView;
+    Layout5: TLayout;
+    BT_CREA_NUEVO: TButton;
+    ME_CARGA_COMMENT: TMemo;
+    Splitter1: TSplitter;
     procedure FL_PANEL_CAMPOSResize(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure SB_CANCELARClick(Sender: TObject);
     procedure SB_GRABARClick(Sender: TObject);
-    procedure SB_GRABAR_IMAGENClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure BT_CREA_NUEVOClick(Sender: TObject);
   private
     fTickeID: integer; // Almacena el ID del ticket que estamos modificando o -1 si es inserción
+    fitemListView: TListViewItem; // Para identificar si estamos creando (NIL) o modificando un ticket (instanciará al item que estamos modificando)
     //
-    procedure ValidateFields;
+    function ValidateFields: boolean;
     procedure SaveChanges;
+    procedure LoadComments;
   public
     { Public declarations }
     procedure DoConfigureINSERT;
-    procedure DoConfigureUPDATE(p_ID: integer);
+    procedure DoConfigureUPDATE(AItemListView: TListViewItem);
     //
     property TickeID: integer read fTickeID;
+    property ItemListView: TListViewItem read fitemListView;
   end;
 
 
@@ -109,18 +119,41 @@ uses
 
 
 // Inicializaciones del formulario
+procedure TfmTicket.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  Action := TCloseAction.caFree;
+end;
+
 procedure TfmTicket.FormCreate(Sender: TObject);
 begin
+  LA_INFO.Text := '';
   dmCore.FillCombosWith_Users(CB_REPORTADO, CB_ASIGNADO);
   dmCore.FillCombosWith_MasterTypes(CB_TIPO);
   dmCore.FillCombosWith_MasterStatus(CB_ESTADO);
   dmCore.FillCombosWith_Projects(CB_PROYECTOS);
 end;
 
+
+// Añade un nuevo comentario
+procedure TfmTicket.BT_CREA_NUEVOClick(Sender: TObject);
+var
+  vBody: String;
+   JSONResult: TJSONValue;
+begin
+  vBody := '{"user":{"userId":'+dmCore.CommunicationManager.ClientSession.UserID.ToString+'},'+
+            '"ticket":{"ticketId":'+fTickeID.ToString+'},'+
+            '"text":"'+ME_CARGA_COMMENT.Text.Replace(#13#10,'\n')+'"}';
+  dmCore.CommunicationManager.DoRequestPost('/ticket/comment',vBody,JSONResult);
+
+  LV_COMMENT.items.Add.Text := JSONResult.GetValue<String>('text');
+
+end;
+
 // Configuración formulario cuando queremos INTERTAR
 procedure TfmTicket.DoConfigureINSERT;
 begin
   fTickeID := -1;
+  fitemListView := NIL;
   Caption := 'Creación Nuevo Ticket';
   ED_ID.Visible := FALSE;
   ED_ABIERTO.Date := Now;
@@ -132,12 +165,57 @@ begin
 end;
 
 // Configuración formulario cuando queremos MODIFICAR
-procedure TfmTicket.DoConfigureUPDATE(p_ID: integer);
+procedure TfmTicket.DoConfigureUPDATE(AItemListView: TListViewItem);
+var
+  JSONResult: TJSONValue;
 begin
-  fTickeID := p_ID;
+  fTickeID := AItemListView.Tag;
+  fitemListView := AItemListView;
   Caption := 'Gestión de Ticket';
 
+  // Recuperamos la información del ticket
+  dmCore.CommunicationManager.DoRequestGet('/ticket/id',fTickeID.ToString,JSONResult);
+  // Volcamos los datos
+  ED_ASUNTO.Text := JSONResult.GetValue<String>('subject');
+  ED_ID.Text := JSONResult.GetValue<String>('ticketId');
+  ED_ABIERTO.Date := JSONResult.GetValue<TDateTime>('opened');
+  if NOT JSONResult.GetValue<String>('closed').IsEmpty then
+    ED_CERRADO.Date := JSONResult.GetValue<TDateTime>('closed')
+  else
+    ED_CERRADO.IsEmpty := true;
+  if JSONResult.FindValue('masterStatus').ToString='null' then CB_ESTADO.ItemIndex := -1
+  else CB_ESTADO.ItemIndex := CB_ESTADO.items.IndexOf(JSONResult.GetValue<TJSONObject>('masterStatus').GetValue<String>('name'));
+  //ShowMessage(JSONResult.FindValue('masterType').ToString);
+  if JSONResult.FindValue('masterType').ToString='null' then CB_TIPO.ItemIndex := -1
+  else CB_TIPO.ItemIndex := CB_TIPO.items.IndexOf(JSONResult.GetValue<TJSONObject>('masterType').GetValue<String>('name'));
+  if JSONResult.FindValue('userOpenedId').ToString='null' then CB_REPORTADO.ItemIndex := -1
+  else CB_REPORTADO.ItemIndex := CB_REPORTADO.items.IndexOf(JSONResult.GetValue<TJSONObject>('userOpenedId').GetValue<String>('name'));
+  if JSONResult.FindValue('userAssignedId').ToString='null' then CB_Asignado.ItemIndex := -1
+  else CB_Asignado.ItemIndex := CB_Asignado.items.IndexOf(JSONResult.GetValue<TJSONObject>('userAssignedId').GetValue<String>('name'));
+  if JSONResult.FindValue('relatedProjectId').ToString='null' then CB_PROYECTOS.ItemIndex := -1
+  else CB_PROYECTOS.ItemIndex := CB_PROYECTOS.items.IndexOf(JSONResult.GetValue<TJSONObject>('relatedProjectId').GetValue<String>('name'));
+  CB_PRIORIDAD.ItemIndex := JSONResult.GetValue<Integer>('priority');
+  ME_DESCRIPCION.Text := JSONResult.GetValue<String>('description');
+  // Recupera sus comentarios
+  LoadComments;
 end;
+
+// Carga los comentarios para este tickect
+procedure TfmTicket.LoadComments;
+var
+  resultado: TJSONValue;
+  JsonArray: TJSONArray;
+  elementoJSON: TJSonValue;
+begin
+  dmCore.CommunicationManager.DoRequestGet('/ticket/comment',fTickeID.ToString,resultado);
+  JsonArray := resultado as TJsonArray;
+  for elementoJSON in JsonArray do begin
+    with LV_COMMENT.items.Add do begin
+      Text := elementoJSON.GetValue<String>('text');
+    end;
+  end;
+end;
+
 
 // Asegura que se amplia el tamaño del contenedor en el caso de modificar el tamaño del formulario para que se muestren todos los elementos
 procedure TfmTicket.FL_PANEL_CAMPOSResize(Sender: TObject);
@@ -155,25 +233,57 @@ end;
 procedure TfmTicket.SB_GRABARClick(Sender: TObject);
 begin
   // (1) Validamos campos obligatorios
-  ValidateFields;
-
-  // (2) Grabamos en BD
-  SaveChanges;
-
-  // (3) Finalmente cerramos el formulario
-  close;
+  if ValidateFields then
+  begin
+    // (2) Grabamos en BD
+    SaveChanges;
+    // (3) Finalmente cerramos el formulario
+    close;
+  end;
 end;
 
-
-procedure TfmTicket.SB_GRABAR_IMAGENClick(Sender: TObject);
-begin
-
-end;
 
 // Validamos campos obligatorios
-procedure TfmTicket.ValidateFields;
+function TfmTicket.ValidateFields: boolean;
 begin
-
+  result := true;
+  LA_INFO.Visible := false;
+  if ED_ASUNTO.Text.Trim.Length = 0 then
+  begin
+    result := false;
+    LA_INFO.Visible := true;
+    LA_INFO.Text := dmCore.getAppMessage('MSG0016');
+    ED_ASUNTO.SetFocus;
+  end
+  else
+  if CB_ESTADO.ItemIndex = -1 then // Valida que hay un estado seleccionado
+  begin
+    result := false;
+    LA_INFO.Visible := true;
+    LA_INFO.Text := dmCore.getAppMessage('MSG0010');
+    CB_ESTADO.SetFocus;
+  end
+  else if CB_TIPO.ItemIndex = -1 then //
+  begin
+    result := false;
+    LA_INFO.Visible := true;
+    LA_INFO.Text := dmCore.getAppMessage('MSG0011');
+    CB_TIPO.SetFocus;
+  end
+  else if CB_PRIORIDAD.ItemIndex = -1 then //
+  begin
+    result := false;
+    LA_INFO.Visible := true;
+    LA_INFO.Text := dmCore.getAppMessage('MSG0012');
+    CB_PRIORIDAD.SetFocus;
+  end
+  else if ME_DESCRIPCION.Text.Trim.Length = 0 then //
+  begin
+    result := false;
+    LA_INFO.Visible := true;
+    LA_INFO.Text := dmCore.getAppMessage('MSG0013');
+    ME_DESCRIPCION.SetFocus;
+  end;
 end;
 
 // Método que hace la grabación
@@ -182,22 +292,44 @@ var
   JSONResult: TJSONValue;
   vBody: String;
 begin
-  vBody := '{"opened":"'+DateToISO8601(Now)+
-           '","subject":"'+ED_ASUNTO.Text+
-           '","description":"'+ME_DESCRIPCION.Text+
-           '","priority":"'+CB_PRIORIDAD.Selected.Index.ToString+
-           '","userOpenedId":{"userId":'+dmCore.CommunicationManager.ClientSession.UserID.ToString+'}}';
-
-  if fTickeID = -1 then // Caso inserción
+  if ValidateFields then
   begin
-    dmCore.CommunicationManager.DoRequestPost('/ticket/',vBody,JSONResult);
-    ShowMessage(JSONResult.ToString );
-  end
-  else // Caso modificación
-  begin
-
+    if fTickeID = -1 then // Caso inserción
+    begin
+      vBody := '{"opened":"'+DateToISO8601(Now)+
+             '","subject":"'+ED_ASUNTO.Text+
+             '","description":"'+ME_DESCRIPCION.Text.Replace(#13#10,'\n')+
+             '","priority":"'+CB_PRIORIDAD.Selected.Index.ToString+ '"';
+      // Parte condicional
+      if CB_REPORTADO.ItemIndex <> -1 then
+        vBody := vBody + ',"userOpenedId":{"userId":'+dmCore.GetIdValueFromComboBox_ToRestValue(CB_REPORTADO)+'}';
+      if CB_ASIGNADO.ItemIndex <> -1 then
+        vBody := vBody + ',"userAssignedId":{"userId":'+dmCore.GetIdValueFromComboBox_ToRestValue(CB_ASIGNADO)+'}';
+      if CB_PROYECTOS.ItemIndex <> -1 then
+        vBody := vBody + ',"relatedProjectId":{"projectId":'+dmCore.GetIdValueFromComboBox_ToRestValue(CB_PROYECTOS)+'}';
+      if CB_ESTADO.ItemIndex <> -1 then
+        vBody := vBody + ',"masterStatus":{"statusId":'+dmCore.GetIdValueFromComboBox_ToRestValue(CB_ESTADO)+'}';
+      if CB_TIPO.ItemIndex <> -1 then
+        vBody := vBody + ',"masterType":{"typeId":'+dmCore.GetIdValueFromComboBox_ToRestValue(CB_TIPO)+'}';
+      vBody := vBody + '}';
+      dmCore.CommunicationManager.DoRequestPost('/ticket/',vBody,JSONResult);
+      ShowMessage(JSONResult.ToString );
+    end
+    else // Caso modificación
+    begin
+       vBody := '{"ticketId":"'+fTickeID.ToString+
+                  '","subject":"'+ED_ASUNTO.Text+
+                  '","description":"'+ME_DESCRIPCION.Text.Replace(#13#10,'\n')+
+                  '","priority":"'+CB_PRIORIDAD.ItemIndex.ToString+
+                  '","masterType_typeId":'+dmCore.GetIdValueFromComboBox_ToRestValue(CB_TIPO)+
+                  ',"masterStatus_statusId":'+dmCore.GetIdValueFromComboBox_ToRestValue(CB_ESTADO)+
+                  ',"userOpenedId_userId":'+dmCore.GetIdValueFromComboBox_ToRestValue(CB_REPORTADO)+
+                  ',"userAssignedId_userId":'+dmCore.GetIdValueFromComboBox_ToRestValue(CB_ASIGNADO)+
+                  ',"relatedProjectId":'+dmCore.GetIdValueFromComboBox_ToRestValue(CB_PROYECTOS)+
+                  '}';
+      dmCore.CommunicationManager.DoRequestPut('/ticket/','',vBody,JSONResult);
+    end;
   end;
-
 end;
 
 

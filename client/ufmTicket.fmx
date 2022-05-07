@@ -2,13 +2,14 @@ object fmTicket: TfmTicket
   Left = 0
   Top = 0
   Caption = 'Ticket'
-  ClientHeight = 527
+  ClientHeight = 560
   ClientWidth = 890
   StyleBook = StyleBook1
   FormFactor.Width = 320
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
   OnCreate = FormCreate
+  OnClose = FormClose
   DesignerMasterStyle = 0
   object LA_CABECERA: TLayout
     Align = MostTop
@@ -57,26 +58,28 @@ object fmTicket: TfmTicket
   end
   object TC_TICKET_MAIN: TTabControl
     Align = Client
+    Images = dmCore.IL_LISTA_IMAGENES
     Size.Width = 890.000000000000000000
-    Size.Height = 422.000000000000000000
+    Size.Height = 460.000000000000000000
     Size.PlatformDefault = False
     TabHeight = 49.000000000000000000
-    TabIndex = 0
+    TabIndex = 1
     TabOrder = 3
     TabPosition = PlatformDefault
     Sizes = (
       890s
-      373s
+      411s
       890s
-      373s
+      411s
       890s
-      373s)
+      352s)
     object TI_DATOS: TTabItem
       CustomIcon = <
         item
         end>
-      IsSelected = True
-      Size.Width = 51.000000000000000000
+      IsSelected = False
+      ImageIndex = 0
+      Size.Width = 67.000000000000000000
       Size.Height = 49.000000000000000000
       Size.PlatformDefault = False
       StyleLookup = ''
@@ -87,13 +90,13 @@ object fmTicket: TfmTicket
       object LA_DATOS_MAIN: TLayout
         Align = Client
         Size.Width = 890.000000000000000000
-        Size.Height = 373.000000000000000000
+        Size.Height = 411.000000000000000000
         Size.PlatformDefault = False
         TabOrder = 0
         object FL_PANEL_CAMPOS: TFlowLayout
           Align = MostTop
           Size.Width = 890.000000000000000000
-          Size.Height = 185.000000000000000000
+          Size.Height = 192.000000000000000000
           Size.PlatformDefault = False
           TabOrder = 3
           Justify = Left
@@ -388,6 +391,7 @@ object fmTicket: TfmTicket
               Size.PlatformDefault = False
               TabOrder = 2
               object ListBoxItem13: TListBoxItem
+                Tag = 1
                 TabOrder = 0
                 Text = 'Muy baja'
               end
@@ -411,17 +415,17 @@ object fmTicket: TfmTicket
           end
         end
         object LA_DESCRIPCION: TLayout
-          Align = Top
-          Position.Y = 185.000000000000000000
+          Align = Bottom
+          Position.Y = 229.000000000000000000
           Size.Width = 890.000000000000000000
-          Size.Height = 208.000000000000000000
+          Size.Height = 156.000000000000000000
           Size.PlatformDefault = False
           TabOrder = 1
           object Layout11: TLayout
             Align = Left
             Margins.Right = 3.000000000000000000
             Size.Width = 111.000000000000000000
-            Size.Height = 208.000000000000000000
+            Size.Height = 156.000000000000000000
             Size.PlatformDefault = False
             TabOrder = 3
             object Layout12: TLayout
@@ -453,12 +457,25 @@ object fmTicket: TfmTicket
             Align = Client
             Margins.Right = 10.000000000000000000
             Size.Width = 766.000000000000000000
-            Size.Height = 208.000000000000000000
+            Size.Height = 156.000000000000000000
             Size.PlatformDefault = False
             TabOrder = 4
             Viewport.Width = 762.000000000000000000
-            Viewport.Height = 204.000000000000000000
+            Viewport.Height = 152.000000000000000000
           end
+        end
+        object LA_INFO: TLabel
+          Align = Bottom
+          StyledSettings = [Family, Style]
+          Position.Y = 385.000000000000000000
+          Size.Width = 890.000000000000000000
+          Size.Height = 26.000000000000000000
+          Size.PlatformDefault = False
+          TextSettings.Font.Size = 16.000000000000000000
+          TextSettings.FontColor = claRed
+          TextSettings.HorzAlign = Center
+          Text = '*** info ***'
+          TabOrder = 6
         end
       end
     end
@@ -466,15 +483,67 @@ object fmTicket: TfmTicket
       CustomIcon = <
         item
         end>
-      IsSelected = False
-      Size.Width = 116.000000000000000000
+      IsSelected = True
+      ImageIndex = 1
+      Size.Width = 104.000000000000000000
       Size.Height = 49.000000000000000000
       Size.PlatformDefault = False
       StyleLookup = ''
       TabOrder = 0
-      Text = 'TI_COMENTARIOS'
+      Text = 'Comentarios'
       ExplicitSize.cx = 69.000000000000000000
       ExplicitSize.cy = 26.000000000000000000
+      object LV_COMMENT: TListView
+        ItemAppearanceClassName = 'TListItemAppearance'
+        ItemEditAppearanceClassName = 'TListItemShowCheckAppearance'
+        HeaderAppearanceClassName = 'TListHeaderObjects'
+        FooterAppearanceClassName = 'TListHeaderObjects'
+        Align = Client
+        Size.Width = 890.000000000000000000
+        Size.Height = 290.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 1
+      end
+      object Layout5: TLayout
+        Align = Top
+        Size.Width = 890.000000000000000000
+        Size.Height = 105.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 0
+        object BT_CREA_NUEVO: TButton
+          Position.X = 448.000000000000000000
+          Position.Y = 8.000000000000000000
+          Size.Width = 48.000000000000000000
+          Size.Height = 48.000000000000000000
+          Size.PlatformDefault = False
+          StyleLookup = 'additembutton'
+          TabOrder = 1
+          Text = 'BT_CREA_NUEVO'
+          OnClick = BT_CREA_NUEVOClick
+        end
+        object ME_CARGA_COMMENT: TMemo
+          Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+          DataDetectorTypes = []
+          Anchors = [akLeft, akTop, akBottom]
+          Position.X = 16.000000000000000000
+          Position.Y = 16.000000000000000000
+          Size.Width = 425.000000000000000000
+          Size.Height = 73.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 2
+          Viewport.Width = 421.000000000000000000
+          Viewport.Height = 69.000000000000000000
+        end
+      end
+      object Splitter1: TSplitter
+        Align = Top
+        Cursor = crVSplit
+        MinSize = 20.000000000000000000
+        Position.Y = 105.000000000000000000
+        Size.Width = 890.000000000000000000
+        Size.Height = 16.000000000000000000
+        Size.PlatformDefault = False
+      end
     end
     object TI_HISTORICO: TTabItem
       CustomIcon = <
@@ -487,15 +556,16 @@ object fmTicket: TfmTicket
       StyleLookup = ''
       TabOrder = 0
       Text = 'Hist'#243'rico'
+      Visible = False
       ExplicitSize.cx = 296.000000000000000000
       ExplicitSize.cy = 49.000000000000000000
     end
   end
   object LA_PIE: TLayout
     Align = MostBottom
-    Margins.Top = 8.000000000000000000
+    Margins.Top = 3.000000000000000000
     Margins.Bottom = 10.000000000000000000
-    Position.Y = 467.000000000000000000
+    Position.Y = 500.000000000000000000
     Size.Width = 890.000000000000000000
     Size.Height = 50.000000000000000000
     Size.PlatformDefault = False
@@ -740,7 +810,6 @@ object fmTicket: TfmTicket
           Size.Width = 119.000000000000000000
           Size.Height = 46.000000000000000000
           Size.PlatformDefault = False
-          OnClick = SB_GRABAR_IMAGENClick
         end
       end
       object SB_CANCELAR: TSpeedButton

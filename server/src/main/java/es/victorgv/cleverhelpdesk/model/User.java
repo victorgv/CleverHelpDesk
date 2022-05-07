@@ -3,7 +3,7 @@ package es.victorgv.cleverhelpdesk.model;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Objects;
-import java.util.Optional;
+
 
 @Entity
 @Table(name = "user_")

@@ -16,13 +16,17 @@ public class JWTProvider {
     private final static Logger logger = LoggerFactory.getLogger(JWTProvider.class);
 
     @Value("${jwt.secret}") private String secret;
-    @Value("${jwt.expiration}") private int expiration;
+    @Value("${jwt.expiration.min}") private int expiration;
 
     public String generateToken(Authentication authentication) {
         UserDetailsImp userDetailsImp = (UserDetailsImp) authentication.getPrincipal();
+
+        System.out.println("********************** " + new Date().getTime());
+        System.out.println("********************** " + new Date(new Date().getTime()+expiration*60*1000));
+
         return Jwts.builder().setSubject(userDetailsImp.getUsername())
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(new Date().getTime() + expiration*1000))
+                .setExpiration(new Date(new Date().getTime() + expiration*60*1000))
                 .signWith(SignatureAlgorithm.HS512, secret)
                 .compact();
     }

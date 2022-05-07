@@ -118,6 +118,16 @@ procedure TCommunicationManager.DoExecuteAndHandleExceptions;
 begin
   try
     fRESTRequest.Execute;
+    // Analizamos código respuesta
+    if fRESTResponse.StatusCode = 401 then // UNAUTHORIZED
+    begin
+      dmCore.DoLogOut;
+      raise Exception.Create(dmCore.GetAppMessage('MSG0014')); // UNAUTHORIZED Su token ha expirado
+    end;
+    if fRESTResponse.StatusCode = 400 then // BAD_REQUEST
+    begin
+      raise Exception.Create(dmCore.GetAppMessage('MSG0015')); // BAD_REQUEST Petición incorrecta
+    end;
   except
     on e: ERestException do
       ShowErrorMessage(e);

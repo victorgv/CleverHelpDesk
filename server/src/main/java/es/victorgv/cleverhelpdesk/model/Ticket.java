@@ -2,6 +2,7 @@ package es.victorgv.cleverhelpdesk.model;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
@@ -11,9 +12,11 @@ public class Ticket {
     @SequenceGenerator(name="ticket_id_generator", sequenceName = "ticket_seq")
     private Long ticketId;
 
-    private java.time.LocalDate opened; // DATE cuando se crea
-    private java.time.LocalDate assigned; // DATE cuando se asigna
-    private java.time.LocalDate closed; // DATE cuando se cierra
+    private LocalDate opened; // DATE cuando se crea
+    private LocalDate assigned; // DATE cuando se asigna
+    private LocalDate closed; // DATE cuando se cierra
+    private LocalDateTime updated; // Cuando fue la última vez que se modificó
+
 
     @Column(length = 500, nullable = false)
     private String subject;
@@ -138,6 +141,12 @@ public class Ticket {
 
     public void setRelatedProjectId(Project relatedProjectId) {
         this.relatedProjectId = relatedProjectId;
+    }
+
+    public LocalDateTime getUpdated() {return updated;}
+
+    public void setUpdated(LocalDateTime updated) {
+        this.updated = updated;
     }
 
     public Ticket() {

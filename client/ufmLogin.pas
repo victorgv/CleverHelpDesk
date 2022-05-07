@@ -65,6 +65,7 @@ end;
 
 procedure TfmLogin.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
+  Action := TCloseAction.caFree;
   // Al salir del login sin tener sesión activa finalizamos la aplicación
   if not Assigned(dmCore.CommunicationManager.ClientSession) then
     Application.Terminate;
@@ -85,11 +86,13 @@ begin
     begin // Si login es correcto
       fmMain.LoginDone; // Notifica al formulario principal que se acaba de realizar un LOGIN
       Close;
+      ModalResult := mrOk;
     end
     else
     begin // Si login falla
       LA_INFO.TextSettings.FontColor := TAlphaColorRec.Red;
       LA_INFO.Text := dmCore.GetAppMessage('MSG0004');
+      ModalResult := mrCancel;
     end;
   end;
 end;
