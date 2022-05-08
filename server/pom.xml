@@ -10,9 +10,10 @@
 	</parent>
 	<groupId>es.victorgv</groupId>
 	<artifactId>clever-helpdesk</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<name>Clever Helpdesk</name>
 	<description>Amazing helpdesk software to manage all issues related a IT team (specilly developer teams). *** Proyecto Final Ciclo DAM - Victor Garcia ***</description>
+	<packaging>jar</packaging>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
@@ -72,10 +73,7 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-
-
 	</dependencies>
-
 	<build>
 		<plugins>
 			<plugin>

@@ -131,6 +131,14 @@ begin
   dmCore.FillCombosWith_MasterTypes(CB_TIPO);
   dmCore.FillCombosWith_MasterStatus(CB_ESTADO);
   dmCore.FillCombosWith_Projects(CB_PROYECTOS);
+  // Inicializaciones según perfil usuario
+  CB_ESTADO.Enabled := dmCore.CommunicationManager.ClientSession.ROLE <> 'USER';
+  CB_ASIGNADO.Enabled := dmCore.CommunicationManager.ClientSession.ROLE <> 'USER';
+  CB_REPORTADO.Enabled := dmCore.CommunicationManager.ClientSession.ROLE <> 'USER';
+  CB_TIPO.Enabled := dmCore.CommunicationManager.ClientSession.ROLE <> 'USER';
+  CB_PROYECTOS.Enabled := dmCore.CommunicationManager.ClientSession.ROLE <> 'USER';
+  if dmCore.CommunicationManager.ClientSession.ROLE = 'USER' then
+    CB_REPORTADO.ItemIndex := CB_REPORTADO.items.IndexOf(dmCore.CommunicationManager.ClientSession.NAME);
 end;
 
 
@@ -147,6 +155,7 @@ begin
 
   LV_COMMENT.items.Add.Text := JSONResult.GetValue<String>('text');
 
+  ME_CARGA_COMMENT.Text := '';
 end;
 
 // Configuración formulario cuando queremos INTERTAR
@@ -198,6 +207,8 @@ begin
   ME_DESCRIPCION.Text := JSONResult.GetValue<String>('description');
   // Recupera sus comentarios
   LoadComments;
+  // Si está cerrado o cancelado ya no dejaremos modificar
+  // [TO-DO]
 end;
 
 // Carga los comentarios para este tickect
@@ -208,10 +219,13 @@ var
   elementoJSON: TJSonValue;
 begin
   dmCore.CommunicationManager.DoRequestGet('/ticket/comment',fTickeID.ToString,resultado);
-  JsonArray := resultado as TJsonArray;
-  for elementoJSON in JsonArray do begin
-    with LV_COMMENT.items.Add do begin
-      Text := elementoJSON.GetValue<String>('text');
+  if Assigned(resultado) then
+  begin
+    JsonArray := resultado as TJsonArray;
+    for elementoJSON in JsonArray do begin
+      with LV_COMMENT.items.Add do begin
+        Text := elementoJSON.GetValue<String>('text');
+      end;
     end;
   end;
 end;
@@ -313,7 +327,6 @@ begin
         vBody := vBody + ',"masterType":{"typeId":'+dmCore.GetIdValueFromComboBox_ToRestValue(CB_TIPO)+'}';
       vBody := vBody + '}';
       dmCore.CommunicationManager.DoRequestPost('/ticket/',vBody,JSONResult);
-      ShowMessage(JSONResult.ToString );
     end
     else // Caso modificación
     begin

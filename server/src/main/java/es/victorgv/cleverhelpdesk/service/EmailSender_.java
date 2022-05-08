@@ -29,7 +29,7 @@ public class EmailSender_ {
 
     // Formatea como se indicará el ticket en el asunto del email
     private String formatSubject(Long ticketId, String subject) {
-        return "#TICK"+ticketId+"#|"+subject;
+        return "#TICKET"+ticketId+"# "+subject;
     }
 
     // Formatea como se mostrará la información en el body del email

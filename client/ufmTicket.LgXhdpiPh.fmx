@@ -36,6 +36,11 @@ inherited fmTicket_LgXhdpiPh: TfmTicket_LgXhdpiPh
         inherited FL_PANEL_CAMPOS: TFlowLayout
           Size.Width = 450.000000000000000000
           Size.Height = 265.000000000000000000
+          inherited Layout6: TLayout
+            inherited CB_ESTADO: TComboBox
+              Size.Height = 32.000000000000000000
+            end
+          end
           inherited Layout7: TLayout
             Position.Y = 33.000000000000000000
             inherited ED_ABIERTO: TDateEdit
@@ -50,18 +55,33 @@ inherited fmTicket_LgXhdpiPh: TfmTicket_LgXhdpiPh
           end
           inherited Layout2: TLayout
             Position.Y = 99.000000000000000000
+            inherited CB_TIPO: TComboBox
+              Size.Height = 32.000000000000000000
+            end
           end
           inherited Layout9: TLayout
             Position.Y = 132.000000000000000000
+            inherited CB_ASIGNADO: TComboBox
+              Size.Height = 32.000000000000000000
+            end
           end
           inherited Layout1: TLayout
             Position.Y = 165.000000000000000000
+            inherited CB_REPORTADO: TComboBox
+              Size.Height = 32.000000000000000000
+            end
           end
           inherited Layout3: TLayout
             Position.Y = 198.000000000000000000
+            inherited CB_PROYECTOS: TComboBox
+              Size.Height = 32.000000000000000000
+            end
           end
           inherited Layout4: TLayout
             Position.Y = 231.000000000000000000
+            inherited CB_PRIORIDAD: TComboBox
+              Size.Height = 32.000000000000000000
+            end
           end
         end
         inherited LA_DESCRIPCION: TLayout

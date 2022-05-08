@@ -24,10 +24,6 @@ public class UserService {
         return user_rep;
     }
 
-    public User loginUser(User_LoginDTO userLoginDTO) {
-        return user_rep.findByUserName(userLoginDTO.getUserName());
-    }
-
     // Devuelve el "User" si el email pertenece a alguno de los usuarios registrados, NULL si no está registrado
     public User findByEmail(String email) {
         System.out.println("Buscamos usuario del email: "+email);

@@ -70,7 +70,7 @@ type
     SB_FILTRO_LIMPIA_TIPO: TSpeedButton;
     SB_FILTRO_LIMPIA_PROYECTO: TSpeedButton;
     SB_FILTRO_LIMPIA_ASIGNADO: TSpeedButton;
-    Layout11: TLayout;
+    LA_FILTRO_REPORTADO: TLayout;
     Label5: TLabel;
     CB_FILTRO_REPORTADO: TComboBox;
     ListBoxItem13: TListBoxItem;
@@ -146,6 +146,11 @@ begin
   dmCore.FillCombosWith_MasterTypes(CB_FILTRO_TIPO);
   dmCore.FillCombosWith_MasterStatus(CB_FILTRO_ESTADO);
   dmCore.FillCombosWith_Projects(CB_FILTRO_PROYECTO);
+  // Aplicamos permisos
+  CK_FILTRO_MIS_TICKETS.Enabled := dmCore.CommunicationManager.ClientSession.ROLE <> 'USER';
+  BT_MNT_PROYECTOS.Visible := dmCore.CommunicationManager.ClientSession.ROLE = 'ADMIN';
+  BT_MNT_USUARIOS.Visible := dmCore.CommunicationManager.ClientSession.ROLE = 'ADMIN';
+  LA_FILTRO_REPORTADO.Visible := dmCore.CommunicationManager.ClientSession.ROLE <> 'USER';
   //
   LoadTickets; // Hacemos la primera carga de registros
 end;
@@ -259,6 +264,18 @@ end;
 function TfmMain.GenerateParamsOfFilter: String;
 begin
   Result := '?from='+FormatDateTIme('yyyy-mm-dd',ED_FILTRO_DESDE.Date)+'&to='+FormatDateTime('yyyy-mm-dd',ED_FILTRO_HASTA.Date);
+  if (CK_FILTRO_MIS_TICKETS.IsChecked) AND (Assigned(dmCore.CommunicationManager)) then // Si está seleccionado "solo ver mis tickets...
+    Result := Result + '&userId_my=' + dmCore.CommunicationManager.ClientSession.UserID.ToString;
+  if (CB_FILTRO_ESTADO.ItemIndex = -1) then Result := Result + '&statusId_param=-1'
+  else Result := Result + '&statusId_param='+dmCore.GetIdValueFromComboBox_ToRestValue(CB_FILTRO_ESTADO);
+  if (CB_FILTRO_TIPO.ItemIndex = -1) then Result := Result + '&typeId_param=-1'
+  else Result := Result + '&typeId_param='+dmCore.GetIdValueFromComboBox_ToRestValue(CB_FILTRO_TIPO);
+  if (CB_FILTRO_PROYECTO.ItemIndex = -1) then Result := Result + '&projectId_param=-1'
+  else Result := Result + '&projectId_param='+dmCore.GetIdValueFromComboBox_ToRestValue(CB_FILTRO_PROYECTO);
+  if (CB_FILTRO_REPORTADO.ItemIndex = -1) then Result := Result + '&userOpenedId_param=-1'
+  else Result := Result + '&userOpenedId_param='+dmCore.GetIdValueFromComboBox_ToRestValue(CB_FILTRO_REPORTADO);
+  if (CB_FILTRO_ASIGNADO.ItemIndex = -1) then Result := Result + '&userAssignedId_param=-1'
+  else Result := Result + '&userAssignedId_param='+dmCore.GetIdValueFromComboBox_ToRestValue(CB_FILTRO_ASIGNADO);
 end;
 
 // Configura el formulario tras el login

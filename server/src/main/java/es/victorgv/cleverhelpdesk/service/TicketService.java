@@ -70,8 +70,14 @@ public class TicketService {
         if (updatedTicket.getRelatedProjectId() != null)
           ticket.setRelatedProjectId(project_rep.findById(updatedTicket.getRelatedProjectId()).orElse(null));
         ticket.setUpdated(LocalDateTime.now());
+        // Si el status es TERMINADO o CANCELADO
         if (ticket.getMasterStatus().getStatusId() == 5 || ticket.getMasterStatus().getStatusId() == 6) {
-            ticket.setClosed(LocalDate.now());
+            ticket.setClosed(LocalDate.now()); // Apuntamos la fecha fin
+            envioEmail.sendEmail(ticket.getTicketId(), // Notificamos el cierre por email
+                    TypeOfEmail.CLOSED_TICKET,
+                    ticket.getUserOpenedId().getEmail(),
+                    StaticUtils.NVL(ticket.getSubject(), "NIL"),
+                    StaticUtils.NVL( ticket.getDescription(), "NIL"));
         }
 
         return ticket_rep.save(ticket);

@@ -1,5 +1,6 @@
 package es.victorgv.cleverhelpdesk.controller;
 
+import es.victorgv.cleverhelpdesk.DTO.Comment_ListDTO;
 import es.victorgv.cleverhelpdesk.DTO.Ticket_ModifyDTO;
 import es.victorgv.cleverhelpdesk.model.Comment;
 import es.victorgv.cleverhelpdesk.model.Ticket;
@@ -38,8 +39,15 @@ public class TicketController {
     // ENDPOINT que recuperará la lista de tickets en función de los parámetros recibidos
     @GetMapping("/")
     public List<Ticket> findByFilters(@RequestParam(name="from", required = true) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from_,
-                                      @RequestParam(name="to", required = true) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to_) {
-        return ticketService.getTicket_rep().findByFilters(from_, to_); //findByFilters(LocalDate.now(), LocalDate.now()); //
+                                      @RequestParam(name="to", required = true) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to_,
+                                      @RequestParam( name="userId_my", required = false) Long userId_my,
+                                      @RequestParam( name="statusId_param", required = false) Long statusId_param,
+                                      @RequestParam( name="typeId_param", required = false) Long typeId_param,
+                                      @RequestParam( name="projectId_param", required = false) Long projectId_param,
+                                      @RequestParam( name="userOpenedId_param", required = false) Long userOpenedId_param,
+                                      @RequestParam( name="userAssignedId_param", required = false) Long userAssignedId_param) {
+        System.out.println("************************************ "+ userOpenedId_param);
+        return ticketService.getTicket_rep().findByFilters(from_, to_, userId_my, statusId_param, typeId_param, projectId_param, userOpenedId_param, userAssignedId_param);
     }
 
     // ENDPOINT que recuperará la información de un ticket
@@ -51,8 +59,8 @@ public class TicketController {
 
     // ENDPOINT que obtendrá todos los comentarios de un ticket
     @GetMapping("/comment/{ticketId}")
-    public List<Comment> findCommentsFromTicket(@PathVariable("ticketId") Long ticketId) {
-        return commentService.getComment_rep().findAllByTicket(ticketService.getTicket_rep().getById(ticketId));
+    public List<Comment_ListDTO> findCommentsFromTicket(@PathVariable("ticketId") Long ticketId) {
+        return commentService.findCommentsFromTicket(ticketId);
     }
 
     // ENDPOINT que añadirá un nuevo comentario al ticket

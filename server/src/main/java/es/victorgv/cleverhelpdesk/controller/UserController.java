@@ -28,20 +28,13 @@ public class UserController {
         return userService.modifyUser(modifiedUser, id);
     }
 
-    @PostMapping("/login") // *********************************************************
-    public ResponseEntity<?> loginUser(@RequestBody User_LoginDTO userLoginDTO) {
-        User user = userService.loginUser(userLoginDTO);
-
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(user);
-    }
-
-    @GetMapping("/{userName}")
+    @GetMapping("/{userName}") // EndPoint que recupera un usuario a partir de su userName
     public ResponseEntity<?> findByUsername(@PathVariable("userName") String userName) {
         User user = userService.findByUserName(userName);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    @GetMapping("/id/{userId}")
+    @GetMapping("/id/{userId}") // EndPoint que recupera un usuario a partir de su ID
     public ResponseEntity<?> findByUsername(@PathVariable("userId") Long id) {
         User user = userService.findByUserId(id);
         return new ResponseEntity<>(user, HttpStatus.OK);

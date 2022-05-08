@@ -59,6 +59,4 @@ public class EmailReaderConfig {
         imapEmailReceiver.setShouldMarkMessagesAsRead(true);
         return imapEmailReceiver;
     }
-
-
 }

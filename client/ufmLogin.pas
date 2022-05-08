@@ -36,9 +36,13 @@ type
     sb_Forgot_Password: TSpeedButton;
     Layout3: TLayout;
     pb_selector_idioma: TPopupBox;
+    Layout4: TLayout;
+    ED_SERVER: TEdit;
+    PB_SERVER: TPopupBox;
     procedure sb_LoginClick(Sender: TObject);
     procedure pb_selector_idiomaChange(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure PB_SERVERChange(Sender: TObject);
   private
     { Private declarations }
     function validate_fields: boolean;
@@ -75,6 +79,12 @@ procedure TfmLogin.pb_selector_idiomaChange(Sender: TObject);
 begin
   dmCore.SetLanguage(pb_selector_idioma.Text);
   fmMain.pb_selector_idioma.ItemIndex := fmMain.pb_selector_idioma.Items.IndexOf(dmCore.idiomas.lang); // Actualizamos también mail para que haya coherencia con la selección
+end;
+
+procedure TfmLogin.PB_SERVERChange(Sender: TObject);
+begin
+  ED_SERVER.Text := PB_SERVER.Text;
+
 end;
 
 // Evento LOGIN al pulsar el botón

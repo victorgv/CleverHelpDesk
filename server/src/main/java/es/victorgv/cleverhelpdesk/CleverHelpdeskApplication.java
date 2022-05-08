@@ -48,7 +48,8 @@ public class CleverHelpdeskApplication {
 					new MasterType(4L,"Extracción datos/informes"),
 					new MasterType(5L,"Control proactivo"),
 					new MasterType(6L,"Correctivo/incidencia"),
-					new MasterType(7L,"Cahída/error sistema externo")
+					new MasterType(7L,"Cahída/error sistema externo"),
+					new MasterType(8L,"Petición de mejora/desarrollo")
 			));
 
 			// Crea el usuario administrador (solo si no existía)

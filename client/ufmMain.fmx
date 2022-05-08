@@ -1754,7 +1754,7 @@ object fmMain: TfmMain
             OnClick = SB_FILTRO_LIMPIA_ASIGNADOClick
           end
         end
-        object Layout11: TLayout
+        object LA_FILTRO_REPORTADO: TLayout
           Position.Y = 198.000000000000000000
           Size.Width = 345.000000000000000000
           Size.Height = 33.000000000000000000

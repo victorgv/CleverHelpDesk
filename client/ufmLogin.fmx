@@ -506,6 +506,7 @@ object fmLogin: TfmLogin
       Size.PlatformDefault = False
       Text = 'Forgot password?'
       TextSettings.FontColor = claDarkblue
+      Visible = False
     end
   end
   object Layout3: TLayout
@@ -516,7 +517,7 @@ object fmLogin: TfmLogin
     Size.PlatformDefault = False
     TabOrder = 3
     object pb_selector_idioma: TPopupBox
-      Align = Right
+      Align = MostRight
       Items.Strings = (
         'es'
         'en')
@@ -525,9 +526,46 @@ object fmLogin: TfmLogin
       Size.Width = 56.000000000000000000
       Size.Height = 39.000000000000000000
       Size.PlatformDefault = False
-      TabOrder = 4
+      TabOrder = 3
       TabStop = False
       OnChange = pb_selector_idiomaChange
+    end
+    object Layout4: TLayout
+      Align = Right
+      Position.X = 374.000000000000000000
+      Size.Width = 210.000000000000000000
+      Size.Height = 39.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 4
+      object ED_SERVER: TEdit
+        Touch.InteractiveGestures = [LongTap, DoubleTap]
+        TabOrder = 0
+        Text = 'localhost:8080'
+        TextSettings.HorzAlign = Center
+        Position.X = 19.000000000000000000
+        Position.Y = 10.000000000000000000
+        Opacity = 0.500000000000000000
+        Margins.Left = 40.000000000000000000
+        Size.Width = 154.000000000000000000
+        Size.Height = 22.000000000000000000
+        Size.PlatformDefault = False
+        TextPrompt = 'User'
+        CharCase = ecLowerCase
+      end
+      object PB_SERVER: TPopupBox
+        Items.Strings = (
+          'localhost:8080'
+          '192.168.1.16:8080')
+        Opacity = 0.500000000000000000
+        Position.X = 172.000000000000000000
+        Position.Y = 10.000000000000000000
+        Size.Width = 18.000000000000000000
+        Size.Height = 22.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 3
+        TabStop = False
+        OnChange = PB_SERVERChange
+      end
     end
   end
 end
