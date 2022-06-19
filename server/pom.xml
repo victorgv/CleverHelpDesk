@@ -15,7 +15,7 @@
 	<description>Amazing helpdesk software to manage all issues related a IT team (specilly developer teams). *** Proyecto Final Ciclo DAM - Victor Garcia ***</description>
 	<packaging>jar</packaging>
 	<properties>
-		<java.version>11</java.version>
+		<java.version>17</java.version>
 	</properties>
 
 	<dependencies>
