@@ -460,8 +460,8 @@ object fmTicket: TfmTicket
             Size.Height = 156.000000000000000000
             Size.PlatformDefault = False
             TabOrder = 4
-            Viewport.Width = 762.000000000000000000
-            Viewport.Height = 152.000000000000000000
+            Viewport.Width = 766.000000000000000000
+            Viewport.Height = 156.000000000000000000
           end
         end
         object LA_INFO: TLabel
@@ -531,8 +531,8 @@ object fmTicket: TfmTicket
           Size.Height = 73.000000000000000000
           Size.PlatformDefault = False
           TabOrder = 2
-          Viewport.Width = 421.000000000000000000
-          Viewport.Height = 69.000000000000000000
+          Viewport.Width = 425.000000000000000000
+          Viewport.Height = 73.000000000000000000
         end
       end
       object Splitter1: TSplitter

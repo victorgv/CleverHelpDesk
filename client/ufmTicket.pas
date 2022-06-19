@@ -203,7 +203,8 @@ begin
   else CB_Asignado.ItemIndex := CB_Asignado.items.IndexOf(JSONResult.GetValue<TJSONObject>('userAssignedId').GetValue<String>('name'));
   if JSONResult.FindValue('relatedProjectId').ToString='null' then CB_PROYECTOS.ItemIndex := -1
   else CB_PROYECTOS.ItemIndex := CB_PROYECTOS.items.IndexOf(JSONResult.GetValue<TJSONObject>('relatedProjectId').GetValue<String>('name'));
-  CB_PRIORIDAD.ItemIndex := JSONResult.GetValue<Integer>('priority');
+  if JSONResult.FindValue('priority').ToString='null' then CB_PRIORIDAD.ItemIndex := -1
+  else CB_PRIORIDAD.ItemIndex := JSONResult.GetValue<Integer>('priority');
   ME_DESCRIPCION.Text := JSONResult.GetValue<String>('description');
   // Recupera sus comentarios
   LoadComments;

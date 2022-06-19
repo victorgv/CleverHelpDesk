@@ -23,7 +23,6 @@ object fmLogin: TfmLogin
       Touch.InteractiveGestures = [LongTap, DoubleTap]
       Align = Top
       TabOrder = 0
-      Text = 'VICTOR'
       TextSettings.HorzAlign = Center
       Position.X = 40.000000000000000000
       Margins.Left = 40.000000000000000000
@@ -38,7 +37,6 @@ object fmLogin: TfmLogin
       Align = Top
       TabOrder = 1
       Password = True
-      Text = '1234'
       TextSettings.HorzAlign = Center
       Position.X = 40.000000000000000000
       Position.Y = 50.000000000000000000
